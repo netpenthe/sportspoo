@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/lukebyrne/betfair.git
+  revision: d3f7a0aae85dfda53564a36bb99b98d238b9c9e7
+  specs:
+    betfair (1.0.6)
+      savon (<= 0.8.6)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -39,12 +46,17 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.1.3)
+    crack (0.1.8)
     erubis (2.7.0)
     execjs (1.2.12)
       multi_json (~> 1.0)
+    gyoku (1.0.0)
+      builder (>= 2.1.2)
     happymapper (0.4.0)
       libxml-ruby (~> 2.0)
     hike (1.2.1)
+    httpi (2.0.0)
+      rack
     i18n (0.6.0)
     jquery-rails (1.0.19)
       railties (~> 3.0)
@@ -93,6 +105,11 @@ GEM
       railties (~> 3.1.0)
       sass (~> 3.1.10)
       tilt (~> 1.3.2)
+    savon (0.8.6)
+      builder (>= 2.1.2)
+      crack (~> 0.1.8)
+      gyoku (>= 0.3.0)
+      httpi (>= 0.7.8)
     sprockets (2.0.3)
       hike (~> 1.2)
       rack (~> 1.0)
@@ -116,6 +133,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  betfair!
   coffee-rails (~> 3.1.1)
   happymapper
   jquery-rails
