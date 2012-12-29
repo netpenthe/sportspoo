@@ -24,10 +24,10 @@ namespace :betradar do
         start_date = DateTime.strptime("#{event.date} #{event.time} CET", "%d/%m/%Y %H:%M %Z")
         
         sport = Sport.first :conditions=>["name = ?", event.sportname]
-        sport = Sport.create(:name=>event.sportname, :betradar_id=>event.sportID) if  sport.blank?
+        sport = Sport.create(:name=>event.sportname)  if  sport.blank?
 
         league = League.first :conditions=>["name = ?", event.league]
-        league = League.create(:name=>event.league, :betradar_id=>event.leagueID) if league.blank?
+        league = League.create(:name=>event.league) if league.blank?
 
         event.team1 = event.team1.force_encoding('UTF-8')
         event.team2 = event.team2.force_encoding('UTF-8')
@@ -36,10 +36,10 @@ namespace :betradar do
         puts event.team2.encoding
         
         team1 = Team.first :conditions=>["name = ?", event.team1]
-        team1 = Team.create(:name=>event.team1, :betradar_id=>event.team1ID) if team1.blank?
+        team1 = Team.create(:name=>event.team1) if team1.blank?
 
         team2 = Team.first :conditions=>["name = ?", event.team2]
-        team2 = Team.create(:name=>event.team2, :betradar_id=>event.team2ID) if team2.blank?
+        team2 = Team.create(:name=>event.team2) if team2.blank?
 
         event = Event.find :first,
                            :conditions=>["home_team_id=? and away_team_id=? and DATE_FORMAT(start_date, '%Y-%m-%d')='#{start_date.to_date.to_s}'",
