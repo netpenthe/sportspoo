@@ -2,6 +2,8 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.1.1'
 
+gem 'devise'
+
 gem 'betfair', :git=>'git://github.com/lukebyrne/betfair.git'
 
 # Bundle edge Rails instead:
