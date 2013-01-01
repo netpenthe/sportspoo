@@ -39,7 +39,7 @@ role :db,  "ec2-107-22-93-121.compute-1.amazonaws.com", :primary => true # This 
 
 after "deploy:update_code", "deploy:update_shared_symlinks"
 require "bundler/capistrano"
-after "bundle:install", "deploy:db_symlink", "deploy:migrate"
+after "bundle:install", "deploy:db_symlink", "deploy:migrate", "deploy:assets"
 namespace :deploy do
   task :start do ; end
   task :stop  do ; end
@@ -54,6 +54,11 @@ namespace :deploy do
   end
   task :db_symlink do
       invoke_command "ln -sf #{deploy_to}/shared/config/database.yml #{release_path}/config/database.yml"
+  end
+end
+namespace :deploy do
+  task :assets do
+    run "cd #{current_path} && bundle exec rake assets:precompile RAILS_ENV=#{rails_env}"
   end
 end
 
