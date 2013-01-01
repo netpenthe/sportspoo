@@ -10,7 +10,7 @@
 <% @user_preferences.each do |user_preference| %>
   <tr>
     <td><%= user_preference.preference_type %></td>
-    <td><%= user_preference.preference_id %></td>
+    <td><%= user_preference.name %></td>
     <td><%= link_to 'Show', user_preference %></td>
     <td><%= link_to 'Edit', edit_user_preference_path(user_preference) %></td>
     <td><%= link_to 'Destroy', user_preference, confirm: 'Are you sure?', method: :delete %></td>
