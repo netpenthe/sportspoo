@@ -5,12 +5,13 @@ Sportspoo::Application.routes.draw do
 
   devise_for :users
 
-  #resources :user_preferences
+  resources :user_preferences
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
   match '/' => 'front#index'
+  match '/config' => 'user_preferences#index', :as=>:config
   #match '/leagues' => 'front#leagues'
   #match '/teams' => 'front#teams'
 
