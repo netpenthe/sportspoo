@@ -8,7 +8,7 @@ namespace :pinnacle do
     puts data.class.to_s
 
     data.each do |event|
-      if event.participants.count == 2 
+      if event.participants.count < 4 && !event.league.include?("Props")
         puts event.sporttype
         puts event.league
 
