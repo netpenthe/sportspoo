@@ -11,8 +11,9 @@ Sportspoo::Application.routes.draw do
   # first created -> highest priority.
 
   match '/' => 'front#index'
-  match '/leagues' => 'front#leagues'
-  match '/teams' => 'front#teams'
+  match '/config' => 'user_preferences#index', :as=>:config
+  #match '/leagues' => 'front#leagues'
+  #match '/teams' => 'front#teams'
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
