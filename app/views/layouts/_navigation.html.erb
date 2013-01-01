@@ -17,16 +17,25 @@
               <button type="submit" class="btn">Sign in</button>
       </form>
     </li>
+
   <% end %>
 
   <% if user_signed_in? %>
+
     <li>
-    <%= link_to('Edit account', edit_user_registration_path) %>
+     <%= link_to('Config', config_path) %>
     </li>
+
+    <li>
+     <%= link_to('Account', edit_user_registration_path) %>
+    </li>
+
   <% else %>
+
     <li>
     <%= link_to('Sign up', new_user_registration_path)  %>
     </li>
+
   <% end %>
 
 </ul>
