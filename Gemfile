@@ -5,7 +5,9 @@ gem 'rails', '3.1.1'
 gem 'devise'
 
 gem 'activeadmin'
-  gem "meta_search",    '>= 1.1.0.pre'
+gem "meta_search",    '>= 1.1.0.pre'
+
+gem "bootstrap-sass"
 
 gem 'betfair', :git=>'git://github.com/lukebyrne/betfair.git'
 
