@@ -7,9 +7,6 @@ Sportspoo::Application.routes.draw do
 
   resources :user_preferences
 
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
-
   match '/' => 'front#index'
   match '/config' => 'user_preferences#index', :as=>:config
 
