@@ -1,7 +1,5 @@
-<li>
-   <%=event.home_team.name%> vs <%=event.away_team.name%> <br>
-   <div style="font-weight:12px;">
-     (<%=distance_of_time_in_words_to_now event.start_date%>) <br>
-     <%=event.league.name%>
-   </div>
-</li>
+<%=event.home_team.name%> vs <%=event.away_team.name%> <br>
+
+<div style="font-weight:12px;">
+  <%=event.league.name%>     (<%=distance_of_time_in_words_to_now event.start_date%>) <br>
+</div>
