@@ -10,7 +10,7 @@ Sportspoo::Application.routes.draw do
   match '/' => 'front#index'
   match '/config' => 'user_preferences#index', :as=>:config
 
-  match '/list' => 'front#list'
+  match '/list' => 'front#list', :as=>:list
   match '/u/:username' => 'front#list_username'
 
   # Sample of regular route:
