@@ -1,86 +1,38 @@
 <!-- Main hero unit for a primary marketing message or call to action -->
 
 <!--
-      <div class="hero-unit">
-        <h1>Nai's List</h1>
-        <p>Choose your favourite sports leagues and teams. See a list of upcoming games ... enough said.</p>
-        <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
-      </div>
+<div class="hero-unit">
+  <h1>Nai's List</h1>
+  <p>Choose your favourite sports leagues and teams. See a list of upcoming games ... enough said.</p>
+  <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+</div>
 -->
 
-      <!-- Example row of columns -->
-      <div class="row">
-        <div class="span2" style='background-color: #eee'>
-          <h2>Sports</h2>
-          <ul id='main_sports_list'>
-            <li>
-              Football/Soccer
-                <ul>
-                  <li>EPL <input type=checkbox align=right></li>
-                  <li>La Liga <input type=checkbox></li>
-                  <li>A League <input type=checkbox></li>
-                  <li>Serie A <input type=checkbox></li>
-                  <li>MLS <input type=checkbox></li>
-                </ul>
-             </li>
-             <li>
-              Cricket
-                <ul>
-                  <li>Test Matches <input type=checkbox></li>
-                  <li>20/20 <input type=checkbox></li>
-                  <li>ODI <input type=checkbox></li>
-                  <li>Australia <input type=checkbox></li>
-                  <li>England <input type=checkbox></li>
-                  <li>India <input type=checkbox></li>
-                </ul>
-             </li>
-             <li>
-               Golf
-                <ul>
-                  <li>A League <input type=checkbox></li>
-                  <li>Serie A <input type=checkbox></li>
-                  <li>MLS <input type=checkbox></li>
-                </ul>
-             </li>
-             <li>
-               Tennis
-                <ul>
-                  <li>Men <input type=checkbox></li>
-                  <li>Women <input type=checkbox></li>
-                </ul>
-             </li>
-             <li>
-               Basketball
-                <ul>
-                  <li>NBA <input type=checkbox></li>
-                  <li>NBL <input type=checkbox></li>
-                </ul>
-             </li>
- 
-          </ul>
-          </p>
-        </div>
-        <div class="span7">
-          <h2>Upcoming Events</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn" href="#">View details &raquo;</a></p>
-          <p><h3>Sport not listed?</h3><input type='text'> <a class="btn" href="#">Suggest Sport &raquo;</a></p>
-       </div>
-        <div class="span3" style='background-color: #eee'>
-          <h2>Where?</h2>
-          <p>We think you're in Australia</p>
-          <p>Times shown in the <select style='width:100px'><option>Adelaide</option><option>Sydney</option><option>San Francisco (Pacific/GMT+8)</option></select> timezone. </p>
-          <p>We're showing sports we think you might like.</p>
+<!-- Example row of columns -->
+<div class="row">
+  <div class="span2" style='background-color: #eee'>
+    <div style='padding:5px'>
+      <%=render "layouts/left_menu"%>
+    </div>
+  </div>
+  <div class="span7">
+    <h2>Upcoming Events</h2>
+    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+    <p><a class="btn" href="#">View details &raquo;</a></p>
+    <p><h3>Sport not listed?</h3><input type='text'> <a class="btn" href="#">Suggest Sport &raquo;</a></p>
+  </div>
+  <div class="span3" style='background-color: #eee;'>
+    <div style='padding:5px'>
+      <%=render "layouts/right_menu"%>
+    </div>
+  </div>
+</div>
 
-           <p> Sign up/Login to set up your own selection</p>
-        </div>
-      </div>
+<hr>
 
-      <hr>
-
-      <footer>
-        <p>&copy; DMFour 2013</p>
-      </footer>
+<footer>
+<p>&copy; DMFour 2013</p>
+</footer>
 
     </div> <!-- /container -->
 
