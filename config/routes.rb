@@ -6,6 +6,8 @@ Sportspoo::Application.routes.draw do
   devise_for :users
 
   resources :user_preferences
+  
+  resources :sports
 
   match '/' => 'front#index'
   match '/config' => 'user_preferences#index', :as=>:config
