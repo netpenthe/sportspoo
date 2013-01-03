@@ -8,9 +8,22 @@ class FrontController < ApplicationController
     # select events.id,start_date from events join leagues on leagues.id = events.league_id
     #  join user_preferences on (user_preferences.preference_id = league_id and preference_type='League')
     #  where user_id=1;
+   
+    @league_events = Event.find_by_sql ["select events.* from events join leagues on leagues.id = events.league_id
+      join user_preferences on (user_preferences.preference_id = league_id and preference_type='League')
+      where user_id=? and start_date > ? and start_date < ?", current_user.id,Time.now,Time.now+3.days]
+
+    @sport_events = Event.find_by_sql ["select events.* from events join sports on sports.id = events.sport_id
+      join user_preferences on (user_preferences.preference_id = sport_id and preference_type='Sport')
+      where user_id=? and start_date > ? and start_date < ?", current_user.id,Time.now,Time.now+3.days]
+
+    @team_events = Event.find_by_sql ["select events.* from events join teams on (teams.id = events.home_team_id or teams.id = events.away_team_id)
+      join user_preferences on ((user_preferences.preference_id = home_team_id and preference_type='Team') or (user_preferences.preference_id = away_team_id and preference_type='Team'))
+      where user_id=? and start_date > ? and start_date < ?", current_user.id,Time.now,Time.now+3.days]
     
-    @events = Event.where(["(league_id = 18 or league_id=6 or league_id=38 or league_id=2) 
-                             and start_date > ? and start_date < ?", Time.now,Time.now+3.days]).order("start_date ASC")
+    @events = @league_events + @sport_events + @team_events
+
+    @events.sort!{|x,y| x.start_date <=> y.start_date}
   end
   
   def list_username    

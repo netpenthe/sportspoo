@@ -23,7 +23,7 @@ namespace :pinnacle do
             if team.visiting_home_draw == "Home"
                team1 = Team.first :conditions=>["name = ?", team.participant_name]
                team1 = Team.create(:name=>team.participant_name) if team1.blank?
-            else
+            elsif team.visiting_home_draw != "Draw"
                team2 = Team.first :conditions=>["name = ?", team.participant_name]
                team2 = Team.create(:name=>team.participant_name) if team2.blank?
             end
