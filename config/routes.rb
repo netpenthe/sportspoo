@@ -15,6 +15,7 @@ Sportspoo::Application.routes.draw do
   match '/list' => 'front#list', :as=>:list
   match '/u/:username' => 'front#list_username'
 
+
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
