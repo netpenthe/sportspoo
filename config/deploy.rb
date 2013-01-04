@@ -32,9 +32,9 @@ require "bundler/capistrano"
 
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
-role :web, "ec2-107-22-93-121.compute-1.amazonaws.com"                          # Your HTTP server, Apache/etc
-role :app, "ec2-107-22-93-121.compute-1.amazonaws.com"                          # This may be the same as your `Web` server
-role :db,  "ec2-107-22-93-121.compute-1.amazonaws.com", :primary => true # This is where Rails migrations will run
+role :web, "54.234.90.249"                          # Your HTTP server, Apache/etc
+role :app, "54.234.90.249"                          # This may be the same as your `Web` server
+role :db,  "54.234.90.249", :primary => true # This is where Rails migrations will run
 #role :db,  "your slave db-server here"
 
 after "deploy:update_code", "deploy:update_shared_symlinks"
