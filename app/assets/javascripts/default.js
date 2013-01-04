@@ -34,16 +34,26 @@ geocoder = new google.maps.Geocoder();
 
 function locationFound() {
   //var mins = TimeZoneDetect();
-  var mins = new Date().getTimezoneOffset();
+  //var mins = new Date().getTimezoneOffset();
+  var mins = TimeZoneDetect();
   var hours = Math.abs(Math.round( mins / 60));        
   var minutes = Math.abs(mins % 60);
   var offset;
-  if (mins < 0) {
+
+  if (mins >= 0) {
     offset = "+"+hours + ":" + minutes;
   } else {
     offset = "-"+hours + ":" + minutes;
   }
-  $('#location_guess').html("We think you're in "+city+" (GMT"+offset+")");
+
+  var timezone = jstz.determine();
+  tz = timezone.name(); 
+  DST = DSTActive() ? " - Daylight Savings" : "";
+  $('#location_guess').html("We think you're in "+city+" ("+tz+" GMT"+offset+DST+")");
+
+  $('#user_time_zone').val(tz.split("/")[1]);
+
+  //$('#location_guess').html("Timezone: "+tz+" (GMT"+offset+")");
   
   /*$.getJSON('https://maps.googleapis.com/maps/api/timezone/json?location='+latitude+','+longitude+'&timestamp=1331161200&sensor=false',function(j){
     $('#location_guess').html("We think you're in "+city+" ("+j.timeZoneId+")");
@@ -58,6 +68,19 @@ $.ajax({
     error: function() { alert('Failed!'); },
 });
 */
+}
+
+function DSTActive() {
+  var arr = [];
+  for (var i = 0; i < 365; i++) {
+    var d = new Date();
+    d.setDate(i);
+    newoffset = d.getTimezoneOffset();
+    arr.push(newoffset);
+  }
+  DST = Math.min.apply(null, arr);
+  nonDST = Math.max.apply(null, arr);
+  return (DST != nonDST);
 }
 
 function locationNotFound() {

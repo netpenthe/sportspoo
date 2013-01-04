@@ -1,7 +1,8 @@
 
 <h3>Where?</h3>
-<p id='location_guess'>Locating you..</p>
-<p>Timezone <select id='location_dd' style='width:100px'><option>Adelaide</option><option>Sydney</option><option>San Francisco (Pacific/GMT+8)</option></select></p>
+<p>Timezone 
+<%=time_zone_select( "user", "time_zone", nil, :include_blank => true)%>
+<p style='font-size:10px;color:#888' id='location_guess'>Locating you..</p>
 <p>We're showing sports we think you might like.</p>
 
 <p> Sign up/Login to set up your own selection</p>
