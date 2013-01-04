@@ -4,9 +4,6 @@ var city;
 var latitude;
 var longitude;
 
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(successFunction, locationNotFound);
-} 
 //Get the latitude and the longitude;
 function successFunction(position) {
   latitude = position.coords.latitude;
@@ -91,3 +88,6 @@ function TimeZoneDetect(){
  
     return intOffset;
 }
+$(document).ready(function () {
+  if (navigator.geolocation) { navigator.geolocation.getCurrentPosition(successFunction, locationNotFound); } 
+});
