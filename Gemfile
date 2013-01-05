@@ -4,6 +4,8 @@ gem 'rails', '3.2.9'
 
 gem 'devise'
 
+gem 'ri_cal'
+
 gem 'activeadmin'
 gem "meta_search",    '>= 1.1.0.pre'
 

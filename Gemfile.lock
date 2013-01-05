@@ -154,6 +154,7 @@ GEM
       json (~> 1.4)
     responders (0.9.3)
       railties (~> 3.1)
+    ri_cal (0.8.8)
     rvm-capistrano (1.2.7)
       capistrano (>= 2.0.0)
     sass (3.1.12)
@@ -206,6 +207,7 @@ DEPENDENCIES
   meta_search (>= 1.1.0.pre)
   mysql2
   rails (= 3.2.9)
+  ri_cal
   rvm-capistrano
   sass-rails (~> 3.2.3)
   sqlite3
