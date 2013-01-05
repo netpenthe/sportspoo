@@ -2,15 +2,37 @@ a-league
 epl
 championship
 mls
-nfl
-ncaa football
-ncaa basketball
-mlb
-AFL
-F1
 bundesliga
 serie A
 champions league
 europa league
+Liga España
+spl
+
+nfl
+ncaa football
+
+nba
+ncaa basketball
+
+nhl LOL
+
+mlb
+
+AFL
+sanfl
+
+F1
+nascar
+indycar
+v8s
+
 NRL
 super 16
+le tour
+
+bbl
+ipl
+test matches
+one dayers
+
