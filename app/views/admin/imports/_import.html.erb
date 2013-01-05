@@ -1,5 +1,7 @@
 Sport Name: <%=@import.sport_name %>  <br>
 League Name: <%=@import.league_name %> <br>
+Split Summary On: "<%=@import.split_summary_on %>" <br>
+Filter Out: <%=@import.filter_out_summary%> <br>
 <br>
 
 <% File.open(@import.ics.path, "r") do |file_handle| %>
@@ -15,18 +17,34 @@ League Name: <%=@import.league_name %> <br>
         <% component.events.each do |evnt| %>
             <tr><td>SUMMARY: <%=evnt.summary%>
                <% unless @import.split_summary_on.blank? %>
+                    <% teams = Array.new %>
                     <% teams = evnt.summary.split(@import.split_summary_on) %>
 
                     <% team0 = Team.find_by_name teams[0] 
                      font0 = "red" if team0.blank?
-                     font0  "green" if team0.blank?
+                     font0 = "green" if team0.blank?
 
                      team1 = Team.find_by_name teams[1]
                      font1 = "red" if team1.blank?
                      font1 = "green" if team1.blank? %>
                <% end %>
             </td><td> DTSTART: <%=evnt.dtstart%></td><td> DTEND: <%=evnt.dtend%> </td>
-            <td><% unless @import.split_summary_on.blank?  && teams.blank? %>
+            <td><% unless @import.split_summary_on.blank?  && teams.blank? && teams.count > 1 %>
+                  <% unless @import.filter_out_summary.blank?
+                      parts = @import.filter_out_summary.split(",")
+                      puts "nice"
+                      puts parts.count
+                      if parts.count<2
+                        puts "hi"
+                        teams[0].gsub!(@import.filter_out_summary,"")
+                        teams[1].gsub!(@import.filter_out_summary,"")
+                      else
+                        parts.each do |part|
+                          teams[0].gsub!(part,"")
+                          teams[1].gsub!(part,"")
+                        end
+                      end
+                     end %>
                   _<font color=#{font0}><%=teams[0] %></font>_ _<font color=#{font1}><%=teams[1]%></font>_</td>
                 <% end %>
            </tr>
