@@ -10,6 +10,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 
 gem 'activeadmin'
+gem 'paperclip'
 gem "meta_search",    '>= 1.1.0.pre'
 
 gem "bootstrap-sass"
