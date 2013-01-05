@@ -16,6 +16,7 @@ ActiveAdmin.register Import do
         f.input :league_name
         f.input :sport_name
         f.input :ics, :as=>:file
+        f.input :split_summary_on
       end
       f.buttons
    end
