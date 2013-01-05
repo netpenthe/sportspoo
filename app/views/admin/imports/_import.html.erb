@@ -8,8 +8,28 @@ League Name: <%=@import.league_name %> <br>
 
       <% components.each do |component| %>
          <table>
+          <th>cal summary</th>
+          <th> date </th>
+          <th> date </th>
+          <th> teams extracted </th>
         <% component.events.each do |evnt| %>
-            <tr><td>SUMMARY: <%=evnt.summary%></td><td> DTSTART: <%=evnt.dtstart%></td><td> DTEND: <%=evnt.dtend%> </td></tr>
+            <tr><td>SUMMARY: <%=evnt.summary%>
+               <% unless @import.split_summary_on.blank? %>
+                    <% teams = evnt.summary.split(@import.split_summary_on) %>
+
+                    <% team0 = Team.find_by_name teams[0] 
+                     font0 = "red" if team0.blank?
+                     font0  "green" if team0.blank?
+
+                     team1 = Team.find_by_name teams[1]
+                     font1 = "red" if team1.blank?
+                     font1 = "green" if team1.blank? %>
+               <% end %>
+            </td><td> DTSTART: <%=evnt.dtstart%></td><td> DTEND: <%=evnt.dtend%> </td>
+            <td><% unless @import.split_summary_on.blank?  && teams.blank? %>
+                  _<font color=#{font0}><%=teams[0] %></font>_ _<font color=#{font1}><%=teams[1]%></font>_</td>
+                <% end %>
+           </tr>
          <%end%>
          </table>
       <%end %>
