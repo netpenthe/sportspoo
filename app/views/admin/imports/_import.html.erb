@@ -22,11 +22,11 @@ Filter Out: <%=@import.filter_out_summary%> <br>
 
                     <% team0 = Team.find_by_name teams[0] 
                      font0 = "red" if team0.blank?
-                     font0 = "green" if team0.blank?
+                     font0 = "green" unless team0.blank?
 
                      team1 = Team.find_by_name teams[1]
                      font1 = "red" if team1.blank?
-                     font1 = "green" if team1.blank? %>
+                     font1 = "green" unless team1.blank? %>
                <% end %>
             </td><td> DTSTART: <%=evnt.dtstart%></td><td> DTEND: <%=evnt.dtend%> </td>
             <td><% unless @import.split_summary_on.blank?  && teams.blank? && teams.count > 1 %>
@@ -45,7 +45,7 @@ Filter Out: <%=@import.filter_out_summary%> <br>
                         end
                       end
                      end %>
-                  _<font color=#{font0}><%=teams[0] %></font>_ _<font color=#{font1}><%=teams[1]%></font>_</td>
+                  _<font color=<%=font0%>><%=teams[0] %></font>_ _<font color=<%=font1%>><%=teams[1]%></font>_</td>
                 <% end %>
            </tr>
          <%end%>
