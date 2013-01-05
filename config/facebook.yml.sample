@@ -1,0 +1,4 @@
+development:
+  facebook:
+    APP_ID: appid 
+    APP_SECRET: nice
