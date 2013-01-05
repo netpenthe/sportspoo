@@ -21,4 +21,10 @@ class User < ActiveRecord::Base
 
   def after_create
   end
+
+
+  has_many :leagues, :class_name=>"UserPrefernce", :conditions =>"preference_type='League'"
+  has_many :sports, :class_name=>"UserPrefernce", :conditions =>"preference_type='Sport'"
+  has_many :teams, :class_name=>"UserPrefernce", :conditions =>"preference_type='Team'"
+
 end
