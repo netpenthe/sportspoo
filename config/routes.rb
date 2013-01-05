@@ -11,6 +11,8 @@ Sportspoo::Application.routes.draw do
   
   resources :sports
 
+  resources :imports
+
   match '/' => 'front#index'
   match '/config' => 'user_preferences#index', :as=>:config
 

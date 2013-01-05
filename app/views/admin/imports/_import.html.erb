@@ -1,0 +1,18 @@
+Sport Name: <%=@import.sport_name %>  <br>
+League Name: <%=@import.league_name %> <br>
+<br>
+
+<% File.open(@import.ics.path, "r") do |file_handle| %>
+
+      <% components = RiCal.parse(file_handle) %>
+
+      <% components.each do |component| %>
+         <table>
+        <% component.events.each do |evnt| %>
+            <tr><td>SUMMARY: <%=evnt.summary%></td><td> DTSTART: <%=evnt.dtstart%></td><td> DTEND: <%=evnt.dtend%> </td></tr>
+         <%end%>
+         </table>
+      <%end %>
+
+<% end %>
+

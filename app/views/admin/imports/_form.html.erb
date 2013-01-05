@@ -1,0 +1,7 @@
+<%= form_for @import, :url => imports_path, :html => { :multipart => true } do |form| %>
+  <%=form.text_field :league_name %> <br>
+  <%=form.text_field :sport_name %> <br>
+  <%= form.file_field :ics %>
+  <br>
+  <%=form.submit %>
+<% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130105092644) do
+ActiveRecord::Schema.define(:version => 20130105094020) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -76,6 +76,19 @@ ActiveRecord::Schema.define(:version => 20130105092644) do
     t.string   "name"
     t.text     "description"
     t.datetime "end_date"
+  end
+
+  create_table "imports", :force => true do |t|
+    t.string   "league_name"
+    t.string   "sport_name"
+    t.string   "split_summary_on"
+    t.string   "filter_out_summary"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.string   "ics_file_name"
+    t.string   "ics_content_type"
+    t.integer  "ics_file_size"
+    t.datetime "ics_updated_at"
   end
 
   create_table "leagues", :force => true do |t|
