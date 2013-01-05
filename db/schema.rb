@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130104132746) do
+ActiveRecord::Schema.define(:version => 20130105054108) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -58,11 +58,18 @@ ActiveRecord::Schema.define(:version => 20130104132746) do
     t.integer "league_id"
   end
 
+  create_table "event_teams", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "team_id"
+    t.integer  "location_type_id"
+    t.integer  "location_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
   create_table "events", :force => true do |t|
     t.integer  "sport_id"
     t.integer  "league_id"
-    t.integer  "home_team_id"
-    t.integer  "away_team_id"
     t.datetime "start_date"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -72,6 +79,18 @@ ActiveRecord::Schema.define(:version => 20130104132746) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "location_types", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "locations", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "sports", :force => true do |t|
