@@ -4,5 +4,7 @@ log/*.log
 tmp/
 .sass-cache/
 config/database.yml
+config/facebook.yml
+config/betfair.yml
 .rvmrc
 nbproject
