@@ -41,17 +41,20 @@ namespace :pinnacle do
         #event.team2 = event.team2.force_encoding('UTF-8')
         
         if !team1.blank? && !team2.blank?
-          puts "looking for  team1 = #{team1.id} team2 = #{team2.id} start_date = #{start_date}"
-          event = Event.find :first,
-                           :conditions=>["home_team_id=? and away_team_id=? and DATE_FORMAT(start_date, '%Y-%m-%d')='#{start_date.to_date.to_s}'",
-                                                    team1.id,team2.id]
+          #puts "looking for  team1 = #{team1.id} team2 = #{team2.id} start_date = #{start_date}"
+          #event = Event.find :first,
+          #                 :conditions=>["home_team_id=? and away_team_id=? and DATE_FORMAT(start_date, '%Y-%m-%d')='#{start_date.to_date.to_s}'",
+          #                                          team1.id,team2.id]
 
-        if event.blank?
+        #if event.blank?
           puts "didn't find team1 = #{team1.id} team2 = #{team2.id} start_date = #{start_date}"
           
-          event = Event.create :start_date=>start_date, :home_team_id=>team1.id,
-                             :away_team_id=>team2.id, :league_id =>league.id, :sport_id=>sport.id
-        end
+          event = Event.create :start_date=>start_date,
+                          :league_id =>league.id, :sport_id=>sport.id
+          eventteam = EventTeam.create :event_id=>event.id, :team_id=>team1.id, :location_type_id=>1
+          eventteam = EventTeam.create :event_id=>event.id, :team_id=>team2.id, :location_type_id=>2
+ 
+        #end
        end
 
       end

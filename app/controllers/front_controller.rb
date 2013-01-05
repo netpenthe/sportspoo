@@ -8,6 +8,10 @@ class FrontController < ApplicationController
     # select events.id,start_date from events join leagues on leagues.id = events.league_id
     #  join user_preferences on (user_preferences.preference_id = league_id and preference_type='League')
     #  where user_id=1;
+  
+    @team_events = Array.new
+    @league_events = Array.new
+    @sport_events = Array.new
    
     @league_events = Event.find_by_sql ["select events.* from events join leagues on leagues.id = events.league_id
       join user_preferences on (user_preferences.preference_id = league_id and preference_type='League')
@@ -17,9 +21,9 @@ class FrontController < ApplicationController
       join user_preferences on (user_preferences.preference_id = sport_id and preference_type='Sport')
       where user_id=? and start_date > ? and start_date < ?", current_user.id,Time.now,Time.now+3.days]
 
-    @team_events = Event.find_by_sql ["select events.* from events join teams on (teams.id = events.home_team_id or teams.id = events.away_team_id)
-      join user_preferences on ((user_preferences.preference_id = home_team_id and preference_type='Team') or (user_preferences.preference_id = away_team_id and preference_type='Team'))
-      where user_id=? and start_date > ? and start_date < ?", current_user.id,Time.now,Time.now+3.days]
+    #@team_events = Event.find_by_sql ["select events.* from events join teams on (teams.id = events.home_team_id or teams.id = events.away_team_id)
+    #  join user_preferences on ((user_preferences.preference_id = home_team_id and preference_type='Team') or (user_preferences.preference_id = away_team_id and preference_type='Team'))
+    #  where user_id=? and start_date > ? and start_date < ?", current_user.id,Time.now,Time.now+3.days]
     
     @events = @league_events + @sport_events + @team_events
 
