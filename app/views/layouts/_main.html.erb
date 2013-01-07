@@ -1,0 +1,25 @@
+<h2>Uipcoming Events</h2>
+<div id='events'></div>
+<p><a class="btn" href="#">View details &raquo;</a></p>
+<p><h3>Sport not listed?</h3><input type='text'> <a class="btn" href="#">Suggest Sport &raquo;</a></p>
+
+<script>
+  $(function() {
+    $.getJSON( '/country/leagues/AUSTRALIA.json',
+    { },
+    function(leagues) {
+      for (i=0;i<leagues.length;i++) {
+        l =  leagues[i];
+        for (j=0;j<l.events.length;j++) {
+          e = l.events[j];
+          $('#events').append(l.name + " - ");  
+          if (e.teams.length ==2) {
+            $('#events').append("  >>"+e.teams[0].name + " vs " + e.teams[1].name );  
+          }
+          $('#events').append(" start: "+e.start_date+"<br />");  
+        }
+      }
+    }); 
+  });
+</script>
+
