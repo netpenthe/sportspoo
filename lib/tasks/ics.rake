@@ -10,6 +10,7 @@ namespace :ics do
 
     #sport = Sport.find_by_name "Baseball"
     sport = Sport.find_by_name "Football"
+    sport = Sport.new(:name => "Football").save if sport.blank? 
 
     #File.open("data/cubs_schedule.ics", "r") do |file_handle|
     File.open("data/aleague.ics", "r") do |file_handle|
