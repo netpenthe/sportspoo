@@ -39,7 +39,7 @@ role :db,  "54.234.90.249", :primary => true # This is where Rails migrations wi
 
 after "deploy:update_code", "deploy:update_shared_symlinks"
 require "bundler/capistrano"
-after "bundle:install", "deploy:db_symlink", "deploy:migrate", "deploy:assets"
+after "bundle:install", "deploy:make_symlinks", "deploy:migrate", "deploy:assets"
 namespace :deploy do
   task :start do ; end
   task :stop  do ; end
@@ -52,8 +52,9 @@ namespace :deploy do
       run "ln -s #{File.join(deploy_to, "shared", path)} #{File.join(release_path, path)}"
     end
   end
-  task :db_symlink do
+  task :make_symlinks do
       invoke_command "ln -sf #{deploy_to}/shared/config/database.yml #{release_path}/config/database.yml"
+      invoke_command "ln -sf #{deploy_to}/shared/config/facebook.yml #{release_path}/config/facebook.yml"
   end
 end
 namespace :deploy do

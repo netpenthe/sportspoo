@@ -32,8 +32,7 @@ namespace :ics do
             #               :conditions=>["home_team_id=? and away_team_id=? and DATE_FORMAT(events.start_date, '%Y-%m-%d')='#{evnt.dtstart.to_date.to_s}'",
             #                                        team2.id,team1.id]
 
-            event = Event.create :start_date=>evnt.dtstart,
-                             :league_id =>league.id, :sport_id=>sport.id
+            event = Event.create :start_date=>evnt.dtstart, :league_id =>league.id, :sport_id=>sport.id
              eventteam = EventTeam.create :event_id=>event.id, :team_id=>team1.id, :location_type_id=>1
           eventteam = EventTeam.create :event_id=>event.id, :team_id=>team2.id, :location_type_id=>2
 
