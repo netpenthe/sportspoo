@@ -4,7 +4,11 @@ class CountriesController < ApplicationController
      @country = Country.find_by_name params[:country]
 
      respond_to do |format|
-      format.json { render json: @country.leagues, :include => { :events => {:include => :teams}}}
+      if params[:events]==0
+        format.json { render json: @country.leagues }
+      else
+        format.json { render json: @country.leagues, :include => { :events => {:include => :teams}}}
+      end
      end
   end
 
