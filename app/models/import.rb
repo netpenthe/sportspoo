@@ -3,4 +3,10 @@ class Import < ActiveRecord::Base
 
   attr_accessible :ics
   has_attached_file :ics
+
+  has_many :import_events
+
+  def import_events_count
+   self.import_events.count
+  end
 end

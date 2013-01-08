@@ -8,3 +8,4 @@ config/facebook.yml
 config/betfair.yml
 .rvmrc
 nbproject
+getdb.sh
