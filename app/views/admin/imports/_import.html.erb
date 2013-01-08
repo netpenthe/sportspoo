@@ -4,18 +4,14 @@ Split Summary On: "<%=@import.split_summary_on %>" <br>
 Filter Out: <%=@import.filter_out_summary%> <br>
 <br>
 
-<% File.open(@import.ics.path, "r") do |file_handle| %>
-
-      <% components = RiCal.parse(file_handle) %>
-
-      <% components.each do |component| %>
          <table>
           <th>cal summary</th>
           <th> date </th>
           <th> date </th>
-          <th> teams extracted </th>
-        <% component.events.each do |evnt| %>
-            <tr><td>SUMMARY: <%=evnt.summary%>
+          <th> location </th>
+          <th> sample </th>
+         <%@import.import_events.each do |evnt| %>     
+            <tr><td><%=evnt.summary_filtered%>
                <% unless @import.split_summary_on.blank? %>
                     <% teams = Array.new %>
                     <% teams = evnt.summary.split(@import.split_summary_on) %>
@@ -28,7 +24,7 @@ Filter Out: <%=@import.filter_out_summary%> <br>
                      font1 = "red" if team1.blank?
                      font1 = "green" unless team1.blank? %>
                <% end %>
-            </td><td> DTSTART: <%=evnt.dtstart%></td><td> DTEND: <%=evnt.dtend%> </td>
+            </td><td><%=evnt.dtstart%></td><td><%=evnt.dtend%> </td> <td><%=evnt.location%></td>
             <td><% unless @import.split_summary_on.blank?  && teams.blank? && teams.count > 1 %>
                   <% unless @import.filter_out_summary.blank?
                       parts = @import.filter_out_summary.split(",")
@@ -48,9 +44,7 @@ Filter Out: <%=@import.filter_out_summary%> <br>
                   _<font color=<%=font0%>><%=teams[0] %></font>_ _<font color=<%=font1%>><%=teams[1]%></font>_</td>
                 <% end %>
            </tr>
-         <%end%>
-         </table>
-      <%end %>
 
 <% end %>
+         </table>
 
