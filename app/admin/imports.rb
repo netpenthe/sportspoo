@@ -8,11 +8,11 @@ ActiveAdmin.register Import do
     column :sport_name
     column :league_name
     column :ics_file_name
-    column :import_events_count
-    column :imported_events_count
-    column :imported_sports_count
-    column :imported_leagues_count
-    column :imported_teams_count
+    column "tmp events", :import_events_count
+    column "events", :imported_events_count
+    column "sports", :imported_sports_count
+    column "leagues", :imported_leagues_count
+    column "teams", :imported_teams_count
     default_actions
     
     column "Draft" do |import|
@@ -45,6 +45,7 @@ ActiveAdmin.register Import do
 
      File.open(import.ics.path, "r") do |file_handle|
        components = RiCal.parse(file_handle)
+       puts components.count
        components.each do |component|
          component.events.each do |evnt|
             ImportEvent.create(:summary => evnt.summary, :dtstart=> evnt.dtstart, :dtend=> evnt.dtend, :location=>evnt.location, :import_id => import.id)
