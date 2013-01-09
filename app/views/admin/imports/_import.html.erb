@@ -12,7 +12,7 @@ Filter Out: <%=@import.filter_out_summary%> <br>
           <th> sample </th>
 
          <%@import.import_events.each do |evnt| %>     
-            <tr><td><%=evnt.summary_filtered%>
+            <tr><td><%=evnt.summary%>
                <% unless @import.split_summary_on.blank? %>
                     <% teams = Array.new %>
                     <% teams = evnt.summary.split(@import.split_summary_on) %>

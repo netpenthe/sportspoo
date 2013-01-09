@@ -43,7 +43,7 @@ ActiveAdmin.register Import do
 
      ImportEvent.delete_all ["import_id = ?",import.id]
 
-     File.open(import.ics.path, "r") do |file_handle|
+     File.open(import.ics.path, "r:ISO-8859-1") do |file_handle|
        components = RiCal.parse(file_handle)
        puts components.count
        components.each do |component|
