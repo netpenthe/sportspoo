@@ -7,18 +7,18 @@
   $(function() {
     $.getJSON( '/country/leagues/AUSTRALIA.json',
     { },
-    function(leagues) {
-      for (i=0;i<leagues.length;i++) {
-        l =  leagues[i];
-        for (j=0;j<l.events.length;j++) {
-          e = l.events[j];
-          $('#events').append(l.name + " - ");  
-          if (e.teams.length ==2) {
+    function(events) {
+      //for (i=0;i<leagues.length;i++) {
+       // l =  leagues[i];
+        for (j=0;j<events.length;j++) {
+          e = events[j];
+          if (e.teams.length==2) {
+            $('#events').append(j+"  :"+e.name + " - ");  
             $('#events').append("  >>"+e.teams[0].name + " vs " + e.teams[1].name );  
+            $('#events').append(" start: "+e.start_date+"<br />");  
           }
-          $('#events').append(" start: "+e.start_date+"<br />");  
         }
-      }
+      //}
     }); 
   });
 </script>
