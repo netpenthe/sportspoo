@@ -6,10 +6,11 @@ Filter Out: <%=@import.filter_out_summary%> <br>
 
          <table>
           <th>cal summary</th>
-          <th> date </th>
-          <th> date </th>
+          <th> start date </th>
+          <th> end date </th>
           <th> location </th>
           <th> sample </th>
+
          <%@import.import_events.each do |evnt| %>     
             <tr><td><%=evnt.summary_filtered%>
                <% unless @import.split_summary_on.blank? %>
@@ -25,7 +26,7 @@ Filter Out: <%=@import.filter_out_summary%> <br>
                      font1 = "green" unless team1.blank? %>
                <% end %>
             </td><td><%=evnt.dtstart%></td><td><%=evnt.dtend%> </td> <td><%=evnt.location%></td>
-            <td><% unless @import.split_summary_on.blank?  && teams.blank? && teams.count > 1 %>
+            <td><% unless @import.split_summary_on.blank? %>
                   <% unless @import.filter_out_summary.blank?
                       parts = @import.filter_out_summary.split(",")
                       puts "nice"
@@ -45,6 +46,6 @@ Filter Out: <%=@import.filter_out_summary%> <br>
                 <% end %>
            </tr>
 
-<% end %>
+         <% end %>
          </table>
 
