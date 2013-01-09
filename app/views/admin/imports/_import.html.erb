@@ -41,7 +41,11 @@ Filter Out: <%=@import.filter_out_summary%> <br>
                           teams[1].gsub!(part,"") unless teams[1].blank?
                         end
                       end
-                     end %>
+                     end 
+                    teams[0].gsub!(/\d+/,"") unless teams[0].blank?
+                    teams[1].gsub!(/\d+/,"") unless teams[1].blank?
+                    teams[0].chomp! unless teams[0].blank?
+                    teams[1].chomp! unless teams[1].blank? %>
                   _<font color=<%=font0%>><%=teams[0] %></font>_ _<font color=<%=font1%>><%=teams[1]%></font>_</td>
                 <% end %>
            </tr>
