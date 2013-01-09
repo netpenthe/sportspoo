@@ -19,15 +19,15 @@ class ImportEvent < ActiveRecord::Base
 
   def home_team
     teams = summary_filtered.split(import.split_summary_on)
-    return teams[0] if import.home_team_first
-    return teams[1]
+    return teams[0].gsub(/\d+/,"").chomp if import.home_team_first
+    return teams[1].gsub(/\d+/,"").chomp
   end
   
 
   def away_team
     teams = summary_filtered.split(import.split_summary_on)
-    return teams[1] if import.home_team_first
-    return teams[0]
+    return teams[1].gsub(/\d+/,"").chomp if import.home_team_first
+    return teams[0].gsub(/\d+/,"").chomp
   end
 
 end
