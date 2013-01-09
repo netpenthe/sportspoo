@@ -13,7 +13,9 @@ class Event < ActiveRecord::Base
 
   has_many :event_teams
 
-  has_one :league
+  alias_method :xleague, :league
+  alias_method :league, :xleague
+
   def home_team
     home_teams.first
   end
@@ -22,4 +24,9 @@ class Event < ActiveRecord::Base
     away_teams.first
   end
 
+  def as_json(options ={})
+    h = super(options)
+    h[:league] = league.name
+    h
+  end
 end
