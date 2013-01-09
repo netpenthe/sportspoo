@@ -33,12 +33,12 @@ Filter Out: <%=@import.filter_out_summary%> <br>
                       puts parts.count
                       if parts.count<2
                         puts "hi"
-                        teams[0].gsub!(@import.filter_out_summary,"")
-                        teams[1].gsub!(@import.filter_out_summary,"")
+                        teams[0].gsub!(@import.filter_out_summary,"") unless teams[0].blank?
+                        teams[1].gsub!(@import.filter_out_summary,"") unless teams[1].blank?
                       else
                         parts.each do |part|
-                          teams[0].gsub!(part,"")
-                          teams[1].gsub!(part,"")
+                          teams[0].gsub!(part,"") unless teams[0].blank?
+                          teams[1].gsub!(part,"") unless teams[1].blank?
                         end
                       end
                      end %>
