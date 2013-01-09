@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130108124909) do
+ActiveRecord::Schema.define(:version => 20130109101737) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(:version => 20130108124909) do
     t.string   "name"
     t.text     "description"
     t.datetime "end_date"
+    t.integer  "import_id"
   end
 
   create_table "import_events", :force => true do |t|
@@ -93,18 +94,20 @@ ActiveRecord::Schema.define(:version => 20130108124909) do
     t.string   "sport_name"
     t.string   "split_summary_on"
     t.string   "filter_out_summary"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
     t.string   "ics_file_name"
     t.string   "ics_content_type"
     t.integer  "ics_file_size"
     t.datetime "ics_updated_at"
+    t.boolean  "home_team_first",    :default => true
   end
 
   create_table "leagues", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "import_id"
   end
 
   create_table "location_types", :force => true do |t|
@@ -123,12 +126,14 @@ ActiveRecord::Schema.define(:version => 20130108124909) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "import_id"
   end
 
   create_table "teams", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "import_id"
   end
 
   create_table "user_preferences", :force => true do |t|

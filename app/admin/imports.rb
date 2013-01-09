@@ -9,9 +9,17 @@ ActiveAdmin.register Import do
     column :league_name
     column :ics_file_name
     column :import_events_count
+    column :imported_events_count
+    column :imported_sports_count
+    column :imported_leagues_count
+    column :imported_teams_count
     default_actions
-    column "Sync" do |import|
+    
+    column "Draft" do |import|
       link_to "Load", load_admin_import_path(import), :method=>:put
+    end
+    column "Do it" do |import|
+      link_to "Import", import_admin_import_path(import), :method=>:put
     end
   end
 
@@ -45,5 +53,35 @@ ActiveAdmin.register Import do
      end
      redirect_to :back
    end
+
+
+   member_action :import, :method => :put do
+      import = Import.find params[:id]
+      
+      sport = Sport.find_by_name import.sport_name
+      sport = Sport.create(:name=>import.sport_name, :import_id=>import.id) if sport.blank?
+      
+      league = League.find_by_name import.league_name
+      league = League.create(:name=>import.league_name, :import_id=>import.id) if league.blank?
+
+      import.import_events.each do |ie|
+        unless import.split_summary_on.blank?
+          home_team = Team.find_by_name ie.home_team
+          home_team = Team.create(:import_id=>import.id, :name=>ie.home_team) if home_team.blank?
+
+          away_team = Team.find_by_name ie.away_team
+          away_team = Team.create(:import_id=>import.id, :name=>ie.away_team) if away_team.blank?
+        end
+
+        unless home_team.blank? || away_team.blank?
+          event = Event.create(:import_id=>import.id, :start_date=>ie.dtstart,:end_date=>ie.dtend)
+          eventteam = EventTeam.create :event_id=>event.id, :team_id=>home_team.id, :location_type_id=>1
+          eventteam = EventTeam.create :event_id=>event.id, :team_id=>away_team.id, :location_type_id=>2
+        end
+      end
+
+      redirect_to :back
+   end
+
 
 end
