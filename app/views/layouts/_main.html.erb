@@ -13,7 +13,7 @@
         for (j=0;j<events.length;j++) {
           e = events[j];
           if (e.teams.length==2) {
-            $('#events').append(j+"  :"+e.name + " - ");  
+            $('#events').append(j+"  :"+e.league+ " - ");  
             $('#events').append("  >>"+e.teams[0].name + " vs " + e.teams[1].name );  
             $('#events').append(" start: "+e.start_date+"<br />");  
           }
