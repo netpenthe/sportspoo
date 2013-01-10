@@ -7,6 +7,7 @@ class Event < ActiveRecord::Base
   has_many :away_teams, :class_name=>"Team", :through=>:event_teams, :source=>:team, :conditions=>"location_type_id = 2"
 
   belongs_to :league
+  
   belongs_to :sport
 
   has_many :teams, :through=>:event_teams
@@ -14,6 +15,7 @@ class Event < ActiveRecord::Base
   has_many :event_teams
 
   has_one :league
+  
   def home_team
     home_teams.first
   end

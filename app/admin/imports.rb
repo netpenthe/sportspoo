@@ -66,22 +66,24 @@ ActiveAdmin.register Import do
       league = League.create(:name=>import.league_name, :import_id=>import.id) if league.blank?
 
       import.import_events.each do |ie|
+
         unless import.split_summary_on.blank?
           home_team = Team.find_by_name ie.home_team
           home_team = Team.create(:import_id=>import.id, :name=>ie.home_team) if home_team.blank?
-
           away_team = Team.find_by_name ie.away_team
           away_team = Team.create(:import_id=>import.id, :name=>ie.away_team) if away_team.blank?
         end
 
-        unless home_team.blank? || away_team.blank?
-          event = Event.create(:import_id=>import.id, :start_date=>ie.dtstart,:end_date=>ie.dtend)
+        unless home_team.blank? || away_team.blank? || sport.blank? || league.blank?
+          event = Event.create(:import_id=>import.id, :start_date=>ie.dtstart,:end_date=>ie.dtend, :sport_id=>sport.id, :league_id=>league.id)
           eventteam = EventTeam.create :event_id=>event.id, :team_id=>home_team.id, :location_type_id=>1
           eventteam = EventTeam.create :event_id=>event.id, :team_id=>away_team.id, :location_type_id=>2
         end
+
       end
 
       redirect_to :back
+
    end
 
 
