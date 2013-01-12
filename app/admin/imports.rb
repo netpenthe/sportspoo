@@ -68,9 +68,10 @@ ActiveAdmin.register Import do
       import.import_events.each do |ie|
 
         unless import.split_summary_on.blank?
-          home_team = Team.find_by_name ie.home_team
+          home_team = Team.find_for_sport ie.home_team, sport.id
           home_team = Team.create(:import_id=>import.id, :name=>ie.home_team) if home_team.blank?
-          away_team = Team.find_by_name ie.away_team
+          
+          away_team = Team.find_for_sport ie.away_team, sport.id
           away_team = Team.create(:import_id=>import.id, :name=>ie.away_team) if away_team.blank?
         end
 
