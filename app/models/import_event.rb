@@ -36,7 +36,8 @@ class ImportEvent < ActiveRecord::Base
   
   
   def self.filter name
-    return name.gsub(/\d+/,"").chomp.lstrip.rstrip
+    return name.gsub(/\d+/,"").chomp.lstrip.rstrip unless name.blank?
+    return " "
   end
 
 

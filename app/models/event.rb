@@ -14,6 +14,8 @@ class Event < ActiveRecord::Base
 
   has_many :event_teams, :dependent => :destroy
   
+  has_one :location
+  
   alias_method :xleague, :league
   alias_method :league, :xleague
 
