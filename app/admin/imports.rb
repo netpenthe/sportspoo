@@ -67,17 +67,31 @@ ActiveAdmin.register Import do
 
       import.import_events.each do |ie|
 
-        unless import.split_summary_on.blank?
-          home_team = Team.find_for_sport ie.home_team, sport.id
-          home_team = Team.create(:import_id=>import.id, :name=>ie.home_team) if home_team.blank?
-          away_team = Team.find_for_sport ie.away_team, sport.id
-          away_team = Team.create(:import_id=>import.id, :name=>ie.away_team) if away_team.blank?
-        end
+        #stop duplicates
+        if ie.event.blank?
 
-        unless home_team.blank? || away_team.blank? || sport.blank? || league.blank?
-          event = Event.create(:import_id=>import.id, :import_event_id=>ie.id ,:start_date=>ie.dtstart,:end_date=>ie.dtend, :sport_id=>sport.id, :league_id=>league.id)
-          eventteam = EventTeam.create :event_id=>event.id, :team_id=>home_team.id, :location_type_id=>1
-          eventteam = EventTeam.create :event_id=>event.id, :team_id=>away_team.id, :location_type_id=>2
+          unless import.split_summary_on.blank?
+            home_team = Team.find_for_sport ie.home_team, sport.id
+            home_team = Team.create(:import_id=>import.id, :name=>ie.home_team) if home_team.blank?
+            away_team = Team.find_for_sport ie.away_team, sport.id
+            away_team = Team.create(:import_id=>import.id, :name=>ie.away_team) if away_team.blank?
+          end
+
+          unless home_team.blank? || away_team.blank? || sport.blank? || league.blank?
+
+            event = Event.create(:import_id=>import.id, :import_event_id=>ie.id ,:start_date=>ie.dtstart,:end_date=>ie.dtend, :sport_id=>sport.id, :league_id=>league.id)
+            eventteam = EventTeam.create :event_id=>event.id, :team_id=>home_team.id, :location_type_id=>1
+            eventteam = EventTeam.create :event_id=>event.id, :team_id=>away_team.id, :location_type_id=>2
+
+            unless ie.location.blank?
+              location = Location.find_by_name ie.location
+              location = Location.create(:name=>ie.location) if location.blank?
+              event.location_id = location.id
+              event.save
+            end
+
+          end
+
         end
 
       end
