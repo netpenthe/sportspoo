@@ -30,6 +30,7 @@ ActiveAdmin.register Import do
         f.input :ics, :as=>:file
         f.input :split_summary_on
         f.input :filter_out_summary
+        f.input :home_team_first
       end
       f.buttons
    end
