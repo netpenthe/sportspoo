@@ -5,6 +5,7 @@ ActiveAdmin.register Event do
     id_column
     column :home_team
     column :away_team
+    column :name
     column :start_date
     column :league
     column :sport

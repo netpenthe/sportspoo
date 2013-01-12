@@ -75,6 +75,10 @@ ActiveAdmin.register Import do
             home_team = Team.create(:import_id=>import.id, :name=>ie.home_team) if home_team.blank?
             away_team = Team.find_for_sport ie.away_team, sport.id
             away_team = Team.create(:import_id=>import.id, :name=>ie.away_team) if away_team.blank?
+          else
+            event = Event.create(:import_id=>import.id, :import_event_id=>ie.id ,:start_date=>ie.dtstart,:end_date=>ie.dtend,
+                                 :sport_id=>sport.id, :league_id=>league.id, :name=>ie.summary)
+
           end
 
           unless home_team.blank? || away_team.blank? || sport.blank? || league.blank?
