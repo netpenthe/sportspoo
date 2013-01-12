@@ -13,8 +13,6 @@ class Event < ActiveRecord::Base
   has_many :teams, :through=>:event_teams
 
   has_many :event_teams
-
-  has_one :league
   
   alias_method :xleague, :league
   alias_method :league, :xleague
