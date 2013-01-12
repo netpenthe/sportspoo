@@ -17,39 +17,31 @@ Filter Out: <%=@import.filter_out_summary%> <br>
                     <% teams = Array.new %>
                     <% teams = evnt.summary.split(@import.split_summary_on) %>
 
-                    <% team0 = Team.find_by_name teams[0] 
-                     font0 = "red" if team0.blank?
-                     font0 = "green" unless team0.blank?
+                <%  if teams.count > 1
+                      teams[0] = ImportEvent.clean teams[0],@import.filter_out_summary
+                      teams[1] = ImportEvent.clean teams[1],@import.filter_out_summary
 
-                     team1 = Team.find_by_name teams[1]
-                     font1 = "red" if team1.blank?
-                     font1 = "green" unless team1.blank? %>
+                       team0 = Team.find_by_name teams[0]
+                       font0 = "red" if team0.blank?
+                       font0 = "green" unless team0.blank?
+
+                       team1 = Team.find_by_name teams[1]
+                       font1 = "red" if team1.blank?
+                       font1 = "green" unless team1.blank?
+                     end %>
+                
                <% end %>
-            </td><td><%=evnt.dtstart%></td><td><%=evnt.dtend%> </td> <td><%=evnt.location%></td>
+            </td>
+            
+            <td><%=evnt.dtstart%></td><td><%=evnt.dtend%> </td> <td><%=evnt.location%></td>
+
             <td><% unless @import.split_summary_on.blank? %>
-                  <% unless @import.filter_out_summary.blank?
-                      parts = @import.filter_out_summary.split(",")
-                      puts "nice"
-                      puts parts.count
-                      if parts.count<2
-                        puts "hi"
-                        teams[0].gsub!(@import.filter_out_summary,"") unless teams[0].blank?
-                        teams[1].gsub!(@import.filter_out_summary,"") unless teams[1].blank?
-                      else
-                        parts.each do |part|
-                          teams[0].gsub!(part,"") unless teams[0].blank?
-                          teams[1].gsub!(part,"") unless teams[1].blank?
-                        end
-                      end
-                     end 
-                    teams[0].gsub!(/\d+/,"") unless teams[0].blank?
-                    teams[1].gsub!(/\d+/,"") unless teams[1].blank?
-                    teams[0].chomp! unless teams[0].blank?
-                    teams[1].chomp! unless teams[1].blank? %>
-                  _<font color=<%=font0%>><%=teams[0] %></font>_ _<font color=<%=font1%>><%=teams[1]%></font>_</td>
+                  _<font color=<%=font0%>><%=teams[0]%></font>_ _<font color=<%=font1%>><%=teams[1]%></font>_</td>
                 <% end %>
            </tr>
 
          <% end %>
          </table>
 
+
+'Southampton
