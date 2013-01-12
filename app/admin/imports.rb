@@ -59,11 +59,11 @@ ActiveAdmin.register Import do
    member_action :import, :method => :put do
       import = Import.find params[:id]
       
-      sport = Sport.find_by_name import.sport_name
-      sport = Sport.create(:name=>import.sport_name, :import_id=>import.id) if sport.blank?
+      sport = Sport.find_by_name import.sport_name.rstrip
+      sport = Sport.create(:name=>import.sport_name.rstrip, :import_id=>import.id) if sport.blank?
       
-      league = League.find_by_name import.league_name
-      league = League.create(:name=>import.league_name, :import_id=>import.id) if league.blank?
+      league = League.find_by_name import.league_name.rstrip
+      league = League.create(:name=>import.league_name.rstrip, :import_id=>import.id) if league.blank?
 
       import.import_events.each do |ie|
 
