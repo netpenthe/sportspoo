@@ -4,16 +4,18 @@ class Import < ActiveRecord::Base
   attr_accessible :ics
   has_attached_file :ics
 
-  has_many :import_events
-
+  
   def import_events_count
     self.import_events.count
   end
 
-  has_many :imported_events, :class_name=>"Event"
-  has_many :imported_sports, :class_name=>"Sport"
-  has_many :imported_leagues, :class_name=>"League"
-  has_many :imported_teams, :class_name=>"Team"
+  has_many :import_events, :dependent => :destroy
+
+  has_many :imported_events, :class_name=>"Event",  :dependent => :destroy
+  has_many :imported_sports, :class_name=>"Sport",  :dependent => :destroy
+  has_many :imported_leagues, :class_name=>"League", :dependent => :destroy
+  has_many :imported_teams, :class_name=>"Team", :dependent => :destroy
+
 
   def imported_events_count
     self.imported_events.count
