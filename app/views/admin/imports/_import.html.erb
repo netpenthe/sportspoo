@@ -38,9 +38,15 @@ Filter Out: <%=@import.filter_out_summary%> <br>
             <td><%=evnt.dtstart%></td><td><%=evnt.dtend%> </td> <td><%=evnt.location%></td>
 
             <td><% unless @import.split_summary_on.blank? %>
-                  _<font color=<%=font0%>><%=teams[0]%></font>_ _<font color=<%=font1%>><%=teams[1]%></font>_</td>
+              
+                  _<font color=<%=font0%>><%=teams[0]%></font>_ _<font color=<%=font1%>><%=teams[1]%></font>_
+
+                <% else %>
+
+                 <%=ImportEvent.filter_out evnt.summary,@import.filter_out_summary %>
+
                 <% end %>
-           </tr>
+            </td></tr>
 
          <% end %>
          </table>
