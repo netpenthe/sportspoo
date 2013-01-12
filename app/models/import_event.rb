@@ -1,5 +1,5 @@
 class ImportEvent < ActiveRecord::Base
-  attr_accessible :dtend, :dtstart, :location, :summary, :import_id
+  attr_accessible :dtend, :dtstart, :location, :summary, :import_id, :uid
 
   belongs_to :import
 

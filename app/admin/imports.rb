@@ -48,7 +48,7 @@ ActiveAdmin.register Import do
        puts components.count
        components.each do |component|
          component.events.each do |evnt|
-            ImportEvent.create(:summary => evnt.summary, :dtstart=> evnt.dtstart, :dtend=> evnt.dtend, :location=>evnt.location, :import_id => import.id)
+            ImportEvent.create(:summary => evnt.summary, :dtstart=> evnt.dtstart, :dtend=> evnt.dtend, :location=>evnt.location, :import_id => import.id, :uid=>evnt.uid)
          end
        end     
      end
@@ -70,13 +70,12 @@ ActiveAdmin.register Import do
         unless import.split_summary_on.blank?
           home_team = Team.find_for_sport ie.home_team, sport.id
           home_team = Team.create(:import_id=>import.id, :name=>ie.home_team) if home_team.blank?
-          
           away_team = Team.find_for_sport ie.away_team, sport.id
           away_team = Team.create(:import_id=>import.id, :name=>ie.away_team) if away_team.blank?
         end
 
         unless home_team.blank? || away_team.blank? || sport.blank? || league.blank?
-          event = Event.create(:import_id=>import.id, :start_date=>ie.dtstart,:end_date=>ie.dtend, :sport_id=>sport.id, :league_id=>league.id)
+          event = Event.create(:import_id=>import.id, :import_event_id=>ie.id ,:start_date=>ie.dtstart,:end_date=>ie.dtend, :sport_id=>sport.id, :league_id=>league.id)
           eventteam = EventTeam.create :event_id=>event.id, :team_id=>home_team.id, :location_type_id=>1
           eventteam = EventTeam.create :event_id=>event.id, :team_id=>away_team.id, :location_type_id=>2
         end
