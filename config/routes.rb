@@ -17,7 +17,7 @@ Sportspoo::Application.routes.draw do
   match '/config' => 'user_preferences#index', :as=>:config
 
   match '/list' => 'front#list', :as=>:list
-  match '/u/:username' => 'front#list_username'
+  match '/u/:username' => 'front#list'
 
   match '/country/leagues/:country' => 'countries#leagues' 
 
