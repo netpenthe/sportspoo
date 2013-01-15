@@ -2,6 +2,8 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.2.9'
 
+gem 'jquery_mobile_rails'
+
 gem 'devise'
 
 gem 'ri_cal'
