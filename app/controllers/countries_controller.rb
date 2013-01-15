@@ -1,6 +1,6 @@
 class CountriesController < ApplicationController
 
-  def xleagues 
+  def leagues 
      @country = Country.find_by_name params[:country]
 
      respond_to do |format|
@@ -8,18 +8,8 @@ class CountriesController < ApplicationController
         format.json { render json: @country.leagues }
       else
         format.json { render json: @country.leagues, :include => { :events => {:include => :teams}}}
-        format.json { render json: @country.upcoming_events}
       end
-     end
-  end
-
-
-  def leagues
-     @country = Country.find_by_name params[:country]
-
-     respond_to do |format|
-      #format.json { render json: @country.upcoming_events}
-      format.json { render json: @country.upcoming_events, :include => [:teams]}
+      
      end
   end
 
