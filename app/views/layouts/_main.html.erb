@@ -1,25 +1,61 @@
-<h2>Uipcoming Events</h2>
-<div id='events'></div>
-<p><a class="btn" href="#">View details &raquo;</a></p>
-<p><h3>Sport not listed?</h3><input type='text'> <a class="btn" href="#">Suggest Sport &raquo;</a></p>
+<!--<link href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.css" media="all" rel="stylesheet" type="text/css" />-->
 
+<div id='events'></div>
+<!--<p><a class="btn" href="#">View details &raquo;</a></p>
+<p><h3>Sport not listed?</h3><input type='text'> <a class="btn" href="#">Suggest Sport &raquo;</a></p>
+-->
 <script>
   $(function() {
     $.getJSON( '/country/leagues/AUSTRALIA.json',
     { },
     function(events) {
       //for (i=0;i<leagues.length;i++) {
-       // l =  leagues[i];
+        // l =  leagues[i];
         for (j=0;j<events.length;j++) {
           e = events[j];
           if (e.teams.length==2) {
-            $('#events').append(j+"  :"+e.league+ " - ");  
-            $('#events').append("  >>"+e.teams[0].name + " vs " + e.teams[1].name );  
-            $('#events').append(" start: "+e.start_date+"<br />");  
+            $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong></p>'+e.league+' - '+e.teams[0].name + ' vs ' + e.teams[1].name +' </li>')
+            //            $('#events').append(j+"  :"+e.league.name + " - ");  
+            //           $('#events').append("  >>"+e.teams[0].name + " vs " + e.teams[1].name );  
+            //          $('#events').append(" start: "+e.start_date+"<br />");  
           }
         }
-      //}
+        //}
+      $.mobile.loading('hide');
     }); 
   });
 </script>
 
+<div data-role="content" class="ui-content" role="main">
+  <div class="content-primary">
+    <ol id='list1' data-role="listview" class="ui-listview">
+    </ol>
+<!--
+    <h2>List 2</h2>
+    <ul id='list2' data-role="listview" class="ui-listview">
+      <li class="ui-li ui-li-static ui-btn-up-c"><p class="ui-li-aside ui-li-desc"><strong>6:24</strong>PM</p>
+        <h3 class="ui-li-heading">Stephen Weber</h3>
+        <p class="ui-li-desc"><strong>You've been invited to a meeting at Filament Group in Boston, MA</strong></p>
+        <p class="ui-li-desc">Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</p>
+      </li>
+      <li class="ui-li ui-li-static ui-btn-up-c ui-li-last"><p class="ui-li-aside ui-li-desc"><strong>9:18</strong>AM</p>
+      <h3 class="ui-li-heading">jQuery Team</h3>
+      <p class="ui-li-desc"><strong>Boston Conference Planning</strong></p>
+      <p class="ui-li-desc">In preparation for the upcoming conference in Boston, we need to start gathering a list of sponsors and speakers.</p>
+
+      </li>
+    </ul>
+
+    <h2>List 3</h2>
+    <ul id='list3' data-role="listview" class="ui-listview">
+      <li class="ui-li ui-li-static ui-btn-up-c ui-li-has-count ui-li-has-icon"><img src="http://jquerymobile.com/demos/1.2.0/docs/lists/images/us.png" alt="France" class="ui-li-icon ui-li-thumb">France <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">4</span></li>
+      <li class="ui-li ui-li-static ui-btn-up-c ui-li-has-count ui-li-has-icon"><img src="http://jquerymobile.com/demos/1.2.0/docs/lists/images/us.png" alt="Germany" class="ui-li-icon ui-li-thumb">Germany <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">4</span></li>
+      <li class="ui-li ui-li-static ui-btn-up-c ui-li-has-count ui-li-has-icon"><img src="http://jquerymobile.com/demos/1.2.0/docs/lists/images/us.png" alt="Great Britain" class="ui-li-icon ui-li-thumb">Great Britain <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">0</span></li>
+      <li class="ui-li ui-li-static ui-btn-up-c ui-li-has-count ui-li-has-icon"><img src="http://jquerymobile.com/demos/1.2.0/docs/lists/images/us.png" alt="Finland" class="ui-li-icon ui-li-thumb">Finland <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">12</span></li>
+      <li class="ui-li ui-li-static ui-btn-up-c ui-li-has-count ui-li-has-icon"><img src="http://jquerymobile.com/demos/1.2.0/docs/lists/images/us.png" alt="Norway" class="ui-li-icon ui-li-thumb">Norway <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">328</span></li>
+      <li class="ui-li ui-li-static ui-btn-up-c ui-li-has-count ui-li-has-icon ui-li-last"><img src="http://jquerymobile.com/demos/1.2.0/docs/lists/images/us.png" alt="United States" class="ui-li-icon ui-li-thumb">United States <span class="ui-li-count ui-btn-up-c ui-btn-corner-all">62</span></li>
+    </ul>
+-->
+
+  </div>
+</div>
