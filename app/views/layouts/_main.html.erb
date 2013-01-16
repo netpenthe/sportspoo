@@ -4,28 +4,6 @@
 <!--<p><a class="btn" href="#">View details &raquo;</a></p>
 <p><h3>Sport not listed?</h3><input type='text'> <a class="btn" href="#">Suggest Sport &raquo;</a></p>
 -->
-<script>
-  $(function() {
-    $.getJSON( '/country/leagues/AUSTRALIA.json',
-    { },
-    function(events) {
-      //for (i=0;i<leagues.length;i++) {
-        // l =  leagues[i];
-        for (j=0;j<events.length;j++) {
-          e = events[j];
-          if (e.teams.length==2) {
-            $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong></p>'+e.league+' - '+e.teams[0].name + ' vs ' + e.teams[1].name +' </li>')
-            //            $('#events').append(j+"  :"+e.league.name + " - ");  
-            //           $('#events').append("  >>"+e.teams[0].name + " vs " + e.teams[1].name );  
-            //          $('#events').append(" start: "+e.start_date+"<br />");  
-          }
-        }
-        //}
-      $.mobile.loading('hide');
-    }); 
-  });
-</script>
-
 <div data-role="content" class="ui-content" role="main">
   <div class="content-primary">
     <ol id='list1' data-role="listview" class="ui-listview">

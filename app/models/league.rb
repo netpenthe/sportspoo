@@ -5,7 +5,7 @@ class League < ActiveRecord::Base
 
    def as_json(options ={})
     h = super(options)
-    h[:sport] = "Asdf"
+    h[:sport] = sport.name
     h
   end
 

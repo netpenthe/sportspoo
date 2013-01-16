@@ -3,6 +3,7 @@ var geocoder;
 var city;
 var latitude;
 var longitude;
+var country = "UNITED STATES";
 
 //Get the latitude and the longitude;
 function successFunction(position) {
@@ -19,6 +20,7 @@ function codeLatLng(lat, lng) {
         if (results[1]) {
           //formatted address
           city = results[results.length-2].formatted_address;
+          country = results[results.length-1].formatted_address;
           locationFound();
         } else {
           locationNotFound();
@@ -33,6 +35,12 @@ geocoder = new google.maps.Geocoder();
 /* end geolocate stuff */
 
 function locationFound() {
+  /* As soon as locationFound, update left and middle columns */
+  updateEvents(country);
+  updateTree(); 
+
+
+
   //var mins = TimeZoneDetect();
   //var mins = new Date().getTimezoneOffset();
   var mins = TimeZoneDetect();
@@ -111,6 +119,4 @@ function TimeZoneDetect(){
  
     return intOffset;
 }
-$(document).ready(function () {
-  if (navigator.geolocation) { navigator.geolocation.getCurrentPosition(successFunction, locationNotFound); } 
-});
+
