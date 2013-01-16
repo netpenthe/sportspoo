@@ -9,3 +9,4 @@ config/betfair.yml
 .rvmrc
 nbproject
 getdb.sh
+*.swp
