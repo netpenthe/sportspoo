@@ -42,7 +42,7 @@ namespace :betfair do
         sport = Sport.create(:name=>event.sporttype)  if  sport.blank?
 
         league = League.first :conditions=>["name = ?", event.league]
-        league = League.create(:name=>event.league) if league.blank?
+        league = League.create(:name=>event.league,:sport_id=>sport.id) if league.blank?
 
         #event.team1 = event.team1.force_encoding('UTF-8')
         #event.team2 = event.team2.force_encoding('UTF-8')

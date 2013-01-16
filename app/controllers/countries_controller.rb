@@ -19,7 +19,11 @@ class CountriesController < ApplicationController
 
      respond_to do |format|
       #format.json { render json: @country.upcoming_events}
-      format.json { render json: @country.upcoming_events, :include => [:teams]}
+      unless params[:events].blank?
+        format.json { render json: @country.leagues }
+      else
+        format.json { render json: @country.upcoming_events, :include => [:teams]}
+      end
      end
   end
 
