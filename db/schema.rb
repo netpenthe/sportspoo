@@ -53,11 +53,6 @@ ActiveRecord::Schema.define(:version => 20130116111356) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "country_leagues", :id => false, :force => true do |t|
-    t.integer "country_id"
-    t.integer "league_id"
-  end
-
   create_table "countryleagues", :force => true do |t|
     t.integer "country_id"
     t.integer "league_id"

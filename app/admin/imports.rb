@@ -64,7 +64,7 @@ ActiveAdmin.register Import do
       sport = Sport.create(:name=>import.sport_name.rstrip, :import_id=>import.id) if sport.blank?
       
       league = League.find_by_name import.league_name.rstrip
-      league = League.create(:name=>import.league_name.rstrip, :import_id=>import.id) if league.blank?
+      league = League.create(:name=>import.league_name.rstrip, :import_id=>import.id, :sport_id=>sport.id) if league.blank?
 
       import.import_events.each do |ie|
 
