@@ -8,7 +8,6 @@ class CountriesController < ApplicationController
         format.json { render json: @country.leagues }
       else
         format.json { render json: @country.leagues, :include => { :events => {:include => :teams}}}
-        format.json { render json: @country.upcoming_events}
       end
      end
   end
