@@ -5,12 +5,13 @@ namespace :ics do
 
     #league = League.find_by_name "MLB"
     #league = League.new(:name => "MLB").save if league.blank? 
-    league = League.find_by_name "A-League"
-    league = League.new(:name => "A-League").save if league.blank? 
 
     #sport = Sport.find_by_name "Baseball"
     sport = Sport.find_by_name "Football"
     sport = Sport.new(:name => "Football").save if sport.blank? 
+
+    league = League.find_by_name "A-League"
+    league = League.new(:name => "A-League", :sport_id=>sport.id).save if league.blank? 
 
     #File.open("data/cubs_schedule.ics", "r") do |file_handle|
     File.open("data/aleague.ics", "r") do |file_handle|
