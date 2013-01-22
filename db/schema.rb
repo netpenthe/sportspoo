@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130116111356) do
+ActiveRecord::Schema.define(:version => 20130122114755) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -78,6 +78,14 @@ ActiveRecord::Schema.define(:version => 20130116111356) do
     t.integer  "import_id"
     t.integer  "import_event_id"
     t.integer  "location_id"
+  end
+
+  create_table "external_events", :force => true do |t|
+    t.string   "site"
+    t.integer  "event_id"
+    t.string   "external_key"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "import_events", :force => true do |t|
