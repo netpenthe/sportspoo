@@ -15,7 +15,8 @@ module Pinnacle
     element "gamenumber", Integer
     element "event_datetimeGMT", String
     element "sporttype", String
-    element "league", String 
+    element "league", String
+    element "IsLive", String
     has_many :participants, Participant
   end
 

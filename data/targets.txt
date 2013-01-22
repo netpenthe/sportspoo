@@ -3,7 +3,7 @@ feeds
 http://odds.luxbet.com/webservice/globalservice.asmx
 http://www.betfair.com/partner/marketdata_xml3.asp
 http://unitab.com/data/racing/2011/4/15/RaceDay.xml
-http://xml.pinnaclesports.com/pinnacleFeed.asp
+http://xml.pinnaclesports.com/pinnacleFeed.aspx
 http://affiliate.sportsbet.com.au/XMLFeeds/AussieRules.xml
 http://www.sportingbet.com.au/XMLFeeds/xmlAFLfeed.xml
 

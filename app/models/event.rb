@@ -14,6 +14,9 @@ include ActionView::Helpers::DateHelper
 
   has_many :event_teams
 
+  #external event id like betfair/pinnacle etc..
+  has_many :external_events
+
   alias_method :xleague, :league
   alias_method :league, :xleague
 
