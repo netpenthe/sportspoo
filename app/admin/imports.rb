@@ -79,14 +79,16 @@ ActiveAdmin.register Import do
           else
             event = Event.create(:import_id=>import.id, :import_event_id=>ie.id ,:start_date=>ie.dtstart,:end_date=>ie.dtend,
                                  :sport_id=>sport.id, :league_id=>league.id, :name=>ie.summary)
-
           end
 
           unless home_team.blank? || away_team.blank? || sport.blank? || league.blank?
 
             event = Event.create(:import_id=>import.id, :import_event_id=>ie.id ,:start_date=>ie.dtstart,:end_date=>ie.dtend, :sport_id=>sport.id, :league_id=>league.id)
+            
             eventteam = EventTeam.create :event_id=>event.id, :team_id=>home_team.id, :location_type_id=>1
             eventteam = EventTeam.create :event_id=>event.id, :team_id=>away_team.id, :location_type_id=>2
+            
+            ExternalEvent.create(:event_id=>event.id, :site=>"iCal", :external_key=>ie.uid) unless ie.uid.blank?
 
             unless ie.location.blank?
               location = Location.find_by_name ie.location
