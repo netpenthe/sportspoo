@@ -38,7 +38,9 @@ include ActionView::Helpers::DateHelper
 
 
   def self.find_for_site_and_key site, key
-    ExternalEvent.where(["site = ? and external_key = ?",site,key]).first.event
+    ee = ExternalEvent.where(["site = ? and external_key = ?",site,key]).first
+    return ee.event unless ee.blank?
+    return nil
   end
 
   

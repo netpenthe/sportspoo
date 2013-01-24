@@ -1,3 +1,6 @@
+require 'open-uri'
+
+
 namespace :pinnacle do
 
   task :sync => :environment do
@@ -66,11 +69,12 @@ namespace :pinnacle do
 
 
   task :tennis => :environment do
-    file = File.open("data/pinnacle.xml", "rb")
+    
+    puts "getting data from http://xml.pinnaclesports.com/pinnacleFeed.aspx"
+    file = open("http://xml.pinnaclesports.com/pinnacleFeed.aspx")
+
     file_contents = file.read
     data = Pinnacle::Event.parse file_contents
-
-    puts data.class.to_s
 
     data.each do |event|
       if event.participants.count < 4 && !event.league.include?("Props") && event.IsLive == "No" && event.sporttype=="Tennis"
@@ -121,6 +125,7 @@ namespace :pinnacle do
             evnt.start_date = start_date
             evnt.save
           else
+            puts "creating event"
             evnt = Event.create :start_date=>start_date, :league_id =>league.id, :sport_id=>sport.id
             eventteam = EventTeam.create :event_id=>evnt.id, :team_id=>team1.id, :location_type_id=>1
             eventteam = EventTeam.create :event_id=>evnt.id, :team_id=>team2.id, :location_type_id=>2
