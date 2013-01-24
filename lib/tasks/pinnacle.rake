@@ -68,7 +68,7 @@ namespace :pinnacle do
 
 
 
-  task :tennis => :environment do
+  task :tennis_and_cricket => :environment do
     
     puts "getting data from http://xml.pinnaclesports.com/pinnacleFeed.aspx"
     file = open("http://xml.pinnaclesports.com/pinnacleFeed.aspx")
@@ -77,7 +77,7 @@ namespace :pinnacle do
     data = Pinnacle::Event.parse file_contents
 
     data.each do |event|
-      if event.participants.count < 4 && !event.league.include?("Props") && event.IsLive == "No" && event.sporttype=="Tennis"
+      if event.participants.count < 4 && !event.league.include?("Props") && event.IsLive == "No" && (event.sporttype=="Tennis" || event.sporttype=="Cricket")
 
         start_date =  DateTime.strptime("#{event.event_datetimeGMT}", "%Y-%m-%d %H:%M")
 
@@ -97,8 +97,6 @@ namespace :pinnacle do
                team2 = Team.create(:name=>team.participant_name) if team2.blank?
             end
         end
-
-        puts "----"
 
         sport = Sport.first :conditions=>["name = ?", event.sporttype]
         sport = Sport.create(:name=>event.sporttype)  if  sport.blank?
@@ -131,6 +129,8 @@ namespace :pinnacle do
             eventteam = EventTeam.create :event_id=>evnt.id, :team_id=>team2.id, :location_type_id=>2
             ExternalEvent.create(:event_id=>evnt.id, :site=>"Pinnacle", :external_key=>event.gamenumber)
           end
+
+          puts "----"
 
        end
 
