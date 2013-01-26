@@ -63,7 +63,7 @@ class ImportEvent < ActiveRecord::Base
 
 
   def self.clean name, filter
-    return (self.filter_out self.filter(name), filter).rstrip.lstrip
+    return (self.filter_out self.filter(name), filter).rstrip.lstrip.titleise
   end
 
 
