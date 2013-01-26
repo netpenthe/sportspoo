@@ -21,15 +21,43 @@ class ImportEvent < ActiveRecord::Base
   
 
   def home_team
-    teams = summary_filtered.split(import.split_summary_on)
-    return ImportEvent.clean teams[0],import.filter_out_summary if import.home_team_first
+    teams = Array.new
+    count = 0
+    if import.split_summary_on.include? "|"
+      parts = import.split_summary_on.split("|")
+      parts.each do |prt|
+        count = count + 1
+        if summary_filtered.include?(prt)
+          teams = summary_filtered.split(prt)
+          break
+        end
+      end
+    else
+      teams = summary_filtered.split(import.split_summary_on)
+    end
+    
+    return ImportEvent.clean teams[0],import.filter_out_summary if import.home_team_first || count == 1
     return ImportEvent.clean teams[1],import.filter_out_summary
   end
 
   
   def away_team
-    teams = summary_filtered.split(import.split_summary_on)
-    return ImportEvent.clean teams[1],import.filter_out_summary if import.home_team_first
+    teams = Array.new
+    count = 0
+    if import.split_summary_on.include? "|"
+      parts = import.split_summary_on.split("|")
+      parts.each do |prt|
+        count = count + 1
+        if summary_filtered.include?(prt)
+          teams = summary_filtered.split(prt)
+          break
+        end
+      end
+    else
+      teams = summary_filtered.split(import.split_summary_on)
+    end
+
+    return ImportEvent.clean teams[1],import.filter_out_summary if import.home_team_first || count == 0
     return ImportEvent.clean teams[0],import.filter_out_summary
   end
 
@@ -63,7 +91,7 @@ class ImportEvent < ActiveRecord::Base
 
 
   def self.clean name, filter
-    return (self.filter_out self.filter(name), filter).rstrip.lstrip.titleise
+    return (self.filter_out self.filter(name), filter).rstrip.lstrip.titleize
   end
 
 
