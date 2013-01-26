@@ -77,7 +77,7 @@ namespace :pinnacle do
     data = Pinnacle::Event.parse file_contents
 
     data.each do |event|
-      if event.participants.count < 4 && !event.league.include?("Props") && event.IsLive == "No" && (event.sporttype=="Tennis" || event.sporttype=="Cricket")
+      if event.participants.count < 4 && !event.league.include?("Props") && event.IsLive == "No" && (event.sporttype=="Tennis" || event.sporttype=="Cricket" || event.league == "Eng. FA Cup")
 
         start_date =  DateTime.strptime("#{event.event_datetimeGMT}", "%Y-%m-%d %H:%M")
 
@@ -86,6 +86,7 @@ namespace :pinnacle do
 
         event.participants.each do |team|
             break if team.participant_name.include?("Sets)")
+            break if team.participant_name.include?("Draw")
 
             puts team.participant_name
 
@@ -97,6 +98,8 @@ namespace :pinnacle do
                team2 = Team.create(:name=>team.participant_name) if team2.blank?
             end
         end
+
+        event.sporttype = "Football" if event.league == "Eng. FA Cup"
 
         sport = Sport.first :conditions=>["name = ?", event.sporttype]
         sport = Sport.create(:name=>event.sporttype)  if  sport.blank?
