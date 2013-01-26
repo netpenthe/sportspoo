@@ -7,6 +7,7 @@ include ActionView::Helpers::DateHelper
 
   belongs_to :league
   belongs_to :sport
+  belongs_to :location
 
   has_many :teams, :through=>:event_teams
 
