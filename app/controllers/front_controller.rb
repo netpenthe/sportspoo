@@ -21,7 +21,7 @@ class FrontController < ApplicationController
 
     @sport_events = Event.find_by_sql ["select events.* from events join sports on sports.id = events.sport_id
       join user_preferences on (user_preferences.preference_id = sport_id and preference_type='Sport')
-      where user_id=? and start_date > ? and start_date < ?", current_user.id,Time.now,Time.now+7.days]
+      where user_id=? and start_date > ? and start_date < ?", user.id,Time.now,Time.now+7.days]
 
     #@team_events = Event.find_by_sql ["select events.* from events join teams on (teams.id = events.home_team_id or teams.id = events.away_team_id)
     #  join user_preferences on ((user_preferences.preference_id = home_team_id and preference_type='Team') or (user_preferences.preference_id = away_team_id and preference_type='Team'))
