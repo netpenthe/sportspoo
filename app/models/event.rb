@@ -44,5 +44,9 @@ include ActionView::Helpers::DateHelper
     return nil
   end
 
-  
+  def display_name
+    return name unless name.blank?
+    return "#{home_team.name} vs #{away_team.name}"
+  end
+
 end
