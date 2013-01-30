@@ -8,8 +8,14 @@ http://affiliate.sportsbet.com.au/XMLFeeds/AussieRules.xml
 http://www.sportingbet.com.au/XMLFeeds/xmlAFLfeed.xml
 
 
+iCal for the leagues
+pinnacle sports bet sites for cricket/tennis and the cups
+
+
+football
+--------
 a-league
-epl
+epl / FA Cup
 championship
 mls
 bundesliga
@@ -17,32 +23,45 @@ serie A
 champions league
 europa league
 Liga España
-spl
+spl / SFA Cup
 
+gridiron
+--------
 nfl
 ncaa football
 
+basketball
+----------
 nba
 ncaa basketball
+nbl
+euro league
 
-nhl LOL
+nhl
 
 mlb
 
 AFL
 sanfl
 
+motor
+---------
 F1
 nascar
 indycar
-v8s
+v8
 
+rugby
+------
 NRL
 super 16
+
 le tour
 
+cricket
+-------
 bbl
 ipl
 test matches
 one dayers
-
+t20 international
