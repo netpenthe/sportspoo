@@ -7,6 +7,8 @@ Sportspoo::Application.config.session_store :cookie_store, key: '_sportspoo_sess
 # (create the session table with "rails generate session_migration")
 # Sportspoo::Application.config.session_store :active_record_store
 
-puts "initialise happy mappers betradar and pinnacle"
+puts "initialise happy mappers betradar, betfair and pinnacle"
+
 require "#{Rails.root}/lib/betradar.rb"
 require "#{Rails.root}/lib/pinnacle.rb"
+require "#{Rails.root}/lib/betfair.rb"
