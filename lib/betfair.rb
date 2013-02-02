@@ -2,6 +2,12 @@ require 'happymapper'
 
 module BetFair
 
+  class Betfair
+    include HappyMapper
+    tag "betfair"
+    attribute "sport", String
+  end
+
   class Selection
     include HappyMapper
     tag "selection"
@@ -13,7 +19,7 @@ module BetFair
     tag "subevent"
     has_many :selections, Selection
     attribute "time", String
-    attribute "betfair_id", String
+    attribute "betfair_id", String, :tag=>"id"
     attribute "title", String
   end
 
