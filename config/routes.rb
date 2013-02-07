@@ -20,6 +20,7 @@ Sportspoo::Application.routes.draw do
   match '/u/:username' => 'front#list'
 
   match '/country/leagues/:country' => 'countries#leagues' 
+  match '/country/events/:country' => 'countries#events' 
 
   match '/leagues/all' => 'leagues#all' 
   match '/leagues/country/:country' => 'leagues#country' 
