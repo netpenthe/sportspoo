@@ -34,6 +34,7 @@ include ActionView::Helpers::DateHelper
     h = super(options)
     h[:league] = league.name
     h[:time_in_words] = distance_of_time_in_words_to_now self.start_date
+    h[:quick_datetime] = self.start_date.strftime('%a%l:%M%P')
     h
   end
 
