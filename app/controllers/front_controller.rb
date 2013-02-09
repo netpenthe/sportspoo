@@ -38,4 +38,9 @@ class FrontController < ApplicationController
                              and start_date > ? and start_date < ?", Time.now,Time.now+3.days]).order("start_date ASC")
   end
 
+  def events
+    @events = Event.where(["start_date > ? and start_date < ?", Time.now,Time.now+3.days]).order("start_date ASC").limit(50)
+  end
+
+
 end
