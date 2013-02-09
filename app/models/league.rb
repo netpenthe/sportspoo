@@ -11,7 +11,6 @@ class League < ActiveRecord::Base
   end
 
   def priority country_id
-    puts "getting priority"
     countryleague = Countryleague.where(["country_id=? and league_id=?",country_id,self.id]).first
     countryleague.priority 
   end
