@@ -9,7 +9,7 @@ $(document).ready(function () {
   // then fill out center menu
 });
 function updateEvents(country) {
-  $.getJSON( '/country/leagues/'+country+'.json',
+  $.getJSON( '/country/events/'+country+'.json',
   { },
   function(events) {
     var start_date_utc, start_date_local;
@@ -27,12 +27,12 @@ function updateEvents(country) {
           }
         }
         //}
-      $.mobile.loading('hide');
+      //$.mobile.loading('hide');
     }); 
 }
 
 function updateTree() {
-  $.getJSON( '/leagues/country/'+country+'.json',
+  $.getJSON( '/country/leagues/'+country+'.json',
   { },
   function(leagues) {
       for (i=0;i<leagues.length;i++) {
