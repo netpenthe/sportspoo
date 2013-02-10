@@ -54,4 +54,8 @@ include ActionView::Helpers::DateHelper
     return distance_of_time_in_words_to_now self.start_date
   end
 
+  def league_name
+    return league.name
+  end
+
 end
