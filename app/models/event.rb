@@ -50,4 +50,8 @@ include ActionView::Helpers::DateHelper
     return "#{home_team.name} vs #{away_team.name}"
   end
 
+  def countdown
+    return distance_of_time_in_words_to_now self.start_date
+  end
+
 end

@@ -33,7 +33,7 @@ class FrontController < ApplicationController
 
      respond_to do |format|
         format.html {} 
-        format.json { render json: @events, :include => [:teams]}
+        format.json { render json: @events, :include => [:teams], :methods=>[:display_name,:countdown]}
      end
     
   end
