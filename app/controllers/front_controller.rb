@@ -30,6 +30,12 @@ class FrontController < ApplicationController
     @events = @league_events + @sport_events + @team_events
 
     @events.sort!{|x,y| x.start_date <=> y.start_date}
+
+     respond_to do |format|
+        format.html {} 
+        format.json { render json: @events, :include => [:teams]}
+     end
+    
   end
   
   def list_username    
