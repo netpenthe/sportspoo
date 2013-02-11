@@ -33,7 +33,7 @@ function updateEvents(country) {
 
 function getEvents(cb,league_id) {
   if (!cb.checked) { // hide all events for this league
-    $('.league_id_'+league_id).fadeOut().remove();
+    $('.league_id_'+league_id).fadeOut(1000);
   } else {
     $.getJSON( '/leagues/events/'+league_id+'.json',
     { },
@@ -61,7 +61,7 @@ function getEvents(cb,league_id) {
          for (var j = $('#list1 li').length-1;j>=0;j--) {
           var list_item = $('#list1 li')[j];
           if (parseInt(list_item.getAttribute("timestamp")) <= timestamp) {
-            $('<li class="ui-li ui-li-static ui-btn-up-c league_id_'+league_id+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + '  vs ' + e.teams[1].name +' </li>').hide().insertAfter($("#list1 li:nth-child("+j+")")).fadeIn(1000);
+            $('<li class="ui-li ui-li-static ui-btn-up-c league_id_'+league_id+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + '  vs ' + e.teams[1].name +' </li>').hide().insertAfter($("#list1 li:nth-child("+j+")")).effect("highlight", {}, 1500);;
             //$("#list1 li:nth-child("+j+")").insertAfter('<li class="ui-li ui-li-static ui-btn-up-c"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' !!!!vs ' + e.teams[1].name +' </li>')
             //$("#list1 li")[j].insertBefore('<li class="ui-li ui-li-static ui-btn-up-c"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' !!!!vs ' + e.teams[1].name +' </li>')
             break;
@@ -85,7 +85,7 @@ function updateTree() {
       } else {
         if (leagues[i].sport != leagues[i-1].sport) {
           if (theres_more) {
-            $('#main_sports_list').append('<li><a href="#" onclick="$(\'.league_id_'+leagues[i-1].sport_id+'\').fadeIn()">show more...</a></li>');
+            $('#main_sports_list').append('<li><a href="#" onclick="$(\'.tree_league_id_'+leagues[i-1].sport_id+'\').fadeIn()">show more...</a></li>');
             theres_more = false;
           }
           $('#main_sports_list').append('</ul>');
@@ -100,7 +100,7 @@ function updateTree() {
           break;
         case 2:
           theres_more = true;
-          $('#main_sports_list').append('<li class="league_hidden league_id_'+leagues[i].sport_id+'">'+leagues[i].name+'22<input type=checkbox id='+leagues[i].sport_id+' onclick="getEvents(this,'+leagues[i].id+')" align=right></li>');
+          $('#main_sports_list').append('<li class="league_hidden tree_league_id_'+leagues[i].sport_id+'">'+leagues[i].name+'22<input type=checkbox id='+leagues[i].sport_id+' onclick="getEvents(this,'+leagues[i].id+')" align=right></li>');
           break;
         default:
           $('#main_sports_list').append('<li>'+leagues[i].name+'<input type=checkbox checked align=right></li>');
