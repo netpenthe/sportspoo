@@ -102,11 +102,11 @@ function updateTree() {
 
       switch (leagues[i].priority) {
         case 1:
-          $('#main_sports_list').append('<li>'+leagues[i].name+'11<input type=checkbox align=right onclick="getEvents(this, '+leagues[i].id+')"></li>');
+          $('#main_sports_list').append('<li>'+leagues[i].name+'<input type=checkbox align=right onclick="getEvents(this, '+leagues[i].id+')"></li>');
           break;
         case 2:
           theres_more = true;
-          $('#main_sports_list').append('<li class="league_hidden tree_league_id_'+leagues[i].sport_id+'">'+leagues[i].name+'22<input type=checkbox id='+leagues[i].sport_id+' onclick="getEvents(this,'+leagues[i].id+')" align=right></li>');
+          $('#main_sports_list').append('<li class="league_hidden tree_league_id_'+leagues[i].sport_id+'">'+leagues[i].name+'<input type=checkbox id='+leagues[i].sport_id+' onclick="getEvents(this,'+leagues[i].id+')" align=right></li>');
           break;
         default:
           $('#main_sports_list').append('<li>'+leagues[i].name+'<input type=checkbox onclick="getEvents(this, '+leagues[i].id+')" checked align=right></li>');
