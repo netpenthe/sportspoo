@@ -38,6 +38,10 @@ function getEvents(cb,league_id) {
     $('.league_id_'+league_id).fadeOut(1000);
     //$('.league_id_'+league_id).remove();
   } else {
+    if ($(".league_id_"+league_id).length > 0) {
+      $('.league_id_'+league_id).show().effect("highlight",{},1500);
+    } else {
+    
     $.getJSON( '/leagues/events/'+league_id+'.json',
     { },
     function(events) {
@@ -76,6 +80,7 @@ function getEvents(cb,league_id) {
         }
       }
     });
+    }
   }
 }
 
