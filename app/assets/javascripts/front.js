@@ -33,7 +33,7 @@ function updateEvents(country) {
 
 function getEvents(cb,league_id) {
   if (!cb.checked) { // hide all events for this league
-    $('.league_id_'+league_id).fadeOut();
+    $('.league_id_'+league_id).fadeOut().remove();
   } else {
     $.getJSON( '/leagues/events/'+league_id+'.json',
     { },
@@ -61,7 +61,7 @@ function getEvents(cb,league_id) {
          for (var j = $('#list1 li').length-1;j>=0;j--) {
           var list_item = $('#list1 li')[j];
           if (parseInt(list_item.getAttribute("timestamp")) <= timestamp) {
-            $('<li class="ui-li ui-li-static ui-btn-up-c league_id_'+league_id+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + '  vs ' + e.teams[1].name +' </li>').insertAfter($("#list1 li:nth-child("+j+")"));
+            $('<li class="ui-li ui-li-static ui-btn-up-c league_id_'+league_id+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + '  vs ' + e.teams[1].name +' </li>').hide().insertAfter($("#list1 li:nth-child("+j+")")).fadeIn(1000);
             //$("#list1 li:nth-child("+j+")").insertAfter('<li class="ui-li ui-li-static ui-btn-up-c"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' !!!!vs ' + e.teams[1].name +' </li>')
             //$("#list1 li")[j].insertBefore('<li class="ui-li ui-li-static ui-btn-up-c"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' !!!!vs ' + e.teams[1].name +' </li>')
             break;
