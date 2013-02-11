@@ -8,6 +8,8 @@ $(document).ready(function () {
 
   // then fill out center menu
 });
+
+
 function updateEvents(country) {
   $.getJSON( '/country/events/'+country+'.json',
   { },
@@ -20,7 +22,7 @@ function updateEvents(country) {
         if (e.teams.length==2) {
           start_date_utc = new Date(e.start_date);
           start_date_local = start_date_utc.toString('ddd hh:mmtt'); 
-          $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' vs ' + e.teams[1].name +' </li>')
+          $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_id_'+e.league_id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' vs ' + e.teams[1].name +' </li>')
           //            $('#events').append(j+"  :"+e.league.name + " - ");  
           //           $('#events').append("  >>"+e.teams[0].name + " vs " + e.teams[1].name );  
           //          $('#events').append(" start: "+e.start_date+"<br />");  
@@ -34,6 +36,7 @@ function updateEvents(country) {
 function getEvents(cb,league_id) {
   if (!cb.checked) { // hide all events for this league
     $('.league_id_'+league_id).fadeOut(1000);
+    //$('.league_id_'+league_id).remove();
   } else {
     $.getJSON( '/leagues/events/'+league_id+'.json',
     { },
@@ -58,10 +61,13 @@ function getEvents(cb,league_id) {
           }
  
         });*/
+        
          for (var j = $('#list1 li').length-1;j>=0;j--) {
           var list_item = $('#list1 li')[j];
           if (parseInt(list_item.getAttribute("timestamp")) <= timestamp) {
-            $('<li class="ui-li ui-li-static ui-btn-up-c league_id_'+league_id+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + '  vs ' + e.teams[1].name +' </li>').hide().insertAfter($("#list1 li:nth-child("+j+")")).effect("highlight", {}, 1500);;
+            var new_event = '<li class="ui-li ui-li-static ui-btn-up-c league_id_'+league_id+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + '  vs ' + e.teams[1].name +' </li>';
+            $(new_event).hide().insertAfter($("#list1 li:nth-child("+j+")")).effect("highlight", {}, 1500);;
+            //$('<li class="ui-li ui-li-static ui-btn-up-c league_id_'+league_id+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + '  vs ' + e.teams[1].name +' </li>').hide().insertAfter($("#list1 li:nth-child("+j+")")).effect("highlight", {}, 1500);;
             //$("#list1 li:nth-child("+j+")").insertAfter('<li class="ui-li ui-li-static ui-btn-up-c"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' !!!!vs ' + e.teams[1].name +' </li>')
             //$("#list1 li")[j].insertBefore('<li class="ui-li ui-li-static ui-btn-up-c"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' !!!!vs ' + e.teams[1].name +' </li>')
             break;
@@ -103,7 +109,7 @@ function updateTree() {
           $('#main_sports_list').append('<li class="league_hidden tree_league_id_'+leagues[i].sport_id+'">'+leagues[i].name+'22<input type=checkbox id='+leagues[i].sport_id+' onclick="getEvents(this,'+leagues[i].id+')" align=right></li>');
           break;
         default:
-          $('#main_sports_list').append('<li>'+leagues[i].name+'<input type=checkbox checked align=right></li>');
+          $('#main_sports_list').append('<li>'+leagues[i].name+'<input type=checkbox onclick="getEvents(this, '+leagues[i].id+')" checked align=right></li>');
           break;
       }
 
