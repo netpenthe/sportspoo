@@ -39,8 +39,6 @@ function locationFound() {
   updateEvents(country);
   updateTree(); 
 
-
-
   //var mins = TimeZoneDetect();
   //var mins = new Date().getTimezoneOffset();
   var mins = TimeZoneDetect();

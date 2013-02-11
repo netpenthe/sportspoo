@@ -24,6 +24,7 @@ Sportspoo::Application.routes.draw do
 
   match '/leagues/all' => 'leagues#all' 
   match '/leagues/country/:country' => 'leagues#country' 
+  match '/leagues/events/:league_id' => 'leagues#events' 
   match '/leagues/:username' => 'leagues#username' 
 
   # Sample of regular route:

@@ -19,6 +19,11 @@ include ActionView::Helpers::DateHelper
   alias_method :xleague, :league
   alias_method :league, :xleague
   
+  #scope :upcoming_events, lab:where=>['start_date > ?', Time.now.utc - 1.hour], :order=>'start_date', :limit=>25
+
+  def self.upcoming_events(league_id)
+    where('start_date > ? and league_id = ?',Time.now,league_id).order("start_date").limit(25)
+  end 
   
   def home_team
     home_teams.first
