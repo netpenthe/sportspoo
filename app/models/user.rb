@@ -12,8 +12,12 @@ class User < ActiveRecord::Base
 
   attr_accessor :login 
 
+
+
   #facebook
   attr_accessible :provider, :uid
+  has_many :user_preferences
+
 
   def self.find_for_database_authentication(warden_conditions)
       conditions = warden_conditions.dup
@@ -51,8 +55,13 @@ class User < ActiveRecord::Base
   end
 
 
-  has_many :leagues, :class_name=>"UserPrefernce", :conditions =>"preference_type='League'"
-  has_many :sports, :class_name=>"UserPrefernce", :conditions =>"preference_type='Sport'"
-  has_many :teams, :class_name=>"UserPrefernce", :conditions =>"preference_type='Team'"
+  has_many :leagues, :class_name=>"UserPreference", :conditions =>"preference_type='League'"
+  has_many :sports, :class_name=>"UserPreference", :conditions =>"preference_type='Sport'"
+  has_many :teams, :class_name=>"UserPreference", :conditions =>"preference_type='Team'"
+
+  def self.upcoming_events(user, limit)
+   # Event.find(:all, :conditions=>['start_date > ? and (league_id = ? OR sport_id = ? OR team_id = ?',Time.now,[user.leagues.map{|l|l.preference_id}.join(",")], [user.sports.map{|l|l.preference_id}.join(",")],[user.teams.map{|l|l.preference_id}.join(",")]],:order=>:start_date,:include=>:event_teams)
+    Event.find(:all, :conditions=>['start_date > ? and start_date < ? and (league_id = ? OR sport_id = ? OR team_id = ?)',Time.now,Time.now+7.days,[user.leagues.map{|l|l.preference_id}.join(",")], [user.sports.map{|l|l.preference_id}.join(",")],[user.teams.map{|l|l.preference_id}.join(",")]],:order=>:start_date,:joins=>"left join event_teams on event_teams.team_id = events.id",:limit=>limit, :include=>[:event_teams, :teams])
+  end
 
 end
