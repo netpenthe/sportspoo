@@ -2,7 +2,9 @@ class UserPreferencesController < ApplicationController
   # GET /user_preferences
   # GET /user_preferences.json
   def index
-    @user_preferences = UserPreference.where(["user_id = ?",current_user.id])
+    #@user_preferences = UserPreference.where(["user_id = ?",current_user.id])
+    @user_preferences = current_user.user_preferences
+
     @leagues = League.order.all
     @sports = Sport.order.all
 
