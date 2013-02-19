@@ -57,7 +57,7 @@ locator.prototype.otherMethod = function () {
 
 locator.prototype.locationFound = function() {
   /* As soon as locationFound, update left and middle columns */
-  this.sports_ui.updateEvents(this.country);
+  this.sports_ui.updateInitialEvents(this.country);
   this.sports_ui.updateTree(this.country); 
 
   //var mins = TimeZoneDetect();
