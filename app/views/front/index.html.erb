@@ -8,12 +8,12 @@
 </div>
 -->
 
-<% if current_user %>
-  <script>
-    var user_events = "hi"; // 
-    var foo = $.parseJSON('<%=Event.upcoming_events_for_user(current_user,10).to_json(:include=>[:teams]).html_safe%>');
-  </script>
-<% end %>
+<script>
+  var mySportsUI = new sports_ui;
+  <% if current_user %>
+    mySportsUI.my_events = $.parseJSON('<%=Event.upcoming_events_for_user(current_user,10).to_json(:include=>[:teams]).html_safe%>');
+  <% end %>
+</script>
 
 <div class="row">
   <div class="span2" style='background-color: #eee'>
