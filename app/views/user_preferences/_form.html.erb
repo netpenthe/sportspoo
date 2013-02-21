@@ -11,18 +11,18 @@
     </div>
   <% end %>
 
-  <%# f.hidden_field :user_id, current_user.id%>
+  <%=hidden_field_tag "user_preference[preference_type]", "Team"%>
 
   <div class="field">
-    <%=f.select(:preference_type, options_for_select(['League', 'Team', 'Sport'], :selected=>1)) %>
+    <%#=f.select(:preference_type, options_for_select(['League', 'Team', 'Sport'], :selected=>1)) %>
   </div>
 
   <div class="field">
-    Selection<br />
-    <%=f.collection_select :preference_id,League.order("name ASC").all,:id,:name %>
+    Select a team to follow<br />
+    <%=f.collection_select :preference_id,Team.order("name ASC").all,:id,:name %>
   </div>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Follow Team" %>
   </div>
 <% end %>
