@@ -1,4 +1,13 @@
 <h3>Sports</h3>
+
+<% if current_user && current_user.teams.length > 0%>
+  <ul id='my_teams'>
+    <% current_user.teams.each_with_index do |team,idx| %>
+      <li><%=team.name%></li>
+    <% end %>
+    
+  </ul>
+<% end %>
 <ul id='main_sports_list'>
 <!--  <li>
   <h5>Football/Soccer</h5>
