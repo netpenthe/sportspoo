@@ -8,60 +8,76 @@ http://affiliate.sportsbet.com.au/XMLFeeds/AussieRules.xml
 http://www.sportingbet.com.au/XMLFeeds/xmlAFLfeed.xml
 
 
-iCal for the leagues
-pinnacle sports bet sites for cricket/tennis and the cups
+football            source
+--------            ------
+a-league            ical
+epl                 ical
+championship        ical
+mls                 ?
+bundesliga          ical
+serie A             ical
+europa league       bet feed
+Liga España         ical
+spl                 ical
 
-
-football
+football cups
 --------
-a-league
-epl / FA Cup
-championship
-mls
-bundesliga
-serie A
-champions league
-europa league
-Liga España
-spl / SFA Cup
+champions league    bet feed
+FA Cup              bet feed
+europa league       bet feed
+
 
 gridiron
 --------
-nfl
-ncaa football
+nfl                 ical
+ncaa football       ical
+
 
 basketball
 ----------
-nba
-ncaa basketball
-nbl
-euro league
+nba                 ical
+ncaa basketball     ical
+march madness       bet feed
+nbl                 bet feed
+euro league         bet feed
+ncaa                ical
 
-nhl
+nhl                 ical per team
 
-mlb
+mlb                 ical per team
 
-AFL
-sanfl
+aussie rules
+-------
+AFL                 ical
+sanfl               by hand
 
 motor
 ---------
-F1
-nascar
-indycar
-v8
+F1                  ical
+nascar              ?
+indycar             ?
+v8                  ?
+motogp              ?
 
 rugby
 ------
-NRL
-super 16
+NRL                 ical
+super 16            ?
 
 le tour
 
 cricket
 -------
-bbl
-ipl
-test matches
-one dayers
-t20 international
+bbl                 ?
+ipl                 ?
+test matches        ?
+one dayers          bet feed
+t20 international   bet feed
+
+tennis
+------
+all major           bet feed
+
+cycling
+-------
+le tour             ical/manual
