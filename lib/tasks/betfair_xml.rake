@@ -33,17 +33,36 @@ namespace :betfair_xml do
           puts "Event date: #{event.date}"
           puts "Event time: #{sub.time}"
 
-          #event = Event.find_or_create(:key=>"Betfair", :id=>sub.betfair_id)
+          evnt = nil
+
+          external_event = ExternalEvent.where(:site=>"BetfairXML", :external_key=>sub.betfair_id).first
+          
+          if external_event.blank?
+            puts "creating"
+            evnt = Event.create(:sport_id=>sport.id,:league_id=>league.id,:start_date=>"#{event.date} #{sub.time}")
+            ExternalEvent.create(:site=>"BetfairXML", :external_key=>sub.betfair_id, :event_id=>evnt.id)
+          else
+            puts "updating"
+            #Event.update_attributes
+          end
 
           puts "Participants:"
+          
           sub.selections.each do |selection|
             puts " " + selection.name
+            #team = Team.find_or_create_by_name(selection.name)
+            #et = EventTeam.create(event.id,team.id)
           end
+          
           puts "------------"
+          
         end
+
       end
+
     end
 
   end
+
 
 end
