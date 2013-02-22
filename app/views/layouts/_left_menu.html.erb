@@ -1,13 +1,12 @@
-<h3>Sports</h3>
-
 <% if current_user && current_user.teams.length > 0%>
+  <h3>My Teams</h3>
   <ul id='my_teams'>
     <% current_user.teams.each_with_index do |team,idx| %>
-      <li><%=team.name%></li>
+      <li><%=team.name%><input type="checkbox" align="right" onclick="mySportsUI.getEvents(this, 2)"></li>
     <% end %>
-    
   </ul>
 <% end %>
+<h3>Sports</h3>
 <ul id='main_sports_list'>
 <!--  <li>
   <h5>Football/Soccer</h5>

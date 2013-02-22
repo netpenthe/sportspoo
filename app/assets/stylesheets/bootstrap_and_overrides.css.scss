@@ -7,8 +7,8 @@ body { padding-top: 60px; }
 .navbar .nav{float:right}
 
 #main_title { font-size: 235%; font-weight: 500; font-family: serif; color:#fff;float:left;padding-top:10px}
-#main_sports_list {list-style-type:none;margin-left:5px}
-#main_sports_list li {margin-left:10px; list-style-type:none;width:120px}
+#main_sports_list, #my_teams  {list-style-type:none;margin-left:5px}
+#main_sports_list li, #my_teams li {margin-left:10px; list-style-type:none;width:120px}
 #main_sports_list li input {float:right}
 ul li {margin: 0 0 0 0}
 #main_sports_list ul {margin: 0 0 0 9px}
