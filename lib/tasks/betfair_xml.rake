@@ -6,9 +6,9 @@ namespace :betfair_xml do
   task :basketball => :environment do
     
     puts "getting data from http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=7522&SportName=Basketball&Type=BL"
-    #file = open("http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=7522&SportName=Basketball&Type=BL")
+    file = open("http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=7522&SportName=Basketball&Type=BL")
 
-    file = File.open("data/betfair-basketball.xml", "rb")
+    #file = File.open("data/betfair-basketball.xml", "rb")
 
     file_contents = file.read
     
@@ -38,23 +38,31 @@ namespace :betfair_xml do
           external_event = ExternalEvent.where(:site=>"BetfairXML", :external_key=>sub.betfair_id).first
           
           if external_event.blank?
+            
             puts "creating"
             evnt = Event.create(:sport_id=>sport.id,:league_id=>league.id,:start_date=>"#{event.date} #{sub.time}")
             ExternalEvent.create(:site=>"BetfairXML", :external_key=>sub.betfair_id, :event_id=>evnt.id)
+
+            puts "Participants:"
+
+            puts " " + sub.selections[0].name
+            home_team = Team.where(:name=>sub.selections[0].name).first
+            home_team = Team.create(:name=>sub.selections[0].name,:sport_id=>sport.id) if home_team.blank?
+
+            puts " " + sub.selections[1].name
+            away_team = Team.where(:name=>sub.selections[1].name).first
+            away_team = Team.create(:name=>sub.selections[1].name,:sport_id=>sport.id) if away_team.blank?
+
+            EventTeam.create(:event_id=>evnt.id,:team_id=>home_team.id, :location_type_id=>1)
+            EventTeam.create(:event_id=>evnt.id,:team_id=>away_team.id, :location_type_id=>2)
+
+            puts "------------"
+
           else
             puts "updating"
+            evnt = external_event.event
             #Event.update_attributes
           end
-
-          puts "Participants:"
-          
-          sub.selections.each do |selection|
-            puts " " + selection.name
-            #team = Team.find_or_create_by_name(selection.name)
-            #et = EventTeam.create(event.id,team.id)
-          end
-          
-          puts "------------"
           
         end
 
