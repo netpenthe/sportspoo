@@ -84,6 +84,11 @@ namespace :pinnacle do
         team1 = nil
         team2 = nil
 
+        event.sporttype = "Football" if event.league == "Eng. FA Cup"
+
+        sport = Sport.first :conditions=>["name = ?", event.sporttype]
+        sport = Sport.create(:name=>event.sporttype)  if  sport.blank?
+
         event.participants.each do |team|
             break if team.participant_name.include?("Sets)")
             break if team.participant_name.include?("Draw")
@@ -92,17 +97,12 @@ namespace :pinnacle do
 
             if team.visiting_home_draw == "Home"
                team1 = Team.first :conditions=>["name = ?", team.participant_name]
-               team1 = Team.create(:name=>team.participant_name) if team1.blank?
+               team1 = Team.create(:name=>team.participant_name, :sport_id=>sport.id) if team1.blank?
             elsif team.visiting_home_draw != "Draw"
                team2 = Team.first :conditions=>["name = ?", team.participant_name]
-               team2 = Team.create(:name=>team.participant_name) if team2.blank?
+               team2 = Team.create(:name=>team.participant_name, :sport_id=>sport.id) if team2.blank?
             end
         end
-
-        event.sporttype = "Football" if event.league == "Eng. FA Cup"
-
-        sport = Sport.first :conditions=>["name = ?", event.sporttype]
-        sport = Sport.create(:name=>event.sporttype)  if  sport.blank?
 
         league = League.first :conditions=>["name = ?", event.league]
         league = League.create(:name=>event.league,:sport_id=>sport.id) if league.blank?
