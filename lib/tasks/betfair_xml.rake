@@ -3,6 +3,56 @@ require 'open-uri'
 
 namespace :betfair_xml do
 
+  
+  task :footballcups => :environment do
+    
+    puts "getting data from http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=7522&SportName=Basketball&Type=BL"
+    #file = open("http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=1&SportName=Soccer&Type=B",
+    #        "User-Agent" => "Mozilla/5.0 (Windows; U; Windows NT 5.1; id) AppleWebKit/522.11.3 (KHTML, like Gecko) Version/3.0 Safari/522.11.3")
+    
+    file = open("data/betfair-soccer.xml","rb")
+
+    file_contents = file.read
+    file_contents.gsub!("version=\"1.0\""," version=\"1.0\" encoding=\"ISO-8859-1\"")
+
+    betfair = BetFair::Betfair.parse file_contents
+    data = BetFair::Event.parse file_contents
+
+    # English Soccer/FA Cup/Fixtures 27 February/Middlesbrough v Chelsea" date="27/02/2013"
+
+    data.each do |event|
+      event.sub_events.each do |sub|
+        if sub.title=="DRAW NO BET"
+
+          parts = event.name.split("/")
+
+          evnt = {}
+          evnt[:sport_name] = "Football"
+          evnt[:league_name] = parts[1].chomp
+          evnt[:site] = "BetfairXML"
+          evnt[:external_key] = sub.betfair_id
+          evnt[:start_date] = "#{event.date} #{sub.time}"
+          evnt[:end_date] = ""
+          evnt[:home_team_first] = true
+          evnt[:teams] = []
+          sub.selections.each do |selection|
+             evnt[:teams] << selection.name
+          end
+
+          create_or_update_event(evnt) if evnt[:league_name].include?("FA Cup") || evnt[:league_name].include?("Scottish Cup") || evnt[:league_name].include?("Spanish Cup")
+          
+        end
+
+      end
+
+    end
+
+  end
+ 
+
+
+
+
   task :basketball => :environment do
     
     puts "getting data from http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=7522&SportName=Basketball&Type=BL"
