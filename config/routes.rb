@@ -22,6 +22,9 @@ Sportspoo::Application.routes.draw do
   match '/country/leagues/:country' => 'countries#leagues' 
   match '/country/events/:country' => 'countries#events' 
 
+  match '/front/user_events(/:num_events)' => 'front#user_events' 
+  match '/front/user_events_by_team/:team_id(/:num_events)' => 'front#user_events_by_team' 
+
   match '/leagues/all' => 'leagues#all' 
   match '/leagues/country/:country' => 'leagues#country' 
   match '/leagues/events/:league_id' => 'leagues#events' 
