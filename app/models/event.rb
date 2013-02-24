@@ -32,11 +32,13 @@ include ActionView::Helpers::DateHelper
     #Event.find(:all, :conditions=>['start_date > ? and start_date < ? and (league_id = ? OR sport_id = ? OR team_id = ?)',Time.now,Time.now+7.days,[user.leagues.map{|l|l.preference_id}.join(",")], [user.sports.map{|l|l.preference_id}.join(",")],[user.teams.map{|l|l.preference_id}.join(",")]],:order=>:start_date,:joins=>"left join event_teams on event_teams.team_id = events.id",:limit=>limit, :include=>[:event_teams, :teams])
   end
 
+  def self.upcoming_events_for_user_by_team(user, team_id, limit)
+    where('start_date > ? and start_date < ? and team_id = ?',Time.now,Time.now+7.days,team_id).joins('left join event_teams on event_teams.event_id = events.id').order("start_date").limit(25)
+  end
   
   def home_team
     home_teams.first
   end
-
 
   def away_team
     away_teams.first

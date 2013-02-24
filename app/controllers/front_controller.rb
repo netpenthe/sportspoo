@@ -48,5 +48,33 @@ class FrontController < ApplicationController
     @events = Event.where(["start_date > ? and start_date < ?", Time.now,Time.now+3.days]).order("start_date ASC").limit(50)
   end
 
+  def user_events
+     num_events = params[:num_events] || 10
+     if current_user
+       events = Event.upcoming_events_for_user(current_user,num_events)
+      else 
+        events = []
+      end 
+     respond_to do |format|
+        #format.json { render json: @country.upcoming_events, :include => [:teams], :methods=>[:display_name,:countdown, :league_name]}
+        format.json { render json: events, :include => [:teams], :methods=>[:display_name, :countdown, :league_name]}
+     end
+  end
+
+  def user_events_by_team
+     team_id = params[:team_id].to_i
+     num_events = params[:num_events] || 10
+     if current_user && team_id
+       events = Event.upcoming_events_for_user_by_team(current_user,team_id,num_events)
+      else 
+        events = []
+      end 
+     respond_to do |format|
+        #format.json { render json: @country.upcoming_events, :include => [:teams], :methods=>[:display_name,:countdown, :league_name]}
+        format.json { render json: events, :include => [:teams], :methods=>[:display_name, :countdown, :league_name]}
+     end
+  end
+
+
 
 end

@@ -30,6 +30,7 @@ $(document).ready(function () {
 var sports_ui = function() {
   this.leagues_jsons = {},
   this.my_events = {}
+  this.league_ids = [];
 };
 
 /* updateInitialEvents() is only called the first time a page is loaded, note it processes 'my_events' at the end */
@@ -39,24 +40,18 @@ sports_ui.prototype.updateInitialEvents = function(country) {
   $.getJSON( '/country/events/'+country+'.json?'+now.toString(),
       { },
       function(events) {
-      var start_date_utc, start_date_local;
-      //for (i=0;i<leagues.length;i++) {
-      // l =  leagues[i];
-      for (j=0;j<events.length;j++) {
-      e = events[j];
-      if (e.teams.length==2) {
-      start_date_utc = new Date(e.start_date);
-      start_date_local = start_date_utc.toString('ddd hh:mmtt'); 
-      $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_id_'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' vs ' + e.teams[1].name +' </li>')
-      //            $('#events').append(j+"  :"+e.league.name + " - ");  
-      //           $('#events').append("  >>"+e.teams[0].name + " vs " + e.teams[1].name );  
-      //          $('#events').append(" start: "+e.start_date+"<br />");  
-      }
-      }
-      me.removeEvents(me.my_events);
-      me.displayEventsForLeague(me.my_events,"my_events");
-      //}
-      //$.mobile.loading('hide');
+        var start_date_utc, start_date_local;
+        for (j=0;j<events.length;j++) {
+          e = events[j];
+          me.league_ids.push(parseInt(e.league_id));
+          if (e.teams.length==2) {
+            start_date_utc = new Date(e.start_date);
+            start_date_local = start_date_utc.toString('ddd hh:mmtt'); 
+            $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' vs ' + e.teams[1].name +' </li>')
+          }
+        }
+        //me.removeEvents(me.my_events);
+        me.displayEventsForLeague(me.my_events,"my_events");
   }); 
 };
 sports_ui.prototype.removeEvents =  function(events) {
@@ -64,9 +59,11 @@ sports_ui.prototype.removeEvents =  function(events) {
     $('li[event_id="'+events[i].id+'"]').remove();
   }
 }
+
 sports_ui.prototype.displayEventsForLeague =  function(events,custom_class) {
+  this.removeEvents(events);
   // cache it if it hasn't been cahsed before
-  if (events.length > 0) {
+  if (events.length > 0 && custom_class !== "my_events") {
     if (!this.leagues_jsons.hasOwnProperty("L"+events[0].league_id)) {
       this.leagues_jsons["L"+events[0].league_id] = events;
     }
@@ -94,7 +91,7 @@ sports_ui.prototype.displayEventsForLeague =  function(events,custom_class) {
       });*/
 
       var new_event;
-      new_event = '<li class="ui-li ui-li-static ui-btn-up-c league_id_'+e.league_id+' '+custom_class+'" event_id='+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + '  vs ' + e.teams[1].name +' </li>';
+      new_event = '<li class="ui-li ui-li-static ui-btn-up-c league_id_'+e.league_id+' '+custom_class+' T'+e.teams[0].id+' T'+e.teams[1].id+'" league_id="'+e.league_id+'" event_id='+e.id+' timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + '  vs ' + e.teams[1].name +' </li>';
 
       if ($('#list1 li').length ==0) {
         //$(new_event).hide().append($("#list1")).effect("highlight", {}, 1500);;
@@ -102,6 +99,7 @@ sports_ui.prototype.displayEventsForLeague =  function(events,custom_class) {
       } else {
       for (var j = $('#list1 li').length-1;j>=0;j--) {
         var list_item = $('#list1 li')[j];
+            j 
         if (parseInt(list_item.getAttribute("timestamp")) <= timestamp) {
           //new_event = '<li class="ui-li ui-li-static ui-btn-up-c league_id_'+e.league_id+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + '  vs ' + e.teams[1].name +' </li>';
     
@@ -119,9 +117,14 @@ sports_ui.prototype.displayEventsForLeague =  function(events,custom_class) {
 }
 
 sports_ui.prototype.getEvents = function(cb,league_id) {
-      var me = this;
+  var me = this;
+  if (this.league_ids.indexOf(league_id) <= -1) {
+    this.league_ids.push(parseInt(league_id));
+  }
+
   if (!cb.checked) { // hide all events for this league
     $('.league_id_'+league_id).fadeOut(1000);
+alert("this has to be smarter.. the next remove line has to do an AND on 'MyTeams'");
     setTimeout(function(){$('.league_id_'+league_id).remove()}, 1000);
   } else {
     if (this.leagues_jsons.hasOwnProperty("L"+league_id)) {
@@ -186,4 +189,26 @@ sports_ui.prototype.localize = function(t)
 {
   var d=new Date(t+" UTC");
   document.write(d.toString());
+}
+
+// The user clicked a "My Teams" checkbox
+sports_ui.prototype.clickMyTeam = function(team) {
+  var me = this;
+  team_id = team.getAttribute("team_id");
+  if (team.checked) {
+    var now = new Date();
+    $.getJSON("/front/user_events_by_team/"+team_id+"/10.json?"+now.toString(),
+        { },
+        function(events) {
+          me.displayEventsForLeague(events,"my_events");
+    }); 
+  } else {
+    $('.T'+team_id).each(function() {
+      $(this).removeClass("my_events");
+      if (me.league_ids.indexOf(parseInt($(this).attr("league_id"))) <= -1)
+      {
+        $(this).remove();
+      }
+    });
+  }
 }

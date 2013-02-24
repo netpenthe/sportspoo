@@ -2,8 +2,8 @@
 
 <!--
 <div class="hero-unit">
-  <h1>Nai's List</h1>
-  <p>Choose your favourite sports leagues and teams. See a list of upcoming games ... enough said.</p>
+  <h4>Nai's List</h1>
+  <p>Choose your favourite sports leagues and teams. See a list of upcoming games ... enough said.</p>n
   <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
 </div>
 -->
@@ -11,7 +11,7 @@
 <script>
   var mySportsUI = new sports_ui;
   <% if current_user %>
-    mySportsUI.my_events = $.parseJSON('<%=Event.upcoming_events_for_user(current_user,10).to_json(:include=>[:teams]).html_safe%>');
+    mySportsUI.my_events = $.parseJSON('<%=Event.upcoming_events_for_user(current_user,20).to_json(:include=>[:teams]).html_safe%>');
   <% end %>
 </script>
 
