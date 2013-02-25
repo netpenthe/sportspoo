@@ -12,6 +12,7 @@
   var mySportsUI = new sports_ui;
   <% if current_user %>
     mySportsUI.my_events = $.parseJSON('<%=Event.upcoming_events_for_user(current_user,20).to_json(:include=>[:teams]).html_safe%>');
+    mySportsUI.my_teams = [<%=current_user.teams.map{|t| t.preference_id}.join(',')%>];
   <% end %>
 </script>
 
