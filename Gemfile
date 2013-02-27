@@ -1,5 +1,7 @@
 source 'http://rubygems.org'
 
+gem 'acts-as-taggable-on', '~> 2.3.1'
+
 gem 'rails', '3.2.9'
 
 gem 'jquery_mobile_rails'
