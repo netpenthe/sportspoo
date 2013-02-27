@@ -4,7 +4,8 @@ ActiveAdmin.register Sport do
     selectable_column
     id_column
     column :name
-    column :all_names
+    column :shortname_list
+    column :nickname_list
     default_actions
   end
 
