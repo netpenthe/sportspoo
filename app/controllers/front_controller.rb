@@ -66,6 +66,7 @@ class FrontController < ApplicationController
      num_events = params[:num_events] || 10
      if current_user && team_id
        events = Event.upcoming_events_for_user_by_team(current_user,team_id,num_events)
+       UserPreference.find_or_create_by_user_id_and_preference_type_and_preference_id(current_user.id,"Team",team_id)
       else 
         events = []
       end 
@@ -75,6 +76,12 @@ class FrontController < ApplicationController
      end
   end
 
-
+  def search_teams
+    s=params[:search]
+    teams = Team.find(:all,:limit=>10,:conditions=>["(name like ?)","%#{s}%"])
+    respond_to do |format|
+        format.json { render json: teams, :include => [:sport], :methods=>[:display_name, :countdown, :league_name]}
+    end
+  end
 
 end
