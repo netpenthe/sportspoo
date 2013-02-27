@@ -30,6 +30,8 @@ Sportspoo::Application.routes.draw do
   match '/leagues/events/:league_id' => 'leagues#events' 
   match '/leagues/:username' => 'leagues#username' 
 
+  match '/search_teams/results' => 'front#search_teams'
+
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action

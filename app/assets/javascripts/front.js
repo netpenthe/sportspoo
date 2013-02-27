@@ -223,3 +223,8 @@ sports_ui.prototype.clickMyTeam = function(team) {
     });
   }
 }
+
+sports_ui.prototype.addMyTeam = function(team_name,team_id) {
+  $('#my_teams').append("<li>"+team_name+'<input id="my_teams_T'+team_id+'" type="checkbox" align="right" onclick="mySportsUI.clickMyTeam(this)" team_id="'+team_id+'" checked="checked"></li>');
+  this.clickMyTeam(document.getElementById('my_teams_T'+team_id)); 
+}
