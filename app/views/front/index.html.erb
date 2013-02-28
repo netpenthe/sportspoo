@@ -23,6 +23,16 @@
     </div>
   </div>
   <div class="span7">
+     <div class="modal hide" id="signupmodal">
+         <%= render :template => "devise/registrations/new" %>
+      </div>
+
+
+     <div class="modal hide" id="forgotpasswordmodal">
+         <%= render :template => "devise/passwords/new" %>
+      </div>
+
+
     <%=render "layouts/main"%>
   </div>
   <div class="span3" style='background-color: #eee;'>
