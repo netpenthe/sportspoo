@@ -78,7 +78,8 @@ class FrontController < ApplicationController
 
   def search_teams
     s=params[:search]
-    teams = Team.find(:all,:limit=>10,:conditions=>["(name like ?)","%#{s}%"])
+    #teams = Team.find(:all,:limit=>10,:conditions=>["(name like ?)","%#{s}%"])
+    teams = Team.search_name_and_tags(s,15)
     respond_to do |format|
         format.json { render json: teams, :include => [:sport], :methods=>[:display_name, :countdown, :league_name]}
     end
