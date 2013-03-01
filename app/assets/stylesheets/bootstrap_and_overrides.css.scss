@@ -21,3 +21,7 @@ h3 {padding-left:5px}
 .my_events {background-color: pink}
 
 #user_login_header a:visited, #user_login_header a { color: #fff;text-align:right}
+
+.modal-open .modal,.btn:focus{
+    outline:none!important
+}
