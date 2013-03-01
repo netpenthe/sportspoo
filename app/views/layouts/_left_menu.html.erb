@@ -1,52 +1,15 @@
-<% if current_user && current_user.teams.length > 0%>
-  <h3>My Teams</h3>
+  <% if current_user && current_user.teams.length > 0%>
+    <h3 id='my_teams_label' >My Teams</h3>
+  <% else %>
+    <h3 id='my_teams_label' style='display:none'>My Teams</h3>
+  <% end %>
   <ul id='my_teams'>
-    <% current_user.teams.sort!{|a,b| a.name <=> b.name}.each_with_index do |team,idx| %>
-      <li><%=team.name%><input id='my_teams_T<%=team.preference_id%>' type="checkbox" align="right" onclick="mySportsUI.clickMyTeam(this)" team_id='<%=team.preference_id%>' checked='checked'></li>
-    <% end %>
-  </ul>
-  <input id="searchterm" type="text" style='width:145px;' placeholder='Find more teams!'/> 
-  <script type="text/javascript">// <![CDATA[
-
-      
-      $("#searchterm").keyup(function(e){
-        var q = $("#searchterm").val();
-        $.getJSON("/search_teams/results.json",
-        {
-          search: q,
-        },
-        function(data) {
-          $("#results").empty();
-          $("#results").append(" Results for <b>" + q + "</b><div style='float:right;cursor: hand; cursor: pointer;' onclick=\"$('#results_wrapper').hide()\">[x]</div>");
-          $.each(data, function(i,item){
-            $("#results").append("<div> ["+ item.sport_name + "] "+item.name+"<div style='float:right'><input type='checkbox' onclick='mySportsUI.addMyTeam(\""+item.name+"\","+item.id+")'> </div> ");
-          });
-          $('#results_wrapper').show();
-        });
- 
-        /*
-        $.getJSON("http://en.wikipedia.org/w/api.php?callback=?",
-        {
-          srsearch: q,
-          action: "query",
-          list: "search",
-          format: "json"
-        },
-        function(data) {
-          $("#results").empty();
-          $("#results").append(" Results for <b>" + q + "</b>");
-          $.each(data.query.search, function(i,item){
-            $("#results").append("<div><a href='http://en.wikipedia.org/wiki/" + encodeURIComponent(item.title) + "'>" + item.title + "</a>" + item.snippet + "</div> ");
-          });
-        });
-        */
-      });
- 
-// ]]></script> 
-<div id='results_wrapper' style='display:none'>
-<div id='results' style='position:absolute;background-color:#fff;z-index:9999'>Results: </div>
-</div>
+    <% if current_user && current_user.teams.length > 0%>
+      <% current_user.teams.sort!{|a,b| a.name <=> b.name}.each_with_index do |team,idx| %>
+        <li><%=team.name%><input id='my_teams_T<%=team.preference_id%>' type="checkbox" align="right" onclick="mySportsUI.clickMyTeam(this)" team_id='<%=team.preference_id%>' checked='checked'></li>
+      <% end %>
 <% end %>
+  </ul>
 <h3>Sports</h3>
 <ul id='main_sports_list'>
 <!--  <li>
