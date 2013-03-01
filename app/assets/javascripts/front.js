@@ -20,17 +20,23 @@ $(document).ready(function () {
       }
     );
     }
-
-
     // then fill out left menu 
-
     // then fill out center menu
+
+     $('#search_wrapper').mouseover(function() {
+  //     $('#results_wrapper').fadeIn();
+     });
+     $('#results_wrapper').mouseleave(function() {
+       $('#results_wrapper').fadeOut();
+       $('#show_results').show(); 
+     });
     });
 
 var sports_ui = function() {
   this.leagues_jsons = {},
   this.my_events = {}
   this.league_ids = [];
+  this.my_teams = [];
 };
 
 /* updateInitialEvents() is only called the first time a page is loaded, note it processes 'my_events' at the end */
@@ -47,7 +53,7 @@ sports_ui.prototype.updateInitialEvents = function(country) {
           if (e.teams.length==2) {
             start_date_utc = new Date(e.start_date);
             start_date_local = start_date_utc.toString('ddd hh:mmtt'); 
-            $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+'" league_id="'+e.league_id+' T'+e.teams[0].id+' T'+e.teams[1].id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' vs ' + e.teams[1].name +' </li>')
+            $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+' T'+e.teams[0].id+' T'+e.teams[1].id+'" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' vs ' + e.teams[1].name +' </li>')
           }
         }
         //me.removeEvents(me.my_events);
@@ -225,6 +231,13 @@ sports_ui.prototype.clickMyTeam = function(team) {
 }
 
 sports_ui.prototype.addMyTeam = function(team_name,team_id) {
-  $('#my_teams').append("<li>"+team_name+'<input id="my_teams_T'+team_id+'" type="checkbox" align="right" onclick="mySportsUI.clickMyTeam(this)" team_id="'+team_id+'" checked="checked"></li>');
+  if ($('#my_teams_T'+team_id).length === 0) {
+    $('#my_teams').append("<li>"+team_name+'<input id="my_teams_T'+team_id+'" type="checkbox" align="right" style="float:right" onclick="mySportsUI.clickMyTeam(this)" team_id="'+team_id+'" checked="checked"></li>');
+    this.my_teams.push(team_id);
+  } else {
+    $('#my_teams_T'+team_id).parent().effect("highlight", {},1500);
+  }
+  
   this.clickMyTeam(document.getElementById('my_teams_T'+team_id)); 
+  $('#my_teams_label').show();
 }
