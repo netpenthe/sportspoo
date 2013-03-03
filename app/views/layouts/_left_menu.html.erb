@@ -1,7 +1,12 @@
   <% if current_user && current_user.teams.length > 0%>
     <h3 id='my_teams_label' >My Teams</h3>
   <% else %>
-    <h3 id='my_teams_label' style='display:none'>My Teams</h3>
+    <div style='display:none' id='my_teams_label'>
+      <h3 >My Teams</h3>
+      <div style='color:red;padding:5px;background-color:#fdd'>To save your team choices, 
+        <a class="link" data-toggle="modal" tabindex="-1" href="#signupmodal" style='text-decoration:underline'>sign up!</a>
+      </div>
+    </div>
   <% end %>
   <ul id='my_teams'>
     <% if current_user && current_user.teams.length > 0%>

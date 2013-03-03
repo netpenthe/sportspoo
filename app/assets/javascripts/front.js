@@ -1,3 +1,6 @@
+timezoneJS.timezone.zoneFileBasePath = '/assets/tz';
+timezoneJS.timezone.defaultZoneFile = ['asia', 'australasia', 'backward', 'europe','northamerica', 'southamerica'];
+timezoneJS.timezone.init();
 var myLocator;
 //var mySportsUI;
 // This is where all the page initialisation happens.
@@ -7,7 +10,7 @@ $(document).ready(function () {
  //   mySportsUI = new sports_ui;
     //mySportsUI.displayEventsForLeague(mySportsUI.my_events,"my_events");
     myLocator = new locator;
-       myLocator.sports_ui = mySportsUI; 
+    myLocator.sports_ui = mySportsUI; 
     if (navigator.geolocation) { 
       navigator.geolocation.getCurrentPosition(
       function(position) {
@@ -39,6 +42,28 @@ var sports_ui = function() {
   this.my_teams = [];
 };
 
+sports_ui.prototype.change_time_zone = function(tz) {
+  var s = tz.options[tz.selectedIndex];
+  var offset = tz.options[tz.selectedIndex].text.replace(/\(GMT(.*)\) .*$/,"$1");
+
+  var hours = parseInt(offset); 
+  var mins;
+  if (offset.match(/30/)) {
+    hours = hours + 0.5;
+  } 
+
+  var ts;
+  // for each events
+  var me = this;
+  $( "#list1 li" ).each(function( index ) {
+    ts = $(this).attr("timestamp")*1
+    var nd = me.convertTZ2(new Date(ts),hours); 
+    nd = moment(nd).format('ddd h:mma');
+    $(this).children('.ui-li-desc').text(nd); 
+  });
+    // get timestamp
+    // update time
+}
 /* updateInitialEvents() is only called the first time a page is loaded, note it processes 'my_events' at the end */
 sports_ui.prototype.updateInitialEvents = function(country) {
   var now = new Date();
@@ -241,3 +266,23 @@ sports_ui.prototype.addMyTeam = function(team_name,team_id) {
   this.clickMyTeam(document.getElementById('my_teams_T'+team_id)); 
   $('#my_teams_label').show();
 }
+
+sports_ui.prototype.convertTZ = function (d, offset) {
+  // offset is something like Adelaide: +1030, Offset is: -630 (10 hours * 60 minutes = 600 minutes + 30 minutes)
+  var seconds = d.getTime(); // get in milliseconds
+  alert(moment().format("ddd h:mma"));
+}
+
+
+sports_ui.prototype.convertTZ2 = function (timestamp,offset) {
+    var d = new Date(timestamp);
+
+    //Deal with dates in milliseconds for most accuracy
+    var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+    var newDateWithOffset = new Date(utc + (3600000*offset));
+
+    //This will return the date with the locale format (string), or just return newDateWithOffset
+    //and go from there.
+    return newDateWithOffset.toLocaleString();
+}
+
