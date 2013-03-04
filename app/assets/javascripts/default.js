@@ -74,7 +74,7 @@ locator.prototype.locationFound = function() {
     offset = "-"+hours + ":" + minutes;
   }
   offset_dec = hours + minutes/60;
-  this.defaultOffset = offset;
+  this.defaultOffset = offset_dec;
 
   var timezone = jstz.determine();
   var tz = timezone.name(); 
