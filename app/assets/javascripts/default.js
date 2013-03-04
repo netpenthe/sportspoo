@@ -6,6 +6,7 @@ var locator =  function() {
   this.country = "UNITED STATES";
   this.sports_ui = '';
   this.geocoder = new google.maps.Geocoder();
+  this.defaultOffset = 0;
 };
 /* MOVED TO BE ANONYMOUS FUNCTION 
 locator.prototype.successFunction = function(position) {
@@ -66,20 +67,24 @@ locator.prototype.locationFound = function() {
   var hours = Math.abs(Math.round( mins / 60));        
   var minutes = Math.abs(mins % 60);
   var offset;
-
+  var offset_calc;
   if (mins >= 0) {
     offset = "+"+hours + ":" + minutes;
   } else {
     offset = "-"+hours + ":" + minutes;
   }
+  offset_dec = hours + minutes/60;
+  this.defaultOffset = offset;
 
   var timezone = jstz.determine();
   var tz = timezone.name(); 
   DST = this.DSTActive() ? " - Daylight Savings" : "";
+
   $('#location_guess').html("We think you're in "+this.city+" ("+tz+" GMT"+offset+DST+")");
-
   $('#user_time_zone').val(tz.split("/")[1]);
-
+  mySportsUI.change_time_zone(offset); 
+  
+  
   //$('#location_guess').html("Timezone: "+tz+" (GMT"+offset+")");
 
   /*$.getJSON('https://maps.googleapis.com/maps/api/timezone/json?location='+latitude+','+longitude+'&timestamp=1331161200&sensor=false',function(j){
