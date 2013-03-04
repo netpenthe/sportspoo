@@ -85,4 +85,12 @@ class FrontController < ApplicationController
     end
   end
 
+  def get_tz_offset
+    tz = ActiveSupport::TimeZone::MAPPING[params[:tz]]
+    Time.zone=TZInfo::Timezone.get(tz)
+    offset = Time.zone.now.utc_offset/60.0/60.0
+    respond_to do |format|
+      format.text {render :text => offset}
+    end
+  end
 end
