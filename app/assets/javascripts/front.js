@@ -63,7 +63,7 @@ sports_ui.prototype.change_time_zone = function(offset) {
     ts = $(this).attr("timestamp")*1
     var nd = me.convertTZ2(ts,offset); 
     nd = moment(nd).format('ddd h:mma');
-    $(this).children('.ui-li-desc').text(nd); 
+    $(this).children('.ui-li-desc').children('sup').text(nd); 
   });
     // get timestamp
     // update time
@@ -84,7 +84,7 @@ sports_ui.prototype.updateInitialEvents = function(country) {
             //start_date_local = start_date_utc.toString('ddd hh:mmtt'); 
             //start_date_local = moment(start_date_utc).format('ddd h:mma');
             start_date_local = "";
-            $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+' T'+e.teams[0].id+' T'+e.teams[1].id+'" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' vs ' + e.teams[1].name +' </li>')
+            $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+' T'+e.teams[0].id+' T'+e.teams[1].id+'" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup >'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' vs ' + e.teams[1].name +' </li>')
           }
         }
         //me.removeEvents(me.my_events);
