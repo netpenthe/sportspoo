@@ -45,7 +45,17 @@
 <hr>
 
 <footer>
-<p>&copy; DMFour 2013</p>
+<div style='float:left'>
+  <p>&copy; DMFour 2013</p>
+</div>
+<div style='float:right;text-align:right'>
+  <p style='color:#666'>We're showing sports we think you might like, based on your location. </p>
+  <% unless current_user %>
+    <p style='color:#666'>
+    <a class="link" style='text-decoration:underline'  data-toggle="modal" tabindex="-1" href="#signupmodal">Signup</a> or login to setup your faves!
+    </p>
+  <% end %>
+</div>
 </footer>
 
     </div> <!-- /container -->

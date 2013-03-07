@@ -68,10 +68,21 @@ locator.prototype.locationFound = function() {
   var minutes = Math.abs(mins % 60);
   var offset;
   var offset_calc;
+  var offset_no_dst;
   if (mins >= 0) {
     offset = "+"+hours + ":" + minutes;
+    if (this.DSTActive()) {
+      offset_no_dst = "+"+(hours-1)+":"+minutes;   
+    } else {
+      offset_no_dst = offset;
+    }
   } else {
     offset = "-"+hours + ":" + minutes;
+    if (this.DSTActive()) {
+      offset_no_dst = "-"+(hours-1)+":"+minutes;   
+    } else {
+      offset_no_dst = offset;
+    }
   }
   offset_dec = hours + minutes/60;
   this.defaultOffset = offset_dec;
@@ -80,7 +91,10 @@ locator.prototype.locationFound = function() {
   var tz = timezone.name(); 
   DST = this.DSTActive() ? " - Daylight Savings" : "";
 
-  $('#location_guess').html("We think you're in "+this.city+" ("+tz+" GMT"+offset+DST+")");
+  
+
+ // $('#location_guess').html("We think you're in "+this.city+" ("+tz+" GMT"+offset+DST+")");
+  this.sports_ui.set_tz_selector(tz.substring(tz.indexOf("/")+1), offset_no_dst);
   $('#user_time_zone').val(tz.split("/")[1]);
   mySportsUI.change_time_zone(offset); 
   
