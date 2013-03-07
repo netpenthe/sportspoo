@@ -26,14 +26,4 @@
     $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
   });
 </script> 
-<h3>Where?</h3>
-<p>Timezone 
-<%=time_zone_select( "user", "time_zone_name", nil, {:include_blank => true},{:onchange=>'mySportsUI.change_time_zone_select(this)', :id=>'boo'})%>
-<%#=time_zone_select( "user", "time_zone_name", TZInfo::Timezone.all.sort,:model=>TZInfo::Timezone})%>
-<%#=time_zone_select( "user", "time_zone_name", nil,:model=>TZInfo::Timezone)%>
-<p style='font-size:10px;color:#888' id='location_guess'>Locating you..</p>
-<p>We're showing sports we think you might like.</p>
-
-<p> Sign up/Login to set up your own selection</p>
-
 

@@ -294,3 +294,20 @@ sports_ui.prototype.convertTZ2 = function (timestamp,offset) {
     return newDateWithOffset.toLocaleString();
 }
 
+sports_ui.prototype.set_tz_selector = function (city,offset_no_dst) {
+  $('#tz_selector').val(city);
+  if ($('#tz_selector').val() == city) {
+    // city was succesffully selected
+    return;
+  }
+  // do a search for it
+  $.each($('#tz_selector option:contains('+offset_no_dst+')'), function(i,val) {
+    // bugger it, for now just return the first one :)
+    $('#tz_selector').val($(this).val);
+    return;
+  });
+
+
+}
+
+
