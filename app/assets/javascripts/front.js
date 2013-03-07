@@ -55,8 +55,9 @@ sports_ui.prototype.change_time_zone_select = function(tz) {
 }
 
   // NOTE: offset is 10.5 NOT 1030
-sports_ui.prototype.change_time_zone = function(offset) {
+sports_ui.prototype.change_time_zone = function(offset,highlight) {
   var ts;
+  var highlight = typeof highlight !== 'undefined' ? highlight : true;
   // for each events
   var me = this;
   $( "#list1 li" ).each(function( index ) {
@@ -64,6 +65,9 @@ sports_ui.prototype.change_time_zone = function(offset) {
     var nd = me.convertTZ2(ts,offset); 
     nd = moment(nd).format('ddd h:mma');
     $(this).children('.ui-li-desc').children('sup').text(nd); 
+    if (highlight) { 
+      $(this).children('.ui-li-desc').children('sup').effect("highlight", {},500); 
+    }
   });
     // get timestamp
     // update time
@@ -89,7 +93,7 @@ sports_ui.prototype.updateInitialEvents = function(country) {
         }
         //me.removeEvents(me.my_events);
         me.displayEventsForLeague(me.my_events,"my_events");
-        me.change_time_zone(myLocator.defaultOffset);
+        me.change_time_zone(myLocator.defaultOffset, false);
   }); 
 };
 sports_ui.prototype.removeEvents =  function(events) {
