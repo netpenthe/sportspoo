@@ -18,13 +18,9 @@
 
   <% else %>
 
-    <li>
-       <a class="link" data-toggle="modal" tabindex="-1" href="#signupmodal" >Sign Up Modal</a>
-    </li>
-
-    <li>
-       <a class="link" data-toggle="modal" tabindex="-1" href="#forgotpasswordmodal" >Forgot Pwd Modal</a>
-    </li>
+    <!--<li>
+       <a class="btn btn-primary" data-toggle="modal" tabindex="-1" href="#forgotpasswordmodal" >Forgot Pwd</a>
+    </li>-->
 
     <!--<li>
       <%# link_to('Sign up', new_user_registration_path)  %>
@@ -47,15 +43,23 @@
               <input class="span2" type="password" placeholder="Password">
               <button type="submit" class="btn">Sign in</button>
       </form>-->
-  <%= form_for("user", :url => user_session_path, :html=>{:style=>'margin: 0; padding:0',:id=>'user_login_header'}) do |f| %>
+  <%= form_for("user", :url => user_session_path, :html=>{:style=>'margin: 0; padding:0',:id=>'user_login_header',:class=>'navbar-form pull-right'}) do |f| %>
   <%= f.text_field :email,  :placeholder=>"email",:size => 20 %>
   <%= f.password_field :password,:size=>20, :placeholder=>"password" %>
   <%= f.hidden_field :remember_me,:value=>:true %>
-  <%= f.submit 'Sign in' %>
+  <%= f.submit 'Sign in', :class=>'btn btn-primary'%>
   <br />
   <%# link_to "Forgot your password?", new_password_path('user'), :style=>'float: right' %>
 <% end %>
     </li>
+ 
+    <li>
+       <!--<a class="bth btn-primary pull-right" style="float:right" data-toggle="modal" tabindex="-1" href="#signupmodal" >Sign Up</a>-->
+       <form action="#signupmodal" style='display: inline'>
+         <input class='btn btn-primary' type="submit" value="Join">
+       </form>
+    </li>
+
 
   <% end %>
 
