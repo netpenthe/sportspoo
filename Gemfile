@@ -12,6 +12,7 @@ gem 'ri_cal'
 
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'omniauth-twitter' 
 
 gem 'activeadmin'
 gem 'paperclip'
