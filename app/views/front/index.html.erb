@@ -12,8 +12,20 @@
 <script>
   var mySportsUI = new sports_ui;
   <% if current_user %>
-    mySportsUI.my_events = $.parseJSON('<%=Event.upcoming_events_for_user(current_user,20).to_json(:include=>[:teams]).html_safe%>');
-    mySportsUI.my_teams = [<%=current_user.teams.map{|t| t.preference_id}.join(',')%>];
+
+    <% @myevents = nil %>
+    <% cache "events.user.#{current_user.id}" do %>
+        <%@myevents = Event.upcoming_events_for_user(current_user,20).to_json(:include=>[:teams]).html_safe %>
+    <% end %>
+
+    mySportsUI.my_events = $.parseJSON('<%=@myevents%>');
+
+    <% @myteams = nil %>
+    <% cache "teams.user.#{current_user.id}" do %>
+        <%@myteams = current_user.teams.map{|t| t.preference_id}.join(',') %>
+    <% end %>
+      
+    mySportsUI.my_teams = [<%=@myteams%>];
   <% end %>
 </script>
 
