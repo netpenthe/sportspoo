@@ -4,7 +4,7 @@
     <input id="searchterm" type="text" style='width:345px;' placeholder='Search for upcoming games for your sport teams!'/> 
   </div>
   <div style='float:right;display:none;font-size:9px;color:#333;margin-top:25px' id='show_results'><a href='#' onclick="$('#results_wrapper').fadeToggle()">toggle results&raquo;</a></div>
-  <%=time_zone_select( "user", "time_zone_name", nil, {:include_blank => true},{:onchange=>'mySportsUI.change_time_zone_select(this)',:style=>'float:right', :id=>'tz_selector'})%>
+  <%#time_zone_select( "user", "time_zone_name", nil, {:include_blank => true},{:onchange=>'mySportsUI.change_time_zone_select(this)',:style=>'float:right', :id=>'tz_selector'})%>
   <%#=time_zone_select( "user", "time_zone_name", TZInfo::Timezone.all.sort,:model=>TZInfo::Timezone})%>
   <%#=time_zone_select( "user", "time_zone_name", nil,:model=>TZInfo::Timezone)%>
   <p style='display:none;font-size:10px;color:#888' id='location_guess'>Locating you..</p>
