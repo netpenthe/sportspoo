@@ -209,14 +209,14 @@ sports_ui.prototype.updateTree = function(country) {
 
       switch (leagues[i].priority) {
         case 1:
-          $('#main_sports_list').append('<li>'+leagues[i].name+'<input type=checkbox align=right onclick="mySportsUI.getEvents(this, '+leagues[i].id+')"></li>');
+          $('#main_sports_list').append('<li>'+leagues[i].name+'<input type=checkbox align=right  style="float:right" onclick="mySportsUI.getEvents(this, '+leagues[i].id+')"></li>');
           break;
         case 2:
           theres_more = true;
-          $('#main_sports_list').append('<li class="league_hidden tree_league_id_'+leagues[i].sport_id+'">'+leagues[i].name+'<input type=checkbox id='+leagues[i].sport_id+' onclick="mySportsUI.getEvents(this,'+leagues[i].id+')" align=right></li>');
+          $('#main_sports_list').append('<li class="league_hidden tree_league_id_'+leagues[i].sport_id+'">'+leagues[i].name+'<input type=checkbox id='+leagues[i].sport_id+' onclick="mySportsUI.getEvents(this,'+leagues[i].id+')" align=right style="float:right"></li>');
           break;
         default:
-          $('#main_sports_list').append('<li>'+leagues[i].name+'<input type=checkbox onclick="mySportsUI.getEvents(this, '+leagues[i].id+')" checked align=right></li>');
+          $('#main_sports_list').append('<li>'+leagues[i].name+'<input type=checkbox onclick="mySportsUI.getEvents(this, '+leagues[i].id+')" checked align=right style="float:right"></li>');
           break;
       }
 
@@ -299,6 +299,7 @@ sports_ui.prototype.convertTZ2 = function (timestamp,offset) {
 }
 
 sports_ui.prototype.set_tz_selector = function (city,offset_no_dst) {
+  offset_no_dst=offset_no_dst.replace(/(GMT[-|+])([0-9]):/,"$10$2:")
   $('#tz_selector').val(city);
   if ($('#tz_selector').val() == city) {
     // city was succesffully selected
