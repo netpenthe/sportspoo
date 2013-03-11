@@ -55,6 +55,7 @@ namespace :deploy do
   task :make_symlinks do
       invoke_command "ln -sf #{deploy_to}/shared/config/database.yml #{release_path}/config/database.yml"
       invoke_command "ln -sf #{deploy_to}/shared/config/facebook.yml #{release_path}/config/facebook.yml"
+       invoke_command "ln -sf #{deploy_to}/shared/config/twitter.yml #{release_path}/config/twitter.yml"
   end
 end
 namespace :deploy do

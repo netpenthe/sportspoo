@@ -72,6 +72,8 @@ sports_ui.prototype.change_time_zone = function(offset,highlight) {
     // get timestamp
     // update time
 }
+
+
 /* updateInitialEvents() is only called the first time a page is loaded, note it processes 'my_events' at the end */
 sports_ui.prototype.updateInitialEvents = function(country) {
   var now = new Date();
@@ -88,7 +90,8 @@ sports_ui.prototype.updateInitialEvents = function(country) {
             //start_date_local = start_date_utc.toString('ddd hh:mmtt'); 
             //start_date_local = moment(start_date_utc).format('ddd h:mma');
             start_date_local = "";
-            $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+' T'+e.teams[0].id+' T'+e.teams[1].id+'" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup >'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' vs ' + e.teams[1].name +' </li>')
+            //$("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+' T'+e.teams[0].id+' T'+e.teams[1].id+'" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup >'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' vs ' + e.teams[1].name +' </li>')
+            $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+' T'+e.teams[0].id+' T'+e.teams[1].id+'" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup >'+start_date_local+'</sup></p>'+e.teams[0].name + ' vs ' + e.teams[1].name + '  <span class="label labelstyle-FC9300" data-name="activesupport">'+e.league+'</span>'  + ' </li>')
           }
         }
         //me.removeEvents(me.my_events);
@@ -96,6 +99,7 @@ sports_ui.prototype.updateInitialEvents = function(country) {
         me.change_time_zone(myLocator.defaultOffset, false);
   }); 
 };
+
 sports_ui.prototype.removeEvents =  function(events) {
   for (var i = 0; i < events.length; i++) {
     $('li[event_id="'+events[i].id+'"]').remove();
