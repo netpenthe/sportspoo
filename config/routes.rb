@@ -33,6 +33,8 @@ Sportspoo::Application.routes.draw do
   match '/search_teams/results' => 'front#search_teams'
 
   match '/front/get_tz_offset/:tz' => 'front#get_tz_offset'
+  match '/user_preference/remove_league/:league_id' => 'user_preferences#remove_league'
+  match '/user_preference/remove_team/:team_id' => 'user_preferences#remove_team'
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'

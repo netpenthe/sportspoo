@@ -15,12 +15,12 @@
 
   <ul id='my_teams'>
     <%if current_user 
-         cache "menu.teams.user.#{current_user.id}" do
+         #cache "menu.teams.user.#{current_user.id}" do
            if current_user.teams.length > 0%>
              <% current_user.teams.sort!{|a,b| a.name <=> b.name}.each_with_index do |team,idx| %>
              <li><%=team.name%><input id='my_teams_T<%=team.preference_id%>' style='float:right' type="checkbox" align="right" onclick="mySportsUI.clickMyTeam(this)" team_id='<%=team.preference_id%>' checked='checked'></li>
            <% end %>
-         <% end %>
+         <%# end %>
     <%end%>
 <% end %>
   </ul>

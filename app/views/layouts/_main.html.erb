@@ -1,9 +1,9 @@
 <!--<link href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.css" media="all" rel="stylesheet" type="text/css" />-->
-<div id='search_wrapper' style='background-color:#26d2e8;width:400px;display:table;padding:5px;text-align:center;padding-bottom:0px;'>
+<div id='search_wrapper' xstyle='background-color:#26d2e8;width:400px;display:table;padding:5px;text-align:center;padding-bottom:0px;'>
   <div style='margin 0 auto;width:660px;text-align:center;margin-top:9px'>
     <input id="searchterm" type="text" style='width:345px;' placeholder='Search for upcoming games for your sport teams!'/> 
   </div>
-  <div style='float:right;display:none;font-size:9px;color:#333;margin-top:25px' id='show_results'><a href='#' onclick="$('#results_wrapper').fadeToggle()">toggle results&raquo;</a></div>
+  <div id='show_results'><a href='#' onclick="$('#results_wrapper').fadeToggle()">toggle results&raquo;</a></div>
   <%#time_zone_select( "user", "time_zone_name", nil, {:include_blank => true},{:onchange=>'mySportsUI.change_time_zone_select(this)',:style=>'float:right', :id=>'tz_selector'})%>
   <%#=time_zone_select( "user", "time_zone_name", TZInfo::Timezone.all.sort,:model=>TZInfo::Timezone})%>
   <%#=time_zone_select( "user", "time_zone_name", nil,:model=>TZInfo::Timezone)%>
@@ -57,8 +57,8 @@
 -->
 <div data-role="content" class="ui-content" role="main">
   <div class="content-primary">
-    <ol id='list1' data-role="listview" class="ui-listview">
-    </ol>
+    <ul id='list1' data-role="listview" class="ui-listview">
+    </ul>
 <!--
     <h2>List 2</h2>
     <ul id='list2' data-role="listview" class="ui-listview">
