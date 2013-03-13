@@ -138,7 +138,7 @@ sports_ui.prototype.displayEventsForLeague =  function(events,custom_class) {
       });*/
 
       var new_event;
-      new_event = '<li class="ui-li ui-li-static ui-btn-up-c league_id_'+e.league_id+' '+custom_class+' T'+e.teams[0].id+' T'+e.teams[1].id+'" league_id="'+e.league_id+'" event_id='+e.id+' timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + '  vs ' + e.teams[1].name +' </li>';
+      new_event = '<li class="ui-li ui-li-static ui-btn-up-c league_id_'+e.league_id+' '+custom_class+' T'+e.teams[0].id+' T'+e.teams[1].id+'" league_id="'+e.league_id+'" event_id='+e.id+' timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.teams[0].name + '  vs ' + e.teams[1].name +'  <span class="label labelstyle-FC9300" data-name="activesupport">'+e.league+'</span> </li>';
 
       if ($('#list1 li').length ==0) {
         //$(new_event).hide().append($("#list1")).effect("highlight", {}, 1500);;
