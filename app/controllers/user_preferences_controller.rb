@@ -85,4 +85,21 @@ class UserPreferencesController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  def remove_team
+    if current_user
+      UserPreference.delete_all(['user_id = ? and preference_id = ? and preference_type = "Team"',current_user.id, params[:team_id]])
+      respond_to do |format|
+        format.json { head :ok }
+      end
+    end
+  end
+  def remove_league
+    if current_user
+      UserPreference.delete_all(['user_id = ? and preference_id = ? and preference_type = "League"',current_user.id, params[:league_id]])
+      respond_to do |format|
+        format.json { head :ok }
+      end
+    end
+  end
 end

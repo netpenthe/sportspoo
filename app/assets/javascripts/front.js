@@ -101,8 +101,10 @@ sports_ui.prototype.updateInitialEvents = function(country) {
 };
 
 sports_ui.prototype.removeEvents =  function(events) {
-  for (var i = 0; i < events.length; i++) {
-    $('li[event_id="'+events[i].id+'"]').remove();
+  if (typeof events !== 'undefined') { 
+    for (var i = 0; i < events.length; i++) {
+      $('li[event_id="'+events[i].id+'"]').remove();
+    }
   }
 }
 
@@ -175,6 +177,8 @@ sports_ui.prototype.getEvents = function(cb,league_id) {
     //setTimeout(function(){$('.league_id_'+league_id+':not(.my_events)').remove()}, 1000);
     setTimeout(function(){$('.league_id_'+league_id).not('.my_events').remove()}, 1000);
     //setTimeout(function(){$('.league_id_'+league_id).remove()}, 1000);
+    $.getJSON( '/user_preference/remove_league/'+league_id+'.json', { }, function() {});
+    
   } else {
     if (this.leagues_jsons.hasOwnProperty("L"+league_id)) {
       //$('.league_id_'+league_id).show().effect("highlight",{},1500);
@@ -261,6 +265,7 @@ sports_ui.prototype.clickMyTeam = function(team) {
           me.displayEventsForLeague(events,"my_events");
     }); 
   } else {
+    $.getJSON( '/user_preference/remove_team/'+team_id+'.json', { }, function() {}); //remove from user preferences
     $('.T'+team_id).each(function() {
       $(this).removeClass("my_events");
       if (me.league_ids.indexOf(parseInt($(this).attr("league_id"))) <= -1)
