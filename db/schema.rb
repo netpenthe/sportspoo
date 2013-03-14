@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130227125212) do
+ActiveRecord::Schema.define(:version => 20130314122154) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -51,11 +51,6 @@ ActiveRecord::Schema.define(:version => 20130227125212) do
     t.string   "code"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-  end
-
-  create_table "country_leagues", :id => false, :force => true do |t|
-    t.integer "country_id"
-    t.integer "league_id"
   end
 
   create_table "countryleagues", :force => true do |t|
@@ -125,6 +120,7 @@ ActiveRecord::Schema.define(:version => 20130227125212) do
     t.datetime "updated_at"
     t.integer  "import_id"
     t.integer  "sport_id"
+    t.string   "label_colour"
   end
 
   create_table "location_types", :force => true do |t|
