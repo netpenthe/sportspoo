@@ -6,6 +6,7 @@ Sportspoo::Application.routes.draw do
   #devise_for :users
   #for facebook:
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  devise_scope :user do match '/users/auth/twitter_email' => "users/omniauth_callbacks#twitter_email" end
 
   resources :user_preferences
   
