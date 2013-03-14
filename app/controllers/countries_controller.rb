@@ -17,7 +17,7 @@ class CountriesController < ApplicationController
      @country = Country.find_by_name params[:country]
 
      respond_to do |format|
-        format.json { render json: @country.upcoming_events, :include => [:teams], :methods=>[:display_name,:countdown, :league_name]}
+        format.json { render json: @country.upcoming_events, :include => [:teams], :methods=>[:display_name,:countdown, :league_name, :league_label_colour]}
      end
   end
 
