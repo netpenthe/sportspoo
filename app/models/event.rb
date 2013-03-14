@@ -74,7 +74,7 @@ include ActionView::Helpers::DateHelper
   end
 
   def league_label_colour
-    return league.label_colour || "#CCCCCC"
+    return league.label_colour || "#666666"
   end
   
 end
