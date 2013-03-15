@@ -7,7 +7,7 @@ class League < ActiveRecord::Base
   def as_json(options ={})
     h = super(options)
     h[:sport] = sport.name unless sport.blank?
-    h[:priority] = self.priority options[:params][:country_id]
+    #h[:priority] = self.priority options[:params][:country_id]
     h
   end
 
@@ -15,5 +15,11 @@ class League < ActiveRecord::Base
     countryleague = Countryleague.where(["country_id=? and league_id=?",country_id,self.id]).first
     countryleague.priority 
   end
+
+  def self.search_name(q,num_limit)
+    q = "%#{q}%"
+    League.select('distinct leagues.*').where('name LIKE ?', q ).limit(num_limit)
+  end
+
 
 end
