@@ -85,24 +85,30 @@ sports_ui.prototype.updateInitialEvents = function(country) {
         for (j=0;j<events.length;j++) {
           e = events[j];
           me.league_ids.push(parseInt(e.league_id));
+          var teams_class = "";
+          var display_name = "";
           if (e.teams.length==2) {
+            teams_class=' T'+e.teams[0].id+' T'+e.teams[1].id;
+            display_name = e.teams[0].name + ' vs ' + e.teams[1].name ;
+          } else {
+            display_name = e.name;
+          }
             start_date_utc = new Date(e.start_date);
             //start_date_local = start_date_utc.toString('ddd hh:mmtt'); 
             //start_date_local = moment(start_date_utc).format('ddd h:mma');
             start_date_local = "";
             league_label_colour = e.league_label_colour;
-            //$("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+' T'+e.teams[0].id+' T'+e.teams[1].id+'" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup >'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' vs ' + e.teams[1].name +' </li>')
-            $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+' T'+e.teams[0].id+' T'+e.teams[1].id+'" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup >'+start_date_local+'</sup></p>'+e.teams[0].name + ' vs ' + e.teams[1].name + '  <span class="label" style="background-color:'+ league_label_colour+'" data-name="activesupport">'+e.league+'</span>'  + ' </li>')
+            $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+teams_class+'" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup >'+start_date_local+'</sup></p>'+display_name+ '  <span class="label" style="background-color:'+ league_label_colour+'" data-name="activesupport">'+e.league+'</span>'  + ' </li>')
           }
-        }
         //me.removeEvents(me.my_events);
         me.displayEventsForLeague(me.my_events,"my_events");
         me.change_time_zone(myLocator.defaultOffset, false);
-  }); 
-};
+      }
+  ); 
+}
 
 sports_ui.prototype.removeEvents =  function(events) {
-  if (typeof events !== 'undefined') { 
+  if (events !== 'undefined' && events !== null) { 
     for (var i = 0; i < events.length; i++) {
       $('li[event_id="'+events[i].id+'"]').remove();
     }
@@ -110,6 +116,9 @@ sports_ui.prototype.removeEvents =  function(events) {
 }
 
 sports_ui.prototype.displayEventsForLeague =  function(events,custom_class) {
+  if (events === null || events.length == 0) {
+    return;
+  }
   this.removeEvents(events);
   // cache it if it hasn't been cahsed before
   if (events.length > 0 && custom_class !== "my_events") {
@@ -121,49 +130,35 @@ sports_ui.prototype.displayEventsForLeague =  function(events,custom_class) {
   var start_date_utc, start_date_local, timestamp;
   for (var i=0;i<events.length;i++) {
     e = events[i];
-    if (e.teams.length==2) {
+      var teams_class = "";
+      var display_name = "";
+      if (e.teams.length==2) {
+        teams_class=' T'+e.teams[0].id+' T'+e.teams[1].id;
+        display_name = e.teams[0].name + ' vs ' + e.teams[1].name ;
+      } else {
+        display_name = e.name;
+      }
+ 
       start_date_utc = new Date(e.start_date);
       //start_date_local = start_date_utc.toString('ddd hh:mmtt'); 
       start_date_local = moment(start_date_utc).format('ddd h:mma');
       timestamp = start_date_utc.getTime();
 
-      /*
-         $('#list1 li').each(function(index) {
-         var foo = $('#list1 li')[index];
-         if (parseInt(foo.getAttribute("timestamp")) <= timestamp) {
-         if (parseInt(foo.getAttribute("timestamp")) <= timestamp) {
-         $("#list1").append('<li class="ui-li ui-li-static ui-btn-up-c"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' !!!!vs ' + e.teams[1].name +' </li>')
-         }
-      //$("#list1 li")[j].insertBefore('<li class="ui-li ui-li-static ui-btn-up-c"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' !!!!vs ' + e.teams[1].name +' </li>')
-      //break;
-      }
-
-      });*/
-
       var new_event;
-      new_event = '<li class="ui-li ui-li-static ui-btn-up-c league_id_'+e.league_id+' '+custom_class+' T'+e.teams[0].id+' T'+e.teams[1].id+'" league_id="'+e.league_id+'" event_id='+e.id+' timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.teams[0].name + '  vs ' + e.teams[1].name +'  <span class="label labelstyle-FC9300" data-name="activesupport">'+e.league+'</span> </li>';
+      new_event = '<li class="ui-li ui-li-static ui-btn-up-c league_id_'+e.league_id+' '+custom_class+teams_class+'" league_id="'+e.league_id+'" event_id='+e.id+' timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+display_name +'  <span class="label labelstyle-FC9300" data-name="activesupport">'+e.league+'</span> </li>';
 
       if ($('#list1 li').length ==0) {
-        //$(new_event).hide().append($("#list1")).effect("highlight", {}, 1500);;
         $('#list1').append(new_event).hide().effect("highlight", {},1500);
       } else {
-      for (var j = $('#list1 li').length-1;j>=0;j--) {
-        var list_item = $('#list1 li')[j];
-            j 
-        if (parseInt(list_item.getAttribute("timestamp")) <= timestamp) {
-          //new_event = '<li class="ui-li ui-li-static ui-btn-up-c league_id_'+e.league_id+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + '  vs ' + e.teams[1].name +' </li>';
-    
-            $(new_event).hide().insertAfter($("#list1 li:nth-child("+(j+1)+")")).effect("highlight", {}, 1500);;
-
-          //$('<li class="ui-li ui-li-static ui-btn-up-c league_id_'+league_id+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + '  vs ' + e.teams[1].name +' </li>').hide().insertAfter($("#list1 li:nth-child("+j+")")).effect("highlight", {}, 1500);;
-          //$("#list1 li:nth-child("+j+")").insertAfter('<li class="ui-li ui-li-static ui-btn-up-c"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' !!!!vs ' + e.teams[1].name +' </li>')
-          //$("#list1 li")[j].insertBefore('<li class="ui-li ui-li-static ui-btn-up-c"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+e.league+' - '+e.teams[0].name + ' !!!!vs ' + e.teams[1].name +' </li>')
-          break;
+        for (var j = $('#list1 li').length-1;j>=0;j--) {
+          var list_item = $('#list1 li')[j];
+            if (parseInt(list_item.getAttribute("timestamp")) <= timestamp) {
+              $(new_event).hide().insertAfter($("#list1 li:nth-child("+(j+1)+")")).effect("highlight", {}, 1500);;
+              break;
+            }
         }
       }
     }
-    }
-  }
   this.highlightMyEvents();
 }
 
