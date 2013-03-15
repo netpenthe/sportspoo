@@ -76,12 +76,14 @@ class FrontController < ApplicationController
      end
   end
 
-  def search_teams
+  def search
     s=params[:search]
     #teams = Team.find(:all,:limit=>10,:conditions=>["(name like ?)","%#{s}%"])
     teams = Team.search_name_and_tags(s,15)
+    leagues = League.search_name(s,15)
     respond_to do |format|
-        format.json { render json: teams, :include => [:sport], :methods=>[:display_name, :countdown, :league_name]}
+      #format.json { render json: teams, :include => [:sport], :methods=>[:display_name, :countdown, :league_name]}
+      format.json { render :json =>{:teams => teams.to_json(:include => [:sport], :methods=>[:display_name, :countdown, :league_name]), :leagues => leagues.to_json}}
     end
   end
 

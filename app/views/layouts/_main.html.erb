@@ -14,14 +14,18 @@
   <script type="text/javascript">// <![CDATA[
       $("#searchterm").keyup(function(e){
         var q = $("#searchterm").val();
-        $.getJSON("/search_teams/results.json",
+        $.getJSON("/search/results.json",
         {
           search: q,
         },
         function(data) {
           $("#results").empty();
           $("#results").append(" Results for <b>" + q + "</b><div style='float:right;cursor: hand; cursor: pointer;' onclick=\"$('#results_wrapper').hide()\">[x]</div>");
-          $.each(data, function(i,item){
+          $.each(jQuery.parseJSON(data['leagues']), function(i,item){
+            $("#results").append("<div><label for='CB_T"+item.id+"'> ["+ item.sport + "] "+item.name+"<div style='float:right'><input type='checkbox' id='CB_L"+item.id+"' onclick='mySportsUI.getEvents(this,"+item.id+")'> </div> ");
+          });
+ 
+          $.each(jQuery.parseJSON(data['teams']), function(i,item){
             $("#results").append("<div><label for='CB_T"+item.id+"'> ["+ item.sport_name + "] "+item.name+"<div style='float:right'><input type='checkbox' id='CB_T"+item.id+"' onclick='mySportsUI.addMyTeam(\""+item.name+"\","+item.id+")'> </div> ");
           });
           $('#results_wrapper').show();

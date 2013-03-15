@@ -31,7 +31,7 @@ Sportspoo::Application.routes.draw do
   match '/leagues/events/:league_id' => 'leagues#events' 
   match '/leagues/:username' => 'leagues#username' 
 
-  match '/search_teams/results' => 'front#search_teams'
+  match '/search/results' => 'front#search'
 
   match '/front/get_tz_offset/:tz' => 'front#get_tz_offset'
   match '/user_preference/remove_league/:league_id' => 'user_preferences#remove_league'
