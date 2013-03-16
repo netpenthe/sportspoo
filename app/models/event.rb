@@ -77,5 +77,15 @@ include ActionView::Helpers::DateHelper
   def league_label_colour
     return league.label_colour || "#666666"
   end
+
+
+  def live
+    unless end_date.blank?
+      return true if Time.now > self.start_date && Time.now < self.end_date
+    else
+      return true if Time.now > self.start_date && Time.now < (self.start_date + 2.hours)
+    end
+    return false
+  end
   
 end
