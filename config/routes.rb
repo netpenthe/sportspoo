@@ -1,22 +1,17 @@
 Sportspoo::Application.routes.draw do
+  
   ActiveAdmin.routes(self)
 
   devise_for :admin_users, ActiveAdmin::Devise.config
-
-  #devise_for :users
-  #for facebook:
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" , :registrations => "users/registrations" }
   devise_scope :user do match '/users/auth/twitter_email' => "users/omniauth_callbacks#twitter_email" end
 
   resources :user_preferences
-  
   resources :sports
-
   resources :imports
 
   match '/' => 'front#index'
   match '/config' => 'user_preferences#index', :as=>:config
-
   match '/list' => 'front#list', :as=>:list
   match '/u/:username' => 'front#list'
 
