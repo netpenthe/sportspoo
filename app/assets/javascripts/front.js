@@ -107,11 +107,21 @@ sports_ui.prototype.updateInitialEvents = function(country) {
             //start_date_local = moment(start_date_utc).format('ddd h:mma');
             start_date_local = "";
             league_label_colour = e.league_label_colour;
+
+            // show live event label
             live_event_str = "  ";
             if(e.live){
               live_event_str = " <span class='label' style='background-color:green'>LIVE</span> ";
             }
-            $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+teams_class+'" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+time_in_words+'</strong> <sup >'+start_date_local+'</sup></p>'+display_name+ '  <span class="label" style="background-color:'+ league_label_colour+'" data-name="activesupport">'+e.league+'</span> '  + live_event_str + ' </li>')
+
+            //show event tags/label
+            var tag_str = "";
+            var t;
+            for (t = 0; t < e.tag_list.length; t++) {
+              tag_str = tag_str + " <span class='label' style='background-color:#0099cc'> " + e.tag_list[t] + "</span> ";
+            }
+
+            $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+teams_class+'" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+time_in_words+'</strong> <sup >'+start_date_local+'</sup></p>'+display_name+ '  <span class="label" style="background-color:'+ league_label_colour+'" data-name="activesupport">'+e.league+'</span> '  + live_event_str + tag_str + ' </li>')
           }
         //me.removeEvents(me.my_events);
         me.displayEventsForLeague(me.my_events,"my_events");
