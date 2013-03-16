@@ -1,3 +1,4 @@
+
 timezoneJS.timezone.zoneFileBasePath = '/assets/tz';
 timezoneJS.timezone.defaultZoneFile = ['asia', 'australasia', 'backward', 'europe','northamerica', 'southamerica'];
 timezoneJS.timezone.init();
@@ -82,23 +83,31 @@ sports_ui.prototype.updateInitialEvents = function(country) {
       { },
       function(events) {
         var start_date_utc, start_date_local;
+        var teams_class = "";
+        var display_name = "";
+        var time_in_words ="";
         for (j=0;j<events.length;j++) {
           e = events[j];
           me.league_ids.push(parseInt(e.league_id));
-          var teams_class = "";
-          var display_name = "";
           if (e.teams.length==2) {
             teams_class=' T'+e.teams[0].id+' T'+e.teams[1].id;
             display_name = e.teams[0].name + ' vs ' + e.teams[1].name ;
           } else {
             display_name = e.name;
           }
+      
+          if (e.runnning) {
+            time_in_words = "running!";
+          } else {
+            time_in_words = e.time_in_words;
+          }
+        
             start_date_utc = new Date(e.start_date);
             //start_date_local = start_date_utc.toString('ddd hh:mmtt'); 
             //start_date_local = moment(start_date_utc).format('ddd h:mma');
             start_date_local = "";
             league_label_colour = e.league_label_colour;
-            $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+teams_class+'" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup >'+start_date_local+'</sup></p>'+display_name+ '  <span class="label" style="background-color:'+ league_label_colour+'" data-name="activesupport">'+e.league+'</span>'  + ' </li>')
+            $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+teams_class+'" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+time_in_words+'</strong> <sup >'+start_date_local+'</sup></p>'+display_name+ '  <span class="label" style="background-color:'+ league_label_colour+'" data-name="activesupport">'+e.league+'</span>'  + ' </li>')
           }
         //me.removeEvents(me.my_events);
         me.displayEventsForLeague(me.my_events,"my_events");

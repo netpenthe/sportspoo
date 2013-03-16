@@ -22,6 +22,8 @@ gem "bootstrap-sass"
 
 gem 'betfair', :git=>'git://github.com/lukebyrne/betfair.git'
 
+gem 'thin'
+
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
