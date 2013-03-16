@@ -6,8 +6,29 @@ class UserPreference < ActiveRecord::Base
 
   def name
      up = Kernel.const_get(self.preference_type)
-     result = up.find self.preference_id
-     result.name
+     begin
+       result = up.find self.preference_id
+       return result.name
+     rescue ActiveRecord::RecordNotFound
+       return " ??? "
+     end
   end
+
+
+   def sport
+     up = Kernel.const_get(self.preference_type)
+
+     begin
+      
+         result = up.find self.preference_id
+         return result.sport.name unless result.sport.blank?
+
+     rescue ActiveRecord::RecordNotFound
+       #continue
+     end
+     
+     return "????"
+  end
+
 
 end
