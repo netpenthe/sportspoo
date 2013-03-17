@@ -1,24 +1,22 @@
-<table>
-  <tr>
-    <th>Type</th>
-    <th>Name</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
 
+<h1>My Teams & Leagues</h1>
+
+<br>
+<p><%= link_to image_tag("add.png"), new_user_preference_path %></p>
+  
+<table class="table table-striped">
 <% @user_preferences.each do |user_preference| %>
+  
   <tr>
-    <td><%= user_preference.preference_type %></td>
-    <td><%= user_preference.name.present? ? user_preference.name : '' %> </td>
-    <td><%= link_to 'Show', user_preference %></td>
 
-    <td><%= link_to 'Edit', edit_user_preference_path(user_preference) %></td>
-    <td><%= link_to 'Destroy', user_preference, confirm: 'Are you sure?', method: :delete %></td>
+    <td><%= user_preference.name.present? ? user_preference.name : '' %> </td>
+
+     <td><%= user_preference.sport %> </td>
+    
+    <td><%= link_to image_tag("delete.png"), user_preference, confirm: 'Are you sure?', method: :delete %></td>
+    
   </tr>
+  
 <% end %>
 </table>
 
-<br />
-
-<%= link_to 'New User preference', new_user_preference_path %>
