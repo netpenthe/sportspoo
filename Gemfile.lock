@@ -88,6 +88,7 @@ GEM
     fastercsv (1.5.5)
     formtastic (2.2.1)
       actionpack (>= 3.0)
+    geocoder (1.1.6)
     gyoku (1.0.0)
       builder (>= 2.1.2)
     happymapper (0.4.0)
@@ -248,6 +249,7 @@ DEPENDENCIES
   capistrano
   coffee-rails (~> 3.2.1)
   devise
+  geocoder
   happymapper
   jquery-rails
   jquery_mobile_rails
