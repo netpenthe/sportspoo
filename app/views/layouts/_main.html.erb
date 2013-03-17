@@ -11,7 +11,11 @@
 
 
   </div>
-  <script type="text/javascript">// <![CDATA[
+  <script type="text/javascript">// <![CDATA[ 
+  <% if request.env["HTTP_USER_AGENT"].match /Safari/ %>
+      var sports_geo_city =  "<%=request.location.city || '' %>";
+      var sports_geo_country = "<%=request.location.country == 'Reserved' ? 'Australia' : "#{request.location.country}" || ""%>";
+  <% end %> 
       $("#searchterm").keyup(function(e){
         var q = $("#searchterm").val();
         $.getJSON("/search/results.json",

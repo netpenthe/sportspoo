@@ -34,6 +34,8 @@ gem 'happymapper'
 
 gem 'therubyracer'
 
+gem 'geocoder'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -64,3 +66,4 @@ group :test do
   # Pretty printed test output
   gem 'turn', :require => false
 end
+
