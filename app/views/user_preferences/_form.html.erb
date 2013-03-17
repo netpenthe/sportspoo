@@ -1,3 +1,5 @@
+
+<h2>Teams</h2>
 <%= form_for(@user_preference) do |f| %>
   <% if @user_preference.errors.any? %>
     <div id="error_explanation">
@@ -18,11 +20,39 @@
   </div>
 
   <div class="field">
-    Select a team to follow<br />
+    <br>
     <%=f.collection_select :preference_id,Team.order("name ASC").all,:id,:name %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Follow Team" %>
+    <%= f.submit "Add", :class=>"button" %>
   </div>
 <% end %>
+
+
+<h2>Leagues</h2>
+<%= form_for(@user_preference) do |f| %>
+  <% if @user_preference.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user_preference.errors.count, "error") %> prohibited this user_preference from being saved:</h2>
+
+      <ul>
+      <% @user_preference.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%=hidden_field_tag "user_preference[preference_type]", "League"%>
+
+  <div class="field">
+    <br>
+    <%=f.collection_select :preference_id,League.order("name ASC").all,:id,:name %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Add", :class=>"button" %>
+  </div>
+<% end %>
+

@@ -66,7 +66,8 @@ sports_ui.prototype.change_time_zone = function(offset,highlight) {
   $( "#list1 li" ).each(function( index ) {
     ts = $(this).attr("timestamp")*1
     var nd = me.convertTZ2(ts,offset); 
-    nd = moment(nd).format('ddd h:mma');
+    //nd = moment(nd).format('ddd h:mma');
+    nd = moment(nd,"DD/MM/YYYY HH:mm:ss").format('ddd h:mma');
     $(this).children('.ui-li-desc').children('sup').text(nd); 
     if (highlight) { 
       $(this).children('.ui-li-desc').children('sup').effect("highlight", {},500); 
@@ -109,7 +110,26 @@ sports_ui.prototype.updateInitialEvents = function(country) {
             //start_date_local = moment(start_date_utc).format('ddd h:mma');
             start_date_local = "";
             league_label_colour = e.league_label_colour;
-            $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+teams_class+'" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+time_in_words+'</strong> <sup >'+start_date_local+'</sup></p>'+display_name+ '  <span class="label" style="background-color:'+ league_label_colour+'" data-name="activesupport">'+e.league+'</span>'  + ' </li>')
+
+            // show live event label
+            live_event_str = "  ";
+            if(e.live){
+              live_event_str = " <span class='label' style='background-color:green; font-size:10px;'>LIVE</span> ";
+            }
+
+            //show event tags/label
+            var tag_str = "";
+            var t;
+            for (t = 0; t < e.tag_list.length; t++) {
+              tag_str = tag_str + " <span class='label' style='background-color:#0099cc; font-size:10px;'> " + e.tag_list[t] + "</span> ";
+            }
+
+
+            if (e.live){
+                time_in_words = " ";
+            }
+
+            $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+teams_class+'" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+time_in_words+'</strong> <sup >'+start_date_local+'</sup></p>'+display_name+ '  <span class="label" style="background-color:'+ league_label_colour+'; font-size:10px;" data-name="activesupport">'+e.league+'</span> '  + tag_str  + live_event_str + ' </li>')
           }
         //me.removeEvents(me.my_events);
         me.displayEventsForLeague(me.my_events,"my_events");

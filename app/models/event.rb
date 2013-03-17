@@ -1,7 +1,9 @@
 class Event < ActiveRecord::Base
 
-include ActionView::Helpers::DateHelper
-  
+  include ActionView::Helpers::DateHelper
+
+  acts_as_taggable
+
   has_many :home_teams, :class_name=>"Team", :through=>:event_teams, :source=>:team, :conditions=>"location_type_id = 1"
   has_many :away_teams, :class_name=>"Team", :through=>:event_teams, :source=>:team, :conditions=>"location_type_id = 2"
 
@@ -76,6 +78,16 @@ include ActionView::Helpers::DateHelper
 
   def league_label_colour
     return league.label_colour || "#666666"
+  end
+
+
+  def live
+    unless end_date.blank?
+      return true if Time.now > self.start_date && Time.now < self.end_date
+    else
+      return true if Time.now > self.start_date && Time.now < (self.start_date + 2.hours)
+    end
+    return false
   end
   
 end

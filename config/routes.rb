@@ -1,22 +1,17 @@
 Sportspoo::Application.routes.draw do
+  
   ActiveAdmin.routes(self)
 
   devise_for :admin_users, ActiveAdmin::Devise.config
-
-  #devise_for :users
-  #for facebook:
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" , :registrations => "users/registrations" }
   devise_scope :user do match '/users/auth/twitter_email' => "users/omniauth_callbacks#twitter_email" end
 
   resources :user_preferences
-  
   resources :sports
-
   resources :imports
 
   match '/' => 'front#index'
   match '/config' => 'user_preferences#index', :as=>:config
-
   match '/list' => 'front#list', :as=>:list
   match '/u/:username' => 'front#list'
 
@@ -36,6 +31,11 @@ Sportspoo::Application.routes.draw do
   match '/front/get_tz_offset/:tz' => 'front#get_tz_offset'
   match '/user_preference/remove_league/:league_id' => 'user_preferences#remove_league'
   match '/user_preference/remove_team/:team_id' => 'user_preferences#remove_team'
+
+  match '/cache/clear/user/:user_id' => 'cache#clear_user'
+  match '/cache/clear/country/events' => 'cache#clear_country_events'
+  match '/cache/clear/country/leagues' => 'cache#clear_country_leagues'
+
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
