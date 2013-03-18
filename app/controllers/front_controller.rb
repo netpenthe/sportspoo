@@ -1,6 +1,18 @@
 class FrontController < ApplicationController
 
   def index
+    if (session[:leagues].nil?)
+      session[:leagues] = []
+      session[:teams] = []
+      session[:leagues] = []
+    end
+    @leagues = session[:leagues]
+    @teams = session[:teams]
+
+    if current_user
+      @my_leagues_json = current_user.my_leagues.to_json
+      @my_teams_json = current_user.my_teams.to_json(:include => [:sport], :methods=>[:display_name, :countdown, :league_name])
+    end
   end
 
   def list
@@ -95,4 +107,10 @@ class FrontController < ApplicationController
       format.text {render :text => offset}
     end
   end
+
+  def save_session
+    #session[:leagues] =
+    #session[:teams] =
+  end
+
 end

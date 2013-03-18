@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
   has_many :user_preferences
 
 
+
   def self.find_for_database_authentication(warden_conditions)
       conditions = warden_conditions.dup
       if login = conditions.delete(:login)
@@ -56,9 +57,6 @@ class User < ActiveRecord::Base
     user
   end
   
-
-
-
   def self.new_with_session(params, session)
     super.tap do |user|
       if data = session["devise.facebook_data"] && session["devise.facebook_data"]["extra"]["raw_info"]
@@ -67,6 +65,13 @@ class User < ActiveRecord::Base
     end
   end
 
+  def my_leagues
+    League.find(:all, :conditions=>["id in (?)", self.leagues.map{|l| l.preference_id}])
+  end
+
+  def my_teams
+    Team.find(:all, :conditions=>["id in (?)", self.teams.map{|l| l.preference_id}])
+  end
 
   def after_create
   end
