@@ -19,9 +19,10 @@ $(document).ready(function () {
         longitude = position.coords.longitude;
         myLocator.codeLatLng(latitude, longitude); // this should not call myLocator, it should be 'this' but the problem is this 'successFunction' is a CallBack and doesn't seem to send the whole object
       },
-      function() {
-        $('#location_guess').html("We can't find you. We'll put you in New York");
-      }
+      function(err) {
+        myLocator.country = sports_geo_country; // this reads from the IP address, this is a variable set by Rails in _main.html.erb
+        myLocator.locationFound();
+      },{timeout:24000} // 3 seconds
     );
     }
     // then fill out left menu 
