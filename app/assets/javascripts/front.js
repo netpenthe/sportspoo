@@ -67,7 +67,7 @@ sports_ui.prototype.change_time_zone = function(offset,highlight) {
     var nd = me.convertTZ2(ts,offset); 
     //nd = moment(nd).format('ddd h:mma');
 
-    alert(nd);
+    //alert(nd);
     nd = moment(nd,"DD/MM/YYYY HH:mm:ss a").format('ddd h:mma');
     $(this).children('.ui-li-desc').children('sup').text(nd); 
     if (highlight) { 
