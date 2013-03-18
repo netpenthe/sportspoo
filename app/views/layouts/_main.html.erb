@@ -16,6 +16,15 @@
       var sports_geo_city =  "<%=request.location.city || '' %>";
       var sports_geo_country = "<%=request.location.country == 'Reserved' ? 'Australia' : "#{request.location.country}" || ""%>";
   <% end %> 
+  var my_leagues = [<%=@leagues.map{|l| l.to_s}.join(",")%>];
+  var my_teams= "<%=@teams.map{|l| l.to_s}.join(",")%>";
+
+  var my_teams_json, my_leagues_json; 
+  <% if current_user %>
+    my_leagues_json = <%=raw @my_leagues_json %>;
+    my_teams_json = <%=raw @my_teams_json %>;
+  <% end %>
+
       $("#searchterm").keyup(function(e){
         var q = $("#searchterm").val();
         $.getJSON("/search/results.json",
