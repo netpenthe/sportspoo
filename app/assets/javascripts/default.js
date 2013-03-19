@@ -39,7 +39,6 @@ locator.prototype.codeLatLng = function(lat, lng) {
 };
 
 locator.prototype.successFunctionL = function() {
-  alert("what?");
   this.codeLatLng(1,2);
 }
 

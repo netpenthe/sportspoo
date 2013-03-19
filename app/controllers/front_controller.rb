@@ -10,8 +10,9 @@ class FrontController < ApplicationController
     @teams = session[:teams]
 
     if current_user
-      @my_leagues_json = current_user.my_leagues.to_json
-      @my_teams_json = current_user.my_teams.to_json(:include => [:sport], :methods=>[:display_name, :countdown, :league_name])
+      #@my_leagues_json = current_user.my_leagues.to_json
+      #@my_teams_json = current_user.my_teams.to_json(:include => [:sport], :methods=>[:display_name, :countdown, :league_name])
+      #@my_events_json = User.upcoming_events(current_user,50(current_user,50)).to_json
     end
   end
 

@@ -12,31 +12,36 @@ $(document).ready(function () {
     //mySportsUI.displayEventsForLeague(mySportsUI.my_events,"my_events");
     myLocator = new locator;
     myLocator.sports_ui = mySportsUI; 
-    if (navigator.geolocation) { 
+    if (typeof mySportsUI.my_leagues !== "undefined" && mySportsUI.my_leagues.length > 0) {
+      mySportsUI.updateTreeJSON(mySportsUI.my_leagues);
+      mySportsUI.updateInitialEventsJSON(mySportsUI.my_events);
+    } else {
+      if (navigator.geolocation) { 
       navigator.geolocation.getCurrentPosition(
-      function(position) {
+        function(position) {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
         myLocator.codeLatLng(latitude, longitude); // this should not call myLocator, it should be 'this' but the problem is this 'successFunction' is a CallBack and doesn't seem to send the whole object
-      },
-      function(err) {
+        },
+        function(err) {
         myLocator.country = sports_geo_country; // this reads from the IP address, this is a variable set by Rails in _main.html.erb
         myLocator.locationFound();
-      },{timeout:24000} // 3 seconds
-    );
+        },{timeout:24000} // 3 seconds
+        );
+      }
     }
     // then fill out left menu 
     // then fill out center menu
 
-     $('#results_wrapper').mouseleave(function() {
-       $('#results_wrapper').fadeOut();
-       $('#show_results').show(); 
-     });
-    });
+    $('#results_wrapper').mouseleave(function() {
+        $('#results_wrapper').fadeOut();
+        $('#show_results').show(); 
+        });
+});
 
 var sports_ui = function() {
   this.leagues_jsons = {},
-  this.my_events = {}
+    this.my_events = {}
   this.league_ids = [];
   this.my_teams = [];
 };
@@ -132,7 +137,7 @@ sports_ui.prototype.updateInitialEventsJSON = function(events) {
 sports_ui.prototype.updateInitialEvents = function(country) {
   var now = new Date();
   var me = this;
-  if (typeof my_events_json == 'undefined') {
+  if (typeof this.my_events == 'undefined' || typeof this.my_events.length == 'undefined' || this.my_events.length == 0) {
     $.getJSON( '/country/events/'+country+'.json?'+now.getTime(),
         { },
         function(events) {
@@ -140,7 +145,7 @@ sports_ui.prototype.updateInitialEvents = function(country) {
         }
         ); 
   } else {
-    this.updateInitialEventsJSON(my_teams_json);
+    this.updateInitialEventsJSON(this.my_events);
   }
 }
 
@@ -270,7 +275,7 @@ sports_ui.prototype.updateTreeJSON = function(leagues) {
 
 sports_ui.prototype.updateTree = function(country) {
   var me = this;
-  if (typeof my_leagues_json == 'undefined') {
+  if (typeof this.my_leagues == 'undefined' || this.my_leagues.length == 0) {
     $.getJSON( '/country/leagues/'+country+'.json',
         { },
         function(leagues) {
