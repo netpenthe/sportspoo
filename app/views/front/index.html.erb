@@ -14,21 +14,22 @@
   <% if current_user %>
 
     <% @myevents = nil %>
-    <% cache "events.user.#{current_user.id}" do %>
+    <%# cache "events.user.#{current_user.id}" do %>
         <%@myevents = Event.upcoming_events_for_user(current_user,20).to_json(:include=>[:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour]).html_safe %>
-    <% end %>
+    <%# end %>
 
-    mySportsUI.my_events = $.parseJSON('<%=@myevents%>');
+    //mySportsUI.my_events = $.parseJSON('<%=@myevents%>');
+    mySportsUI.my_events = <%=raw @myevents%>;
 
     <% @myteams = nil %>
-    <% cache "teams.user.#{current_user.id}" do %>
+    <%# cache "teams.user.#{current_user.id}" do %>
         <%@myteams = current_user.teams.map{|t| t.preference_id}.join(',') %>
-    <% end %>
+    <%# end %>
       
     <% @myleagues = nil %>
-    <% cache "leagues.user.#{current_user.id}" do %>
+    <%# cache "leagues.user.#{current_user.id}" do %>
         <%@myleagues = current_user.my_leagues.to_json %>
-    <% end %>
+    <%# end %>
     mySportsUI.my_leagues = <%=raw @myleagues%>;
   <% end %>
 </script>
