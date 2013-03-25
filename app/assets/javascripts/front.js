@@ -37,6 +37,7 @@ $(document).ready(function () {
         $('#results_wrapper').fadeOut();
         $('#show_results').show(); 
         });
+    $('.save_preferences').click(mySportsUI.save_current_preferences);
 });
 
 var sports_ui = function() {
@@ -45,6 +46,11 @@ var sports_ui = function() {
   this.league_ids = [];
   this.my_teams = [];
 };
+
+sports_ui.prototype.save_current_preferences = function() {
+  alert("Saving preferences");
+  return true;
+}
 
 sports_ui.prototype.change_time_zone_select = function(tz) {
   var s = tz.options[tz.selectedIndex];

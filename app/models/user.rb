@@ -12,13 +12,16 @@ class User < ActiveRecord::Base
 
   attr_accessor :login 
 
-
+  after_create :setup_preferences
 
   #facebook
   attr_accessible :provider, :uid
   has_many :user_preferences
 
 
+  def setup_preferences
+    puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ setting up preferences..."
+  end
 
   def self.find_for_database_authentication(warden_conditions)
       conditions = warden_conditions.dup
