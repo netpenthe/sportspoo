@@ -95,7 +95,7 @@ locator.prototype.locationFound = function() {
  // $('#location_guess').html("We think you're in "+this.city+" ("+tz+" GMT"+offset+DST+")");
   this.sports_ui.set_tz_selector(tz.substring(tz.indexOf("/")+1), offset_no_dst);
   $('#user_time_zone').val(tz.split("/")[1]);
-  mySportsUI.change_time_zone(offset); 
+  mySportsUI.change_time_zone(offset_dec); 
   
   
   //$('#location_guess').html("Timezone: "+tz+" (GMT"+offset+")");

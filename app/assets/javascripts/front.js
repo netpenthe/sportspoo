@@ -27,7 +27,7 @@ $(document).ready(function () {
         function(err) {
         myLocator.country = sports_geo_country; // this reads from the IP address, this is a variable set by Rails in _main.html.erb
         myLocator.locationFound();
-        },{timeout:24000} // 3 seconds
+        },{timeout:48000} // 3 seconds
         );
       }
     }
@@ -291,7 +291,7 @@ sports_ui.prototype.updateTree = function(country) {
           me.updateTreeJSON(leagues);
         });
   } else {
-    this.updateTreeJSON(my_leagues_json);
+    this.updateTreeJSON(this.my_leagues);
   }
 }
 
