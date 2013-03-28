@@ -133,6 +133,7 @@ sports_ui.prototype.updateInitialEventsJSON = function(events) {
 
     $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+teams_class+'" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+time_in_words+'</strong> <sup >'+start_date_local+'</sup></p>'+display_name+ '  <span class="label" style="background-color:'+ league_label_colour+'; font-size:10px;" data-name="activesupport">'+e.league+'</span> '  + tag_str  + live_event_str + ' </li>')
   }
+  
   //me.removeEvents(me.my_events);
   this.displayEventsForLeague(this.my_events,"my_events");
   this.change_time_zone(myLocator.defaultOffset, false);
@@ -193,7 +194,28 @@ sports_ui.prototype.displayEventsForLeague =  function(events,custom_class) {
       timestamp = start_date_utc.getTime();
 
       var new_event;
-      new_event = '<li class="ui-li ui-li-static ui-btn-up-c league_id_'+e.league_id+' '+custom_class+teams_class+'" league_id="'+e.league_id+'" event_id='+e.id+' timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+display_name +'  <span class="label labelstyle-FC9300" data-name="activesupport">'+e.league+'</span> </li>';
+
+      league_label_colour = e.league_label_colour;
+
+          // show live event label
+        live_event_str = "  ";
+        if(e.live){
+          live_event_str = " <span class='label' style='background-color:green; font-size:10px;'>LIVE</span> ";
+        }
+
+        //show event tags/label
+        var tag_str = "";
+        var t;
+        for (t = 0; t < e.tag_list.length; t++) {
+          tag_str = tag_str + " <span class='label' style='background-color:#0099cc; font-size:10px;'> " + e.tag_list[t] + "</span> ";
+        }
+
+
+        if (e.live){
+          time_in_words = " ";
+        }
+
+      new_event = '<li class="ui-li ui-li-static ui-btn-up-c league_id_'+e.league_id+' '+custom_class+teams_class+'" league_id="'+e.league_id+'" event_id='+e.id+' timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+display_name +'  <span class="label" style="background-color:'+ league_label_colour+'; font-size:10px;" data-name="activesupport">'+e.league+'</span>'  + tag_str  + live_event_str + ' </li>';
 
       if ($('#list1 li').length ==0) {
         $('#list1').append(new_event).hide().effect("highlight", {},1500);
