@@ -12,12 +12,10 @@ $(document).ready(function () {
     //mySportsUI.displayEventsForLeague(mySportsUI.my_events,"my_events");
     myLocator = new locator;
     myLocator.sports_ui = mySportsUI; 
-    if (typeof mySportsUI.my_leagues !== "undefined" && mySportsUI.my_leagues.length > 0) {
+    if (typeof mySportsUI.my_leagues !== "undefined") {
       mySportsUI.updateTreeJSON(mySportsUI.my_leagues);
       mySportsUI.updateInitialEventsJSON(mySportsUI.my_events);
-    } 
-    {
-      if (navigator.geolocation) { 
+    } else if (navigator.geolocation) { 
       navigator.geolocation.getCurrentPosition(
         function(position) {
         latitude = position.coords.latitude;
@@ -28,8 +26,7 @@ $(document).ready(function () {
         myLocator.country = sports_geo_country; // this reads from the IP address, this is a variable set by Rails in _main.html.erb
         myLocator.locationFound();
         },{timeout:48000} // 3 seconds
-        );
-      }
+      );
     }
     // then fill out left menu 
     // then fill out center menu
@@ -284,7 +281,7 @@ sports_ui.prototype.updateTreeJSON = function(leagues) {
 
 sports_ui.prototype.updateTree = function(country) {
   var me = this;
-  if (typeof this.my_leagues == 'undefined' || this.my_leagues.length == 0) {
+  if (typeof this.my_leagues == 'undefined' ) {
     $.getJSON( '/country/leagues/'+country+'.json',
         { },
         function(leagues) {
