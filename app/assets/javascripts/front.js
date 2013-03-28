@@ -74,8 +74,8 @@ sports_ui.prototype.change_time_zone = function(offset,highlight) {
     //nd = nd + " +0000"; //this ensures that moment knows this date was in GMT
     //nd = moment(nd).format('ddd h:mma');
 
-    //alert(nd);
-    nd = moment(nd,"DD/MM/YYYY HH:mm:ss a").format('ddd h:mma');
+    alert(nd);
+    nd = moment(nd,"MM/DD/YYYY HH:mm:ss a").format('ddd h:mma');
     //nd = moment(nd).format('ddd h:mma');
     $(this).children('.ui-li-desc').children('sup').text(nd); 
     if (highlight) { 
