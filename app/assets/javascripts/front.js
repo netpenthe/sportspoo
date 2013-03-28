@@ -374,8 +374,8 @@ sports_ui.prototype.set_tz_selector = function (city,offset_no_dst) {
     $('#tz_selector').val($(this).val);
     return;
   });
-
-
 }
 
-
+sports_ui.prototype.add_league = function(league_id, sport, league ) {
+  $('#main_sports_list h5:contains("'+sport+'") + ul').append('<li>'+league+'<input type=checkbox align=right checked style="float:right" onclick="mySportsUI.getEvents(this, '+league_id+')"></li>');
+}
