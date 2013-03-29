@@ -75,7 +75,7 @@ sports_ui.prototype.change_time_zone = function(offset,highlight) {
     //nd = moment(nd).format('ddd h:mma');
 
     //alert(nd);
-    nd = moment(nd,"MM/DD/YYYY HH:mm:ss a").format('ddd h:mma');
+    //nd = moment(nd,"MM/DD/YYYY HH:mm:ss a").format('ddd h:mma');
     //nd = moment(nd).format('ddd h:mma');
     $(this).children('.ui-li-desc').children('sup').text(nd); 
     if (highlight) { 
@@ -380,7 +380,8 @@ sports_ui.prototype.convertTZ2 = function (timestamp,offset) {
 
     //This will return the date with the locale format (string), or just return newDateWithOffset
     //and go from there.
-    return newDateWithOffset.toLocaleString();
+    return moment(newDateWithOffset).format('ddd h:mma');
+    //return newDateWithOffset.toLocaleString();
 }
 
 sports_ui.prototype.set_tz_selector = function (city,offset_no_dst) {
