@@ -46,7 +46,7 @@ class FrontController < ApplicationController
 
      respond_to do |format|
         format.html {} 
-        format.json { render json: @events, :include => [:teams], :methods=>[:display_name,:countdown, :league_name]}
+        format.json { render json: @events, :include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live]}
      end
     
   end
@@ -70,7 +70,7 @@ class FrontController < ApplicationController
       end 
      respond_to do |format|
         #format.json { render json: @country.upcoming_events, :include => [:teams], :methods=>[:display_name,:countdown, :league_name]}
-        format.json { render json: events, :include => [:teams], :methods=>[:display_name, :countdown, :league_name]}
+        format.json { render json: events, :include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live]}
      end
   end
 
@@ -85,7 +85,7 @@ class FrontController < ApplicationController
       end 
      respond_to do |format|
         #format.json { render json: @country.upcoming_events, :include => [:teams], :methods=>[:display_name,:countdown, :league_name]}
-        format.json { render json: events, :include => [:teams], :methods=>[:display_name, :countdown, :league_name]}
+        format.json { render json: events, :include => [:teams],  :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live] }
      end
   end
 
