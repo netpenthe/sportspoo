@@ -281,13 +281,13 @@ sports_ui.prototype.updateTreeJSON = function(leagues) {
 
     switch (leagues[i].priority) {
       case 1:
-        heading_ul.append('<li>'+leagues[i].name+'<input type=checkbox align=right  style="float:right" onclick="mySportsUI.getEvents(this, '+leagues[i].id+')"></li>');
+        heading_ul.append('<li>'+leagues[i].name+'<input type=checkbox align=right id="tree_league_id_'+leagues[i].sport_id+'" style="float:right" onclick="mySportsUI.getEvents(this, '+leagues[i].id+')"></li>');
         break;
       case 2:
-        $('#main_sports_list').append('<li class="league_hidden tree_league_id_'+leagues[i].sport_id+'">'+leagues[i].name+'<input type=checkbox id='+leagues[i].sport_id+' onclick="mySportsUI.getEvents(this,'+leagues[i].id+')" align=right style="float:right"></li>');
+        $('#main_sports_list').append('<li class="league_hidden id="tree_league_id_'+leagues[i].sport_id+'">'+leagues[i].name+'<input type=checkbox id='+leagues[i].sport_id+' onclick="mySportsUI.getEvents(this,'+leagues[i].id+')" align=right style="float:right"></li>');
         break;
       default:
-        $('#main_sports_list').append('<li>'+leagues[i].name+'<input type=checkbox onclick="mySportsUI.getEvents(this, '+leagues[i].id+')" checked align=right style="float:right"></li>');
+        $('#main_sports_list').append('<li>'+leagues[i].name+'<input type=checkbox id="tree_league_id_'+leagues[i].sport_id+'" onclick="mySportsUI.getEvents(this, '+leagues[i].id+')" checked align=right style="float:right"></li>');
         break;
     }
   }
@@ -435,10 +435,9 @@ sports_ui.prototype.set_tz_selector = function (city,offset_no_dst) {
 }
 
 sports_ui.prototype.add_league = function(league_id, sport, league ) {
-  if ($('#main_sports_list h5:contains("'+sport+'") + ul').length == 0) {
+  if ($('#main_sports_list h5').filter(function(index) { return $(this).text() === sport; }).length == 0) {
     $('#main_sports_list').append('<h5>'+sport+'</h5>');
-    $('#main_sports_list h5:contains("'+sport+'")').parent().append('<ul>');
+    $('#main_sports_list h5').filter(function(index) { return $(this).text() === sport; }).parent().append('<ul>');
   }
-
-  $('#main_sports_list h5:contains("'+sport+'") + ul').append('<li>'+league+'<input type=checkbox align=right checked style="float:right" onclick="mySportsUI.getEvents(this, '+league_id+')"></li>');
+  $('#main_sports_list h5').filter(function(index) { return $(this).text() === sport; }).next().append('<li>'+league+'<input type=checkbox align=right id="tree_league_id_'+league_id+'" checked style="float:right" onclick="mySportsUI.getEvents(this, '+league_id+')"></li>');
 }

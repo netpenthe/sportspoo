@@ -99,6 +99,10 @@ class UserPreferencesController < ApplicationController
       respond_to do |format|
         format.json { head :ok }
       end
+    else 
+      respond_to do |format|
+        format.json { head :ok }
+      end
     end
   end
 end
