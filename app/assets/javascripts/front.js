@@ -93,7 +93,10 @@ sports_ui.prototype.updateInitialEventsJSON = function(events) {
   var time_in_words ="";
   for (j=0;j<events.length;j++) {
     e = events[j];
-    this.league_ids.push(parseInt(e.league_id));
+    if ( $.inArray( e.league_id, this.league_ids ) == -1 )
+    { 
+      this.league_ids.push(parseInt(e.league_id));
+    }
     if (e.teams.length==2) {
       teams_class=' T'+e.teams[0].id+' T'+e.teams[1].id;
       display_name = e.teams[0].name + ' vs ' + e.teams[1].name ;
@@ -222,9 +225,11 @@ sports_ui.prototype.displayEventsForLeague =  function(events,custom_class) {
       } else {
         for (var j = $('#list1 li').length-1;j>=0;j--) {
           var list_item = $('#list1 li')[j];
-            if (parseInt(list_item.getAttribute("timestamp")) <= timestamp) {
+            if (parseInt(list_item.getAttribute("timestamp")) <= timestamp ) {
               $(new_event).hide().insertAfter($("#list1 li:nth-child("+(j+1)+")")).effect("highlight", {}, 1500);;
               break;
+            } else if ( j == 0) { // if it has to go at the top!
+              $(new_event).hide().insertBefore($("#list1 li:nth-child(1)")).effect("highlight", {}, 1500);;
             }
         }
       }
@@ -400,5 +405,10 @@ sports_ui.prototype.set_tz_selector = function (city,offset_no_dst) {
 }
 
 sports_ui.prototype.add_league = function(league_id, sport, league ) {
+  if ($('#main_sports_list h5:contains("'+sport+'") + ul').length == 0) {
+    $('#main_sports_list').append('<h5>'+sport+'</h5>');
+    $('#main_sports_list h5:contains("'+sport+'")').parent().append('<ul>');
+  }
+
   $('#main_sports_list h5:contains("'+sport+'") + ul').append('<li>'+league+'<input type=checkbox align=right checked style="float:right" onclick="mySportsUI.getEvents(this, '+league_id+')"></li>');
 }
