@@ -28,7 +28,7 @@ class LeaguesController < ApplicationController
     end
 
     respond_to do |format|
-      format.json { render json: @events, :include => [:teams]}
+      format.json { render json: @events, :include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live]}
     end
   end
 

@@ -35,7 +35,7 @@ class Event < ActiveRecord::Base
   end
 
   def self.upcoming_events_for_user_by_team(user, team_id, limit)
-    where('start_date > ? and start_date < ? and team_id = ?',Time.now,Time.now+7.days,team_id).joins('left join event_teams on event_teams.event_id = events.id').order("start_date").limit(25)
+    where('start_date > ? and start_date < ? and team_id = ?',Time.now,Time.now+28.days,team_id).joins('left join event_teams on event_teams.event_id = events.id').order("start_date").limit(25)
   end
   
   def home_team
