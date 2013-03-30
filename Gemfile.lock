@@ -138,9 +138,6 @@ GEM
     net-ssh (2.6.2)
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
-    nokogiri (1.5.9)
-    nokogiri-happymapper (0.5.6)
-      nokogiri (~> 1.5)
     oauth (0.4.7)
     oauth2 (0.8.0)
       faraday (~> 0.8)
@@ -258,7 +255,6 @@ DEPENDENCIES
   jquery_mobile_rails
   meta_search (>= 1.1.0.pre)
   mysql2
-  nokogiri-happymapper
   omniauth
   omniauth-facebook
   omniauth-twitter
