@@ -1,3 +1,4 @@
+
 feeds
 -----
 http://odds.luxbet.com/webservice/globalservice.asmx
@@ -8,23 +9,28 @@ http://affiliate.sportsbet.com.au/XMLFeeds/AussieRules.xml
 http://www.sportingbet.com.au/XMLFeeds/xmlAFLfeed.xml
 
 
+- ical events will be checked and confirmed if required by bet feed
+
+- how to handle finals/playoffs ? 
+
+
 football            source
 --------            ------
-a-league            ical
-epl                 ical
-championship        ical
-mls                 ?
-bundesliga          ical
-serie A             ical
-europa league       bet feed
+A-League            ical
+EPL                 ical
+Eng. championship   ical
+MLS                 ical per team
+Bundesliga          ical
+Serie A             ical
 Liga España         ical
-spl                 ical
+SPL                 ical
+
 
 football cups
 --------
-champions league    bet feed
+Euro Champions League bet feed
 FA Cup              bet feed
-europa league       bet feed
+Europa League       bet feed
 
 
 gridiron
@@ -40,16 +46,17 @@ ncaa basketball     ical
 march madness       bet feed
 nbl                 bet feed
 euro league         bet feed
-ncaa                ical
 
 nhl                 ical per team
 
 mlb                 ical per team
 
+
 aussie rules
 -------
 AFL                 ical
 sanfl               by hand
+
 
 motor
 ---------
@@ -59,6 +66,7 @@ indycar             ?
 v8                  ?
 motogp              ?
 
+
 rugby
 ------
 NRL                 ical
@@ -66,17 +74,21 @@ super 16            ?
 
 le tour
 
+
 cricket
 -------
-bbl                 ?
-ipl                 ?
-test matches        ?
+bbl                 bet feed
+ipl                 bet feed
+test matches        bet feed
 one dayers          bet feed
 t20 international   bet feed
+
 
 tennis
 ------
 all major           bet feed
+
+
 
 cycling
 -------
