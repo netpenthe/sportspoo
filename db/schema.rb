@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130314122154) do
+ActiveRecord::Schema.define(:version => 20130402110833) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -53,6 +53,11 @@ ActiveRecord::Schema.define(:version => 20130314122154) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "country_leagues", :id => false, :force => true do |t|
+    t.integer "country_id"
+    t.integer "league_id"
+  end
+
   create_table "countryleagues", :force => true do |t|
     t.integer "country_id"
     t.integer "league_id"
@@ -67,6 +72,9 @@ ActiveRecord::Schema.define(:version => 20130314122154) do
     t.datetime "updated_at",       :null => false
   end
 
+  add_index "event_teams", ["event_id"], :name => "event_teams_idx"
+  add_index "event_teams", ["team_id"], :name => "event_teams_teams_id"
+
   create_table "events", :force => true do |t|
     t.integer  "sport_id"
     t.integer  "league_id"
@@ -80,6 +88,9 @@ ActiveRecord::Schema.define(:version => 20130314122154) do
     t.integer  "import_event_id"
     t.integer  "location_id"
   end
+
+  add_index "events", ["sport_id"], :name => "sport_id_idx"
+  add_index "events", ["start_date"], :name => "start_date_idx"
 
   create_table "external_events", :force => true do |t|
     t.string   "site"
@@ -183,6 +194,10 @@ ActiveRecord::Schema.define(:version => 20130314122154) do
     t.datetime "updated_at"
   end
 
+  add_index "user_preferences", ["preference_id"], :name => "preference_preference_id"
+  add_index "user_preferences", ["preference_type"], :name => "preference_type_id"
+  add_index "user_preferences", ["user_id"], :name => "user_id"
+
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
@@ -199,6 +214,7 @@ ActiveRecord::Schema.define(:version => 20130314122154) do
     t.string   "username"
     t.string   "provider"
     t.string   "uid"
+    t.string   "tz"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
