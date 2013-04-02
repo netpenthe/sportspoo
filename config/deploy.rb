@@ -14,6 +14,8 @@ require 'capistrano/ext/multistage'
 default_run_options[:pty]   = true # must be set for the password prompt from git to work
 #ssh_options[:forward_agent] = true # use local keys instead of the ones on the server
 
+set :keep_releases, 5
+
 
 set :application, "sportspoo"
 set :repository,  "git@bitbucket.org:desmondy/sportspoo.git"
