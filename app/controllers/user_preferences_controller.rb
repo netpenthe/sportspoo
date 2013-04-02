@@ -105,4 +105,12 @@ class UserPreferencesController < ApplicationController
       end
     end
   end
+  def save_tz
+    if current_user && params[:tz]
+      current_user.update_attribute(:tz,params[:tz])
+    end
+    respond_to do |format|
+      format.text {render :text => 'ok'}
+    end
+  end
 end

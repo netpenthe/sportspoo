@@ -23,6 +23,11 @@ class User < ActiveRecord::Base
     puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ setting up preferences..."
   end
 
+  def tz
+     read_attribute(:tz) || 'Pacific Time (US & Canada)'
+  end
+  
+
   def self.find_for_database_authentication(warden_conditions)
       conditions = warden_conditions.dup
       if login = conditions.delete(:login)

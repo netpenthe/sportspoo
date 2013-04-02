@@ -7,6 +7,7 @@ var locator =  function() {
   this.sports_ui = '';
   this.geocoder = new google.maps.Geocoder();
   this.defaultOffset = 0;
+  this.tz = '';
 };
 /* MOVED TO BE ANONYMOUS FUNCTION 
 locator.prototype.successFunction = function(position) {

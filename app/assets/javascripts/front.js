@@ -1,46 +1,9 @@
-
 timezoneJS.timezone.zoneFileBasePath = '/assets/tz';
 timezoneJS.timezone.defaultZoneFile = ['asia', 'australasia', 'backward', 'europe','northamerica', 'southamerica'];
 timezoneJS.timezone.init();
-var myLocator;
-//var mySportsUI;
-// This is where all the page initialisation happens.
-$(document).ready(function () {
-    // first locate
-    //mySportsUI = Object.create(sports_ui);
- //   mySportsUI = new sports_ui;
-    //mySportsUI.displayEventsForLeague(mySportsUI.my_events,"my_events");
-    myLocator = new locator;
-    myLocator.sports_ui = mySportsUI; 
-    if (typeof mySportsUI.my_leagues !== "undefined") {
-      mySportsUI.updateTreeJSON(mySportsUI.my_leagues);
-      mySportsUI.updateInitialEventsJSON(mySportsUI.my_events);
-    } else if (navigator.geolocation) { 
-      navigator.geolocation.getCurrentPosition(
-        function(position) {
-        latitude = position.coords.latitude;
-        longitude = position.coords.longitude;
-        myLocator.codeLatLng(latitude, longitude); // this should not call myLocator, it should be 'this' but the problem is this 'successFunction' is a CallBack and doesn't seem to send the whole object
-        },
-        function(err) {
-        myLocator.country = sports_geo_country; // this reads from the IP address, this is a variable set by Rails in _main.html.erb
-        myLocator.locationFound();
-        },{timeout:48000} // 3 seconds
-      );
-    }
-    // then fill out left menu 
-    // then fill out center menu
-
-    $('#results_wrapper').mouseleave(function() {
-        $('#results_wrapper').fadeOut();
-        $('#show_results').show(); 
-        });
-    $('.save_preferences').click(mySportsUI.save_current_preferences);
-});
-
 var sports_ui = function() {
   this.leagues_jsons = {},
-    this.my_events = {}
+  this.my_events = {}
   this.league_ids = [];
   this.my_teams = [];
 };
@@ -60,6 +23,12 @@ sports_ui.prototype.change_time_zone_select = function(tz) {
       function(txt) {
         me.change_time_zone(txt+"");
   }); 
+  if (current_user) {
+    $.getJSON( '/user/save_tz/'+s.value+'.txt?',
+        { },
+        function(txt) { }
+    ); 
+  }
 }
 
   // NOTE: offset is 10.5 NOT 1030
