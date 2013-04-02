@@ -1,5 +1,14 @@
-<%=event.home_team.name%> vs <%=event.away_team.name%> @<%=event.location.name%><br>
+<li class="ui-li ui-li-static ui-btn-up-c league_id_219 my_leagues T1968 T1969 my_teams" league_id="219" event_id="14768" timestamp="1364652600000">
 
-<div style="font-weight:12px;">
-  <%=event.league.name%>     (<%=distance_of_time_in_words_to_now event.start_date%>) <br>
-</div>
+  <font class="goog-text-highlight"> <%=event.display_name%></font>
+
+  <span class="label" style="background-color:<%=event.league_label_colour%>; font-size:10px;" data-name="activesupport">
+    <font class="goog-text-highlight">
+      <%=event.league.name%>
+    </font>
+  </span>
+
+  <strong> <%=distance_of_time_in_words_to_now event.start_date%></strong>
+
+</li>
+
