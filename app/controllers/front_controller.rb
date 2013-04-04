@@ -26,6 +26,8 @@ class FrontController < ApplicationController
     #  where user_id=1;
     user = current_user unless current_user.blank?
     user = User.find_by_username params[:username] if user.blank?
+
+    Time.zone = user.tz unless user.tz.blank?
   
     @team_events = Array.new
     @league_events = Array.new
