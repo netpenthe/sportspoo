@@ -1,30 +1,29 @@
 <%# link_to "Home", root_path, :class => 'brand' %>
-<div id='main_title'><%=link_to image_tag('logo.gif',:width=>'360'), "/"%></div>
+<div id='main_title'><%=link_to image_tag('logo.gif',:width=>'360',:style=>'width:360px'), "/"%></div>
 <ul class="nav">
 
   <% if user_signed_in? %>
     <li>
-     <%= link_to('Config', config_path) %>
+    <%= link_to('Config', config_path) %>
     </li>
 
     <li>
-     <%= link_to('Account', edit_user_registration_path) %>
+    <%= link_to('Account', edit_user_registration_path) %>
     </li>
 
   <% else %>
 
     <!--<li>
-       <a class="btn btn-primary" data-toggle="modal" tabindex="-1" href="#forgotpasswordmodal" >Forgot Pwd</a>
+    <a class="btn btn-primary" data-toggle="modal" tabindex="-1" href="#forgotpasswordmodal" >Forgot Pwd</a>
     </li>-->
 
     <!--<li>
-      <%# link_to('Sign up', new_user_registration_path)  %>
+    <%# link_to('Sign up', new_user_registration_path)  %>
     </li>-->
 
 
   <% end %>
   <% if user_signed_in? %>
-
     <li>
     <%= link_to('Logout', destroy_user_session_path, :method=>'delete') %>
     </li>
@@ -32,35 +31,54 @@
   <% else %>
 
     <li>
-<!--
-     <form class="navbar-form pull-right">
-              <input class="span2" type="text" placeholder="Email">
-              <input class="span2" type="password" placeholder="Password">
-              <button type="submit" class="btn">Sign in</button>
-      </form>-->
-  <%= form_for("user", :url => user_session_path, :html=>{:style=>'margin: 0; padding:0',:id=>'user_login_header',:class=>'navbar-form pull-right'}) do |f| %>
-  <%= f.text_field :email,  :placeholder=>"email",:size => 20 %>
-  <%= f.password_field :password,:size=>20, :placeholder=>"password" %>
-  <%= f.hidden_field :remember_me,:value=>:true %>
-  <%= f.submit 'Sign in', :class=>'btn btn-info'%>
-  <br />
-  <%# link_to "Forgot your password?", new_password_path('user'), :style=>'float: right' %>
-<% end %>
+    <!--
+    <form class="navbar-form pull-right">
+      <input class="span2" type="text" placeholder="Email">
+      <input class="span2" type="password" placeholder="Password">
+      <button type="submit" class="btn">Sign in</button>
+    </form>-->
+    <%= form_for("user", :url => user_session_path, :html=>{:style=>'margin: 0; padding:0',:id=>'user_login_header',:class=>'navbar-form pull-right'}) do |f| %>
+      <%= f.text_field :email,  :placeholder=>"email",:size => 20 %>
+      <%= f.password_field :password,:size=>20, :placeholder=>"password" %>
+      <%= f.hidden_field :remember_me,:value=>:true %>
+      <%= f.submit 'Sign in', :class=>'btn btn-info'%>
+      <br />
+      <%# link_to "Forgot your password?", new_password_path('user'), :style=>'float: right' %>
+    <% end %>
     </li>
 
-     <li>
-       <!--<input class="bth btn-success" data-toggle="modal" href="#signupmodal" value="Join">-->
-        <button type="button" class="btn btn-success" href='#signupmodal' data-toggle="modal"><a href="#signupmodal" data-toggle="modal" id='join_button'>Join</a></button>
-     </li>
+    <li>
+    <!--<input class="bth btn-success" data-toggle="modal" href="#signupmodal" value="Join">-->
+    <button type="button" class="btn btn-success" href='#signupmodal' data-toggle="modal"><a href="#signupmodal" data-toggle="modal" id='join_button'>Join</a></button>
+    </li>
 
 
-     <li style='width:25px;padding:0;margin:0'>
-       <a href="/users/auth/facebook" class='save_preferences' border="0"><%=image_tag "f_logo.png", :size=>"20x20"%></a>
-     </li>
+    <li style='width:25px;padding:0;margin:0'>
+    <a href="/users/auth/facebook" class='save_preferences' border="0"><%=image_tag "f_logo.png", :size=>"20x20"%></a>
+    </li>
 
-       <li style='width:25px;padding:0;margin:0'>
-       <a href="/users/auth/twitter" class='save_preferences' border="0"><%=image_tag "twitter.png", :size=>"20x20"%></a>
-     </li>
-
+    <li style='width:25px;padding:0;margin:0'>
+    <a href="/users/auth/twitter" class='save_preferences' border="0"><%=image_tag "twitter.png", :size=>"20x20"%></a>
+    </li>
+    <% if @login == "failed" %>
+      <div id="login_failed"><span>Uh Oh, your login details were not recognized.....</span></div>
+      <script>
+        var newdiv = function () {
+          var o = $('#user_password').offset();
+          var h = $('#user_password').height();
+          var w = $('#user_password').width();
+          $('#login_failed').css({ 'top': o.bottom,
+            'left': o.left,
+            'width': "500px",
+            'height': h  
+          }).show();
+        }
+        // listen the window changes and correct the newdiv position
+        $(window).resize(function(){ newdiv(); });
+        // display the newdiv after DOM is loaded, or whenever you want
+        newdiv();
+        $('#user_email, #user_password').css("border","1px solid red");
+      </script>
+    <% end %>
   <% end %>
 </ul>
