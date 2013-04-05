@@ -155,7 +155,7 @@ sports_ui.prototype.displayEventsForLeague =  function(events,custom_class) {
       var display_name = "";
       if (e.teams.length==2) {
         teams_class=' T'+e.teams[0].id+' T'+e.teams[1].id;
-        display_name = e.teams[0].name + ' vss ' + e.teams[1].name ;
+        display_name = e.teams[0].name + ' vs ' + e.teams[1].name ;
       } else {
         display_name = e.name;
       }
