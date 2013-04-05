@@ -1,5 +1,6 @@
 <!--<link href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.css" media="all" rel="stylesheet" type="text/css" />-->
-<div id='search_wrapper' xstyle='background-color:#26d2e8;width:400px;display:table;padding:5px;text-align:center;padding-bottom:0px;'>
+
+<div id='search_wrapper' xstyle='background-color:#26d2e8;width:400px;display:table;padding:5px;text-align:center;padding-bottom:15px;'>
   <div style='margin 0 auto;width:660px;text-align:center;margin-top:9px'>
     <input id="searchterm" type="text" style='width:345px;' placeholder='Search for upcoming games for your sport teams!'/> 
   </div>
@@ -11,6 +12,9 @@
 
 
   </div>
+
+  <br>
+
   <script type="text/javascript">// <![CDATA[ 
   <% if request.env["HTTP_USER_AGENT"].match /Safari/ %>
       var sports_geo_city =  "<%=request.location.city || '' %>";
