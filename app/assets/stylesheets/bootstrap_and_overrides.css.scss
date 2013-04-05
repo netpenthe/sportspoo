@@ -19,12 +19,13 @@ h3 {padding-left:5px}
 .league_hidden {display: none}
 
 .my_events {background-color: pink}
+.my_teams {background-color: #D4EBF2}
 
 #user_login_header a:visited, #user_login_header a { color: #fff;text-align:right}
 
 #tz_selector {width:100%;font-size:11px;padding:0px;margin-bottom:3px;}
-#list1 li:nth-child(odd) { background: #D4EBF2; };
-#list1 li:nth-child(even) { background: #efefef; };
+//.#list1 li:nth-child(odd) { background: #D4EBF2; };
+//#list1 li:nth-child(even) { background: #efefef; };
 #list1 li {border-left:1px solid #ccc;border-right:1px solid #ccc}
 #list1 li:last-child {border-bottom:1px solid #ccc}
 
