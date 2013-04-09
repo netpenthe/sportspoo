@@ -48,7 +48,11 @@
         
         $('#tz_selector').val(myLocator.tz);
         mySportsUI.change_time_zone_select($('#tz_selector').get(0));
-      } else if (navigator.geolocation) { 
+      } else {
+          myLocator.country = sports_geo_country; // this reads from the IP address, this is a variable set by Rails in _main.html.erb
+          myLocator.locationFound();
+      }
+      /*} else if (navigator.geolocation) { 
         navigator.geolocation.getCurrentPosition(
           function(position) {
           latitude = position.coords.latitude;
@@ -58,9 +62,9 @@
           function(err) {
           myLocator.country = sports_geo_country; // this reads from the IP address, this is a variable set by Rails in _main.html.erb
           myLocator.locationFound();
-          },{timeout:48000} // 3 seconds
+          },{timeout:1} // 3 seconds
         );
-      }
+      }*/
 
       /* setup listeners */
       $('#results_wrapper').mouseleave(function() {
