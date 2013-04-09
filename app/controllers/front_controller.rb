@@ -3,13 +3,28 @@ class FrontController < ApplicationController
   def index
     if (session[:leagues].nil?)
       session[:leagues] = []
-      session[:teams] = []
-      session[:leagues] = []
     end
+    if (session[:teams].nil?) 
+      session[:leagues] = []
+    end 
+
     @leagues = session[:leagues]
     @teams = session[:teams]
 
-    if current_user
+    # When a person first hits the "join" or "facebook" or "twitter" buttons
+    # we save their current settings (teams/leagues) into a session
+    # If they get back here it means they've signed up.. if it is their first signup
+    # save their settings to UserPreferencers
+    if current_user && current_user.sign_in_count == 1
+      teams = session[:teams].split(",")
+      leagues = session[:leagues].split(",")
+      current_user.addInitialTeams(teams)
+      current_user.addInitialLeagues(leagues)
+      current_user.sign_in_count = 2
+      current_user.save!
+    end
+
+    if current_user 
       #@my_leagues_json = current_user.my_leagues.to_json
       #@my_teams_json = current_user.my_teams.to_json(:include => [:sport], :methods=>[:display_name, :countdown, :league_name])
       #@my_events_json = User.upcoming_events(current_user,50(current_user,50)).to_json
@@ -112,8 +127,11 @@ class FrontController < ApplicationController
   end
 
   def save_session
-    #session[:leagues] =
-    #session[:teams] =
+    session[:leagues] = params[:leagues]
+    session[:teams]   = params[:teams]
+    respond_to do |format|
+      format.text {render :text => "ok"}
+    end
   end
 
 end

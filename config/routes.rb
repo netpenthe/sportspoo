@@ -32,10 +32,14 @@ Sportspoo::Application.routes.draw do
   match '/user_preference/remove_league/:league_id' => 'user_preferences#remove_league'
   match '/user_preference/remove_team/:team_id' => 'user_preferences#remove_team'
   match '/user/save_tz/:tz' => 'user_preferences#save_tz'
+  match '/front/save_session' => 'front#save_session'
 
+  
   match '/cache/clear/user/:user_id' => 'cache#clear_user'
   match '/cache/clear/country/events' => 'cache#clear_country_events'
   match '/cache/clear/country/leagues' => 'cache#clear_country_leagues'
+
+  
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
