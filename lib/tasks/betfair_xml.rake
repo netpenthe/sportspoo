@@ -135,6 +135,51 @@ namespace :betfair_xml do
 
 
 
+ task :cricket => :environment do
+
+    puts "getting data from http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=4&SportName=Cricket&Type=B"
+    file = open("http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=4&SportName=Cricket&Type=B",
+            "User-Agent" => "Mozilla/5.0 (Windows; U; Windows NT 5.1; id) AppleWebKit/522.11.3 (KHTML, like Gecko) Version/3.0 Safari/522.11.3")
+
+    file_contents = file.read
+    betfair = BetFair::Betfair.parse file_contents
+    data = BetFair::Event.parse file_contents
+
+    data.each do |event|
+      event.sub_events.each do |sub|
+        if sub.title=="Match Odds DRAW NO BET"
+
+          parts = event.name.split("/")
+
+          evnt = {}
+          evnt[:sport_name] = betfair.sport
+          evnt[:league_name] = parts[1].chomp
+          evnt[:site] = "BetfairXML"
+          evnt[:external_key] = sub.betfair_id
+
+          start_date = DateTime.parse("#{event.date} #{sub.time}")
+          end_date = start_date + 9.hours
+
+          evnt[:start_date] = start_date
+          evnt[:end_date] = end_date
+
+          evnt[:home_team_first] = true
+          evnt[:teams] = []
+          sub.selections.each do |selection|
+             evnt[:teams] << selection.name
+          end
+
+          create_or_update_event(evnt)
+
+        end
+
+      end
+
+    end
+
+  end
+
+
 
 
   def create_or_update_event event
