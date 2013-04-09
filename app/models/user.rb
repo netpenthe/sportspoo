@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
     puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ setting up preferences..."
   end
 
+
   def tz
      read_attribute(:tz) || 'Pacific Time (US & Canada)'
   end
@@ -86,6 +87,20 @@ class User < ActiveRecord::Base
 
   def teams_ordered
    Team.find(:all, :conditions=>['id in (?)', self.teams.map{|t| t.preference_id}]) 
+  end
+
+  def addInitialLeagues(leagues)
+    leagues.each do |foo| 
+      UserPreference.find_or_create_by_user_id_and_preference_type_and_preference_id(self.id,"League",foo.to_s)
+    end
+  end
+
+  def addInitialTeams(teams)
+    teams.each do |foo| 
+      puts "team user_id.... "+self.id.to_s
+      puts "team team_id.... "+foo.to_s
+      UserPreference.find_or_create_by_user_id_and_preference_type_and_preference_id(self.id,"Team",foo.to_s)
+    end
   end
 
   has_many :leagues, :class_name=>"UserPreference", :conditions =>"preference_type='League'"
