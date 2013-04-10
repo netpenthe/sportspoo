@@ -1,6 +1,9 @@
 class FrontController < ApplicationController
 
   def index
+    @country = request.location.country == 'Reserved' ? 'Australia' : request.location.country
+
+
     if (session[:leagues].nil?)
       session[:leagues] = []
     end
@@ -28,6 +31,10 @@ class FrontController < ApplicationController
       #@my_leagues_json = current_user.my_leagues.to_json
       #@my_teams_json = current_user.my_teams.to_json(:include => [:sport], :methods=>[:display_name, :countdown, :league_name])
       #@my_events_json = User.upcoming_events(current_user,50(current_user,50)).to_json
+    else  
+      @country_events = (Country.find_by_name @country).upcoming_events.to_json(:include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live])
+      @country_leagues  = (Country.find_by_name @country).leagues.to_json #, :params=>{:country_id => @country.id}}
+      @tz = request.location.city == '' ? "Adelaide" : request.location.city
     end
     if params[:login] == "failed"
       @login = "failed"
