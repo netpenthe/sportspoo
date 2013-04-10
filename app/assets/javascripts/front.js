@@ -18,7 +18,14 @@ sports_ui.prototype.save_current_preferences = function() {
     teams += $(this).attr("id").replace("my_teams_T","") + ",";
   });
 
-  $.post("/front/save_session", { teams: teams, leagues: leagues } );
+  //$.post("/front/save_session", { teams: teams, leagues: leagues } );
+
+    $.ajax({
+        type: 'POST',
+        url: '/front/save_session',
+        async:false,
+        data: {teams: teams, leagues: leagues}
+    });
   return true;
 }
 
