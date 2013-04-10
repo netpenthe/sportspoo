@@ -19,39 +19,43 @@
       mySportsUI = new sports_ui;
       myLocator.sports_ui = mySportsUI; 
 
+      <% @myevents = nil %>
+      <% @myteams = nil %>
+      <% @myleagues = nil %>
       // first setup all the data
       <% if current_user %>
-        <% @myevents = nil %>
         <%# cache "events.user.#{current_user.id}" do %>
           <%@myevents = Event.upcoming_events_for_user(current_user,1000).to_json(:include=>[:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour, :live]).html_safe %>
         <%# end %>
         mySportsUI.my_events = <%=raw @myevents%>;
 
-        <% @myteams = nil %>
         <%# cache "teams.user.#{current_user.id}" do %>
             <%@myteams = current_user.teams.map{|t| t.preference_id}.join(',') %>
         <%# end %>
         mySportsUI.my_teams = [<%=raw @myteams%>];
           
-        <% @myleagues = nil %>
         <%# cache "leagues.user.#{current_user.id}" do %>
             <%@myleagues = current_user.my_leagues.to_json %>
         <%# end %>
         mySportsUI.my_leagues = <%=raw @myleagues%>;
         myLocator.tz = "<%=raw current_user.tz%>";
+      <% else %>
+        mySportsUI.my_leagues = <%=raw @country_leagues%>;
+        mySportsUI.my_events = <%=raw @country_events%>;
+        myLocator.tz = "<%=@tz%>";
       <% end %>
 
       // now check if showing a user or default
-      if (current_user) {
+      //if (current_user) {
         mySportsUI.updateTreeJSON(mySportsUI.my_leagues);
         mySportsUI.updateInitialEventsJSON(mySportsUI.my_events);
         
         $('#tz_selector').val(myLocator.tz);
         mySportsUI.change_time_zone_select($('#tz_selector').get(0));
-      } else {
-          myLocator.country = sports_geo_country; // this reads from the IP address, this is a variable set by Rails in _main.html.erb
-          myLocator.locationFound();
-      }
+      //} else {
+          //myLocator.country = sports_geo_country; // this reads from the IP address, this is a variable set by Rails in _main.html.erb
+          //myLocator.locationFound();
+      //}
       /*} else if (navigator.geolocation) { 
         navigator.geolocation.getCurrentPosition(
           function(position) {
