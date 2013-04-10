@@ -10,6 +10,9 @@ class FrontController < ApplicationController
     if (session[:teams].nil?) 
       session[:leagues] = []
     end 
+    if (session[:tz].nil?) 
+      session[:tz] = ""
+    end 
 
     @leagues = session[:leagues]
     @teams = session[:teams]
@@ -21,6 +24,7 @@ class FrontController < ApplicationController
     if current_user && current_user.sign_in_count == 1
       teams = session[:teams].split(",")
       leagues = session[:leagues].split(",")
+      current_user = session[:tz]
       current_user.addInitialTeams(teams)
       current_user.addInitialLeagues(leagues)
       current_user.sign_in_count = 2
@@ -31,6 +35,7 @@ class FrontController < ApplicationController
       #@my_leagues_json = current_user.my_leagues.to_json
       #@my_teams_json = current_user.my_teams.to_json(:include => [:sport], :methods=>[:display_name, :countdown, :league_name])
       #@my_events_json = User.upcoming_events(current_user,50(current_user,50)).to_json
+      @tz = current_user.tz
     else  
       @country_events = (Country.find_by_name @country).upcoming_events.to_json(:include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live])
       @country_leagues  = (Country.find_by_name @country).leagues.to_json #, :params=>{:country_id => @country.id}}
@@ -136,6 +141,7 @@ class FrontController < ApplicationController
   def save_session
     session[:leagues] = params[:leagues]
     session[:teams]   = params[:teams]
+    session[:tz]   = params[:tz]
     respond_to do |format|
       format.text {render :text => "ok"}
     end

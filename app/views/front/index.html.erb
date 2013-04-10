@@ -38,12 +38,11 @@
             <%@myleagues = current_user.my_leagues.to_json %>
         <%# end %>
         mySportsUI.my_leagues = <%=raw @myleagues%>;
-        myLocator.tz = "<%=raw current_user.tz%>";
       <% else %>
         mySportsUI.my_leagues = <%=raw @country_leagues%>;
         mySportsUI.my_events = <%=raw @country_events%>;
-        myLocator.tz = "<%=@tz%>";
       <% end %>
+        myLocator.tz = "<%=@tz%>";
 
       // now check if showing a user or default
       //if (current_user) {
