@@ -24,7 +24,7 @@ sports_ui.prototype.save_current_preferences = function() {
         type: 'POST',
         url: '/front/save_session',
         async:false,
-        data: {teams: teams, leagues: leagues}
+        data: {teams: teams, leagues: leagues, tz: myLocator.tz}
     });
   return true;
 }
