@@ -24,7 +24,7 @@ class FrontController < ApplicationController
     if current_user && current_user.sign_in_count == 1
       teams = session[:teams].split(",")
       leagues = session[:leagues].split(",")
-      current_user = session[:tz]
+      current_user.tz = session[:tz]
       current_user.addInitialTeams(teams)
       current_user.addInitialLeagues(leagues)
       current_user.sign_in_count = 2
