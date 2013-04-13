@@ -42,14 +42,9 @@ class FrontController < ApplicationController
      # @tz = request.location.city == '' ? "Adelaide" : request.location.city
       city = request.location.city.blank? ? "Sydney" : request.location.city
       #city = "Portland"
-puts "~~~~~~~~~~~~~~~~~~~~~ city is: "+city
       if (!city.blank?) 
-puts " XXX"
-        @tz = Citytimezones.find(:first, :conditions=>["city like ?",city+'%']).tz_dropdown
-        if @tz.blank?
-puts "YYY"
-          @tz = city
-        end
+        x = Citytimezones.find(:first, :conditions=>["city like ?",city+'%'])
+        @tz = x.present? ? x.tz_dropdown : city
       else 
         @tz = "Pacific Time (US & Canada)"
       end
