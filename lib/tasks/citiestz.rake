@@ -17,8 +17,19 @@ namespace :citiestz do
 
   # need to extract from: (GMT-08:00) Pacific Time (US & Canada); Tijuana
   #             and also: (GMT+08:00) Beijing, Chongqing, Hong Kong, Urumqi
-      x=foo.to_s.gsub(/;.*/,"").gsub(/.*\) /,"").split(",")[0]
-      c.tz_dropdown = x
+      x=foo.to_s.gsub(/;.*/,"").gsub(/.*\) /,"").split(",")
+      x.map!{|f| f.strip}
+      puts "city is: "+c.city+", row is: "+row[1]
+      puts "  "+x.to_s
+
+      if (x.include?(c.city)) 
+        puts "  -- CITY "+c.city
+        c.tz_dropdown = c.city
+      else
+        puts " -- "+x[0]
+        c.tz_dropdown = x[0]
+  
+      end
       c.latitude = row[3]
       c.longitude = row[4]
       c.save! 
