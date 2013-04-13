@@ -5,11 +5,10 @@ class League < ActiveRecord::Base
 
 
   def as_json(options ={})
+    options[:except] = [:updated_at, :created_at]
     h = super(options)
     h[:sport] = sport.name unless sport.blank?
     #h[:priority] = self.priority options[:params][:country_id]
-    h.delete(:created_at)
-    h.delete(:updated_at)
     h
   end
 

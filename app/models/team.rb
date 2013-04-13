@@ -13,11 +13,16 @@ class Team < ActiveRecord::Base
   end
  
   def as_json(options ={})
+    options[:except] = [:import_id, :created_at,:updated_at]
     h = super(options)
     h[:sport_name] = self.sport.present? ? self.sport.name : 'sprt' 
-    h.delete(:created_at)
-    h.delete(:updated_at)
-    h.delete(:import_id)
+    h
+  end
+
+  def serializable_hash(options ={})
+    options[:except] = [:import_id, :created_at,:updated_at]
+    h = super(options)
+    h[:sport_name] = self.sport.present? ? self.sport.name : 'sprt' 
     h
   end
 
