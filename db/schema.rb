@@ -50,11 +50,12 @@ ActiveRecord::Schema.define(:version => 20130413123011) do
     t.string   "city"
     t.string   "tz_detail"
     t.string   "tz"
+    t.string   "tz_dropdown"
     t.string   "country"
     t.float    "latitude"
     t.float    "longitude"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "countries", :force => true do |t|
