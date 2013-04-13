@@ -53,6 +53,14 @@ class Event < ActiveRecord::Base
     h[:time_in_words] = distance_of_time_in_words_to_now self.start_date
     h[:running] = self.start_date < Time.now ? true : false
     h[:quick_datetime] = self.start_date.strftime('%a%l:%M%P')
+
+    #not used
+    h.delete(:import_id)
+    h.delete(:created_at)  
+    h.delete(:import_event_id)  
+    h.delete(:location_id)  
+    h.delete(:updated_at)  
+
     h
   end
 
