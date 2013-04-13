@@ -42,7 +42,7 @@
         mySportsUI.my_leagues = <%=raw @country_leagues%>;
         mySportsUI.my_events = <%=raw @country_events%>;
       <% end %>
-        myLocator.tz = "<%=@tz%>";
+        myLocator.tz = "<%=raw @tz%>";
 
       // now check if showing a user or default
       //if (current_user) {
