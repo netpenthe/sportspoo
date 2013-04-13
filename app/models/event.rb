@@ -48,6 +48,7 @@ class Event < ActiveRecord::Base
 
 
   def as_json(options ={})
+    options[:except] ||= :created_at
     h = super(options)
     h[:league] = league.name
     h[:time_in_words] = distance_of_time_in_words_to_now self.start_date
