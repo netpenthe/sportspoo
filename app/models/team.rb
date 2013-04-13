@@ -19,6 +19,13 @@ class Team < ActiveRecord::Base
     h
   end
 
+  def serializable_hash(options ={})
+    options[:except] = [:import_id, :created_at,:updated_at]
+    h = super(options)
+    h[:sport_name] = self.sport.present? ? self.sport.name : 'sprt' 
+    h
+  end
+
   def all_names
     "#{shortname_list} | #{nickname_list}"
   end
