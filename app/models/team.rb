@@ -15,6 +15,9 @@ class Team < ActiveRecord::Base
   def as_json(options ={})
     h = super(options)
     h[:sport_name] = self.sport.present? ? self.sport.name : 'sprt' 
+    h.delete(:created_at)
+    h.delete(:updated_at)
+    h.delete(:import_id)
     h
   end
 
