@@ -249,6 +249,7 @@ DEPENDENCIES
   capistrano
   coffee-rails (~> 3.2.1)
   devise
+  fastercsv
   geocoder
   happymapper
   jquery-rails
