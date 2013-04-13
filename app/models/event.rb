@@ -51,7 +51,7 @@ class Event < ActiveRecord::Base
     options[:except] = [:import_id, :created_at,:import_event_id,:location_id,:updated_at]
     h = super(options)
     #h[:league] = league.name
-    #h[:time_in_words] = distance_of_time_in_words_to_now self.start_date
+    h[:time_in_words] = distance_of_time_in_words_to_now self.start_date
     #h[:running] = self.start_date < Time.now ? true : false
     #h[:quick_datetime] = self.start_date.strftime('%a%l:%M%P')
     h
