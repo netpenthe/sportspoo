@@ -1,8 +1,12 @@
 <h3>Chat</h3>
 
-<div id='messagesDiv' style='padding:0 5px;overflow-y:scroll;background-color:#fff;height:500px'></div>
-<input type='text' id='nameInput' placeholder='Name'>
-<input type='text' id='messageInput' placeholder='Message...'>
+<div id='messagesDiv' style='padding:0 5px;border:1px solid #ccc;overflow-y:scroll;background-color:#fff;height:500px'></div>
+<% if current_user.present? %>
+  <input style='text-align:right;margin-top:10px;width:240px' type='text' id='nameInput' placeholder='Name' value='<%=current_user.username%>' >
+<% else %>
+  <input style='text-align:right;width:240px' type='text' id='nameInput' placeholder='Name'>
+<% end %>
+<input style='text-align:right;width:240px' type='text' id='messageInput' placeholder='Message...'>
 <script>
 
   // Get a reference to the root of the chat data.
