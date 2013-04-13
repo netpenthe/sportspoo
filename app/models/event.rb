@@ -48,9 +48,9 @@ class Event < ActiveRecord::Base
 
 
   def as_json(options ={})
-    options[:except] ||= :import_id
-    options[:except] ||= :created_at
-    options[:except] ||= :import_event_id
+    options[:except] << :import_id
+    options[:except] << :created_at
+    options[:except] << :import_event_id
     h = super(options)
     h[:league] = league.name
     h[:time_in_words] = distance_of_time_in_words_to_now self.start_date
