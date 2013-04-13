@@ -8,6 +8,8 @@ class League < ActiveRecord::Base
     h = super(options)
     h[:sport] = sport.name unless sport.blank?
     #h[:priority] = self.priority options[:params][:country_id]
+    h.delete(:created_at)
+    h.delete(:updated_at)
     h
   end
 
