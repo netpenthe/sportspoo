@@ -24,18 +24,18 @@ class Event < ActiveRecord::Base
   #scope :upcoming_events, lab:where=>['start_date > ?', Time.now.utc - 1.hour], :order=>'start_date', :limit=>25
 
   def self.upcoming_events(league_id)
-    where('start_date > ? and league_id = ?',Time.now,league_id).order("start_date").limit(25)
+    where('start_date > ? and league_id = ?',(Time.now.utc - Constants::RUNNING_EVENTS_HOURS.hour),league_id).order("start_date").limit(25)
   end 
 
   def self.upcoming_events_for_user(user, limit)
-    where('start_date > ? and start_date < ? and (league_id in (?) OR sport_id in (?) OR team_id in (?))',Time.now,Time.now+28.days,user.leagues.map{|l|l.preference_id}, user.sports.map{|l|l.preference_id},user.teams.map{|l|l.preference_id}).joins('left join event_teams on event_teams.event_id = events.id').order("start_date").limit(limit).group(:id)
+    where('start_date > ? and start_date < ? and (league_id in (?) OR sport_id in (?) OR team_id in (?))',(Time.now.utc - Constants::RUNNING_EVENTS_HOURS.hour),Time.now.utc+28.days,user.leagues.map{|l|l.preference_id}, user.sports.map{|l|l.preference_id},user.teams.map{|l|l.preference_id}).joins('left join event_teams on event_teams.event_id = events.id').order("start_date").limit(limit).group(:id)
     #where('start_date > ? and start_date < ? ',Time.now,Time.now+7.days).order(("start_date").limit(25)
 #,:order=>:start_date,:joins=>"left join event_teams on event_teams.team_id = events.id",:limit=>limit, :include=>[:event_teams, :teams])
     #Event.find(:all, :conditions=>['start_date > ? and start_date < ? and (league_id = ? OR sport_id = ? OR team_id = ?)',Time.now,Time.now+7.days,[user.leagues.map{|l|l.preference_id}.join(",")], [user.sports.map{|l|l.preference_id}.join(",")],[user.teams.map{|l|l.preference_id}.join(",")]],:order=>:start_date,:joins=>"left join event_teams on event_teams.team_id = events.id",:limit=>limit, :include=>[:event_teams, :teams])
   end
 
   def self.upcoming_events_for_user_by_team(user, team_id, limit)
-    where('start_date > ? and start_date < ? and team_id = ?',Time.now,Time.now+28.days,team_id).joins('left join event_teams on event_teams.event_id = events.id').order("start_date").limit(25)
+    where('start_date > ? and start_date < ? and team_id = ?',(Time.now.utc - Constants::RUNNING_EVENTS_HOURS.hour),Time.now.utc+28.days,team_id).joins('left join event_teams on event_teams.event_id = events.id').order("start_date").limit(25)
   end
   
   def home_team
