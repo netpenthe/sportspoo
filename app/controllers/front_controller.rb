@@ -40,13 +40,13 @@ class FrontController < ApplicationController
       @country_events = (Country.find_by_name @country).upcoming_events.to_json(:include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live])
       @country_leagues  = (Country.find_by_name @country).leagues.to_json #, :params=>{:country_id => @country.id}}
      # @tz = request.location.city == '' ? "Adelaide" : request.location.city
-      city = request.location.city.blank? ? "Sydney" : request.location.city
-      #city = "Portland"
+      city = request.location.city.blank? ? "" : request.location.city
+
       if (!city.blank?) 
         x = Citytimezones.find(:first, :conditions=>["city like ?",city+'%'])
         @tz = x.present? ? x.tz_dropdown : city
       else 
-        @tz = "Pacific Time (US & Canada)"
+        @tz = ""
       end
     end
     if params[:login] == "failed"
