@@ -42,8 +42,14 @@
         mySportsUI.my_leagues = <%=raw @country_leagues%>;
         mySportsUI.my_events = <%=raw @country_events%>;
       <% end %>
-        myLocator.tz = "<%=raw @tz%>";
 
+        <% if @tz.present? %>
+          myLocator.tz = "<%=raw @tz%>";
+        <% else %>
+           var timezone = jstz.determine();
+            myLocator.tz = timezone.name().split("/")[1]; 
+        <% end %>
+      
       // now check if showing a user or default
       //if (current_user) {
         mySportsUI.updateTreeJSON(mySportsUI.my_leagues);

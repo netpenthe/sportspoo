@@ -89,6 +89,8 @@ GEM
     formtastic (2.2.1)
       actionpack (>= 3.0)
     geocoder (1.1.6)
+    geokit (1.6.5)
+      multi_json
     gyoku (1.0.0)
       builder (>= 2.1.2)
     happymapper (0.4.0)
@@ -251,6 +253,7 @@ DEPENDENCIES
   devise
   fastercsv
   geocoder
+  geokit
   happymapper
   jquery-rails
   jquery_mobile_rails
