@@ -44,7 +44,7 @@ class FrontController < ApplicationController
 
       if (!city.blank?) 
         x = Citytimezones.find(:first, :conditions=>["city like ?",city+'%'])
-        @tz = x.present? ? x.tz_dropdown : city
+        @tz = x.present? ? x.tz_dropdown : ""
       else 
         @tz = ""
       end
