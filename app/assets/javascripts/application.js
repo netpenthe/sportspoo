@@ -7,6 +7,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require jquery.inview
 //= require_tree .
 //= require date
 //= require moment.min

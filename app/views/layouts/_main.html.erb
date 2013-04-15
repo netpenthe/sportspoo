@@ -9,12 +9,10 @@
   <%#=time_zone_select( "user", "time_zone_name", TZInfo::Timezone.all.sort,:model=>TZInfo::Timezone})%>
   <%#=time_zone_select( "user", "time_zone_name", nil,:model=>TZInfo::Timezone)%>
   <p style='display:none;font-size:10px;color:#888' id='location_guess'>Locating you..</p>
-
-
-  </div>
+</div>
 
   <br>
-
+  <script src="http://remysharp.com/downloads/jquery.inview.js"></script>
   <script type="text/javascript">// <![CDATA[ 
   <% if request.env["HTTP_USER_AGENT"].match /Safari/ %>
       var sports_geo_city =  "<%=request.location.city || '' %>";
@@ -61,8 +59,33 @@
         $('#search_wrapper').mouseover(function() {
           $('#results_wrapper').fadeIn();
         });
+        $('p.show_more_events').bind('inview', function(e, isInView, visiblePartX, visiblePartY) {
+          var elem = $(this);
+          if (elem.data('inviewtimer')) {
+            clearTimeout(elem.data('inviewtimer'));
+            elem.removeData('inviewtimer');
+          }
+
+          if (isInView) {
+            elem.data('inviewtimer', setTimeout(function() {
+              if (visiblePartY == 'top') {
+                elem.data('seenTop', true);
+              } else if (visiblePartY == 'bottom') {
+                elem.data('seenBottom', true);
+              } else {
+                elem.data('seenTop', true);
+                elem.data('seenBottom', true);
+              }
+
+              if (elem.data('seenTop') && elem.data('seenBottom')) {
+                //elem.unbind('inview');
+                mySportsUI.more_events();
+              }
+            }, 1000));
+          }
+        });
       });
- 
+
 // ]]></script> 
 <div id='results_wrapper' style='display:none;background-color:#D0F3CD'>
 <div id='results' style='position:relative;z-index:9999'></div>
@@ -105,3 +128,5 @@
 
   </div>
 </div>
+
+<p class='show_more_events'></p>

@@ -6,6 +6,7 @@ var sports_ui = function() {
   this.my_events = {}
   this.league_ids = [];
   this.my_teams = [];
+  this.page = 0; //used for infinite scroll
 };
 
 sports_ui.prototype.save_current_preferences = function() {
@@ -427,3 +428,18 @@ sports_ui.prototype.add_league = function(league_id, sport, league ) {
   }
   $('#main_sports_list h5').filter(function(index) { return $(this).text() === sport; }).next().append('<li>'+league+'<input type=checkbox align=right id="tree_league_id_'+league_id+'" checked style="float:right" class="cb_my_leagues" onclick="mySportsUI.getEvents(this, '+league_id+')"></li>');
 }
+
+sports_ui.prototype.more_events = function() {
+  var me = this;
+  this.page += 1;
+  $('.show_more_events').text("Loading...").effect("pulsate", { times: 10 }, 2000);
+  $.getJSON( '/front/moar_events.json',
+    {page: me.page},
+    function (events) {
+      me.displayEventsForLeague(events);
+      $('.show_more_events').text('');
+    }
+  );
+}
+
+
