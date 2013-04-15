@@ -53,6 +53,19 @@ class FrontController < ApplicationController
       @login = "failed"
     end
   end
+  
+  def moar_events
+    page = params[:page]
+    offset = page.to_i * Constants::NUM_EVENTS_TO_SHOW
+    if current_user
+      @events = Event.upcoming_events_for_user(current_user,Constants::NUM_EVENTS_TO_SHOW,offset)
+    else  
+      @events = (Country.find_by_name "Australia").upcoming_events
+    end
+    respond_to do |format|
+        format.json { render json: @events, :include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live]}
+    end
+  end
 
   def list
     #query for leagues
@@ -99,9 +112,9 @@ class FrontController < ApplicationController
   end
 
   def user_events
-     num_events = params[:num_events] || 10
+     num_events = params[:num_events] || Constants::NUM_EVENTS_TO_SHOW
      if current_user
-       events = Event.upcoming_events_for_user(current_user,num_events)
+       events = Event.upcoming_events_for_user(current_user,num_events,0)
       else 
         events = []
       end 
