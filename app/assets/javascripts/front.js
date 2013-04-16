@@ -265,9 +265,12 @@ sports_ui.prototype.updateTreeJSON = function(leagues) {
     heading = $('#main_sports_list h5').filter(function(index) { return $(this).text() === sport; });
     heading_ul = $('#main_sports_list h5 + ul').filter(function(index) { return $(this).text() === sport; });
 
+    //alert(leagues[i].name);
+    //alert(leagues[i].priority);
+
     switch (leagues[i].priority) {
       case 1:
-        heading_ul.append('<li>'+leagues[i].name+'<input type=checkbox align=right id="tree_league_id_'+leagues[i].id+'" style="float:right" class="cb_my_leagues" onclick="mySportsUI.getEvents(this, '+leagues[i].id+')"></li>');
+        $('#main_sports_list').append('<li>'+leagues[i].name+'<input type=checkbox id="tree_league_id_'+leagues[i].id+'" onclick="mySportsUI.getEvents(this, '+leagues[i].id+')" align=right class="cb_my_leagues" style="float:right"></li>');
         break;
       case 2:
         $('#main_sports_list').append('<li class="league_hidden id="tree_league_id_'+leagues[i].id+'">'+leagues[i].name+'<input type=checkbox id='+leagues[i].sport_id+' onclick="mySportsUI.getEvents(this,'+leagues[i].id+')" align=right class="cb_my_leagues" style="float:right"></li>');
@@ -298,10 +301,10 @@ sports_ui.prototype.updateTreeJSONx = function(leagues) {
     }
 
     switch (leagues[i].priority) {
-      case 1:
+      case 11:
         $('#main_sports_list').append('<li>'+leagues[i].name+'<input type=checkbox align=right  style="float:right" class="cb_my_leagues" onclick="mySportsUI.getEvents(this, '+leagues[i].id+')"></li>');
         break;
-      case 2:
+      case 22:
         theres_more = true;
         $('#main_sports_list').append('<li class="league_hidden tree_league_id_'+leagues[i].sport_id+'">'+leagues[i].name+'<input type=checkbox id='+leagues[i].sport_id+' onclick="mySportsUI.getEvents(this,'+leagues[i].id+')" align=right class="cb_my_leagues" style="float:right"></li>');
         break;
@@ -319,9 +322,12 @@ sports_ui.prototype.updateTreeJSONx = function(leagues) {
   //}
 } 
 
-sports_ui.prototype.updateTree = function(country) {
+/*sports_ui.prototype.updateTree = function(country) {
   var me = this;
   if (typeof this.my_leagues == 'undefined' ) {
+
+    alert("calling get leagues ");
+
     $.getJSON( '/country/leagues/'+country+'.json',
         { },
         function(leagues) {
@@ -330,7 +336,7 @@ sports_ui.prototype.updateTree = function(country) {
   } else {
     this.updateTreeJSON(this.my_leagues);
   }
-}
+}*/
 
 sports_ui.prototype.localize = function(t)
       {
@@ -386,11 +392,11 @@ sports_ui.prototype.addMyTeam = function(team_name,team_id) {
   $('#my_teams_label').show();
 }
 
-sports_ui.prototype.convertTZ = function (d, offset) {
+//sports_ui.prototype.convertTZ = function (d, offset) {
   // offset is something like Adelaide: +1030, Offset is: -630 (10 hours * 60 minutes = 600 minutes + 30 minutes)
-  var seconds = d.getTime(); // get in milliseconds
-  alert(moment().format("ddd h:mma"));
-}
+//  var seconds = d.getTime(); // get in milliseconds
+ // alert(moment().format("ddd h:mma"));
+//}
 
 // offset is 10.5 hours or -2 hours etc
 sports_ui.prototype.convertTZ2 = function (timestamp,offset) {

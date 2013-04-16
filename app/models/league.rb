@@ -8,13 +8,13 @@ class League < ActiveRecord::Base
     options[:except] = [:updated_at, :created_at]
     h = super(options)
     h[:sport] = sport.name unless sport.blank?
-    #h[:priority] = self.priority options[:params][:country_id]
+    h[:priority] = self.priority options[:params][:country_id] unless options[:params].blank?
     h
   end
 
   def priority country_id
     countryleague = Countryleague.where(["country_id=? and league_id=?",country_id,self.id]).first
-    countryleague.priority 
+    countryleague.priority
   end
 
   def self.search_name(q,num_limit)
