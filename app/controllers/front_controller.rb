@@ -65,7 +65,7 @@ class FrontController < ApplicationController
     if current_user
       @events = Event.upcoming_events_for_user(current_user,Constants::NUM_EVENTS_TO_SHOW,offset)
     else  
-      @events = (Country.find_by_name "Australia").upcoming_events
+      @events = (Country.find_by_name "Australia").upcoming_events_moar.slice(offset,Constants::NUM_EVENTS_TO_SHOW)
     end
     respond_to do |format|
         format.json { render json: @events, :include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live]}
