@@ -27,6 +27,19 @@
         function(data) {
           $("#results").empty();
           $("#results").append(" Results for <b>" + q + "</b><div style='float:right;cursor: hand; cursor: pointer;' onclick=\"$('#results_wrapper').hide()\">[x]</div>");
+
+          $.each(jQuery.parseJSON(data['events']), function(i,item){
+            //$("#results").append("<div><label for='CB_T"+item.id+"'> ["+ item.sport + "] "+item.name+"<div style='float:right'><input type='checkbox' id='CB_L"+item.id+"' onclick='mySportsUI.add_league("+item.id+",\""+item.sport+"\",\""+item.name+"\");mySportsUI.getEvents(this,"+item.id+")'> </div> ");
+            var nd = mySportsUI.convertTZ2(+new Date(item.start_date),"10.5");
+            
+            if (item.teams.length == 2) {
+              $('#results').append("<div class='search_result_div'>"+item.teams[0].name+'<input type="checkbox"> vs '+item.teams[1].name+'<input type="checkbox"> - '+nd+'<span  class="label" style="float:right;background-color:'+ item.league_label_colour+'; font-size:10px;" data-name="activesupport">'+item.league_name+'<input type="checkbox"></span>');
+            } else {
+              $('#results').append('<div>'+item.display_name+'<span class="label" style="background-color:'+ item.league_label_colour+'; font-size:10px;" data-name="activesupport">'+item.league_name+'</span>');
+            }
+      
+          });
+
           $.each(jQuery.parseJSON(data['leagues']), function(i,item){
             $("#results").append("<div><label for='CB_T"+item.id+"'> ["+ item.sport + "] "+item.name+"<div style='float:right'><input type='checkbox' id='CB_L"+item.id+"' onclick='mySportsUI.add_league("+item.id+",\""+item.sport+"\",\""+item.name+"\");mySportsUI.getEvents(this,"+item.id+")'> </div> ");
           });
