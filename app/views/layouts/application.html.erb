@@ -28,8 +28,13 @@
         <div class="content">
            <div class="row">
             <div class="span12">
-              <%= render 'layouts/messages' %>
+
+              <div id="flashy">
+                <%= render 'layouts/messages' %>
+              </div>
+
               <%= yield %>
+
             </div>
           </div>
           <footer>
