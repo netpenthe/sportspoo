@@ -19,30 +19,30 @@
       var sports_geo_country = "<%=request.location.country == 'Reserved' ? 'Australia' : "#{request.location.country}" || ""%>";
   <% end %> 
 
-$.xhrPool = []; // array of uncompleted requests
-$.xhrPool.abortAll = function() { // our abort function
-    $(this).each(function(idx, jqXHR) { 
-        jqXHR.abort();
-    });
-    $.xhrPool.length = 0
-}; 
-
-$.ajaxSetup({
-    beforeSend: function(jqXHR) { // before jQuery send the request we will push it to our array
-        $.xhrPool.push(jqXHR);
-    },
-    complete: function(jqXHR) { // when some of the requests completed it will splice from the array
-        var index = $.xhrPool.indexOf(jqXHR);
-        if (index > -1) {
-            $.xhrPool.splice(index, 1);
-        }
-    }
-});
+      // track the search requests so we can abort old ones if more things typed
+      $.xhrPool = []; // array of uncompleted requests
+      $.xhrPool.abortAll = function() { // our abort function
+          $(this).each(function(idx, jqXHR) { 
+              jqXHR.abort();
+          });
+          $.xhrPool.length = 0
+      }; 
 
       $("#searchterm").keyup(function(e){
         var q = $("#searchterm").val();
+      
         $.getJSON("/search/results.json",
         {
+          beforeSend: function(jqXHR) { // before jQuery send the request we will push it to our array
+              $.xhrPool.abortAll();
+              $.xhrPool.push(jqXHR);
+          },
+          complete: function(jqXHR) { // when some of the requests completed it will splice from the array
+              var index = $.xhrPool.indexOf(jqXHR);
+              if (index > -1) {
+                  $.xhrPool.splice(index, 1);
+              }
+          },
           search: q,
         },
         function(data) {
