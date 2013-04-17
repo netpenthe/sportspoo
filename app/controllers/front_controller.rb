@@ -37,9 +37,14 @@ class FrontController < ApplicationController
       #@my_events_json = User.upcoming_events(current_user,50(current_user,50)).to_json
       @tz = current_user.tz
     else  
-      @country_events = (Country.find_by_name @country).upcoming_events.to_json(:include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live])
-      @country_leagues  = (Country.find_by_name @country).leagues.to_json #, :params=>{:country_id => @country.id}}
-     # @tz = request.location.city == '' ? "Adelaide" : request.location.city
+      @c_nt = Country.find_by_name @country
+
+      @country_events = @c_nt.upcoming_events.to_json(
+                    :include => [:teams], 
+                    :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live])
+
+      @country_leagues  = @c_nt.leagues.to_json(:params=>{:country_id => @c_nt.id})
+
       city = request.location.city.blank? ? "" : request.location.city
 
       if (!city.blank?) 
