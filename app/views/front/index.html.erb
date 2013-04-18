@@ -47,7 +47,9 @@
           myLocator.tz = "<%=raw @tz%>";
         <% else %>
            var timezone = jstz.determine();
-            myLocator.tz = timezone.name().split("/")[1]; 
+            //myLocator.tz = timezone.name().split("/")[1]; 
+
+           myLocator.tz = REV_TZ_MAPPING[timezone.name()];
         <% end %>
       
       // now check if showing a user or default
