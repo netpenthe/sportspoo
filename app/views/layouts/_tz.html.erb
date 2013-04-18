@@ -1,1 +1,11 @@
   <%=time_zone_select( "user", "time_zone_name", nil, {:include_blank => true},{:onchange=>'mySportsUI.change_time_zone_select(this)', :id=>'tz_selector'})%>
+
+<script>
+  var TZ_MAPPING = <%=raw ActiveSupport::TimeZone::MAPPING.to_json%>;
+  var REV_TZ_MAPPING = {};
+  for (one in TZ_MAPPING) {
+    if (TZ_MAPPING.hasOwnProperty(one)) {
+      REV_TZ_MAPPING[TZ_MAPPING[one]] = one;
+    }
+  }
+</script>
