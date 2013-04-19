@@ -156,3 +156,4 @@ locator.prototype.TimeZoneDetect = function(){
   return intOffset;
 }
 
+locator.prot
