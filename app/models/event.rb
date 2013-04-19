@@ -92,5 +92,12 @@ class Event < ActiveRecord::Base
     end
     return false
   end
+
+  def self.find_by_team(teams)
+    where('start_date > ? and start_date < ? and team_id in (?)',(Time.now.utc - Constants::RUNNING_EVENTS_HOURS.hour),Time.now.utc+7.days,teams.map{|t|t.id}).joins('left join event_teams on event_teams.event_id = events.id').order("start_date").limit(10)
+  end
   
+  def self.find_by_league(leagues)
+    where('start_date > ? and start_date < ? and league_id in (?)',(Time.now.utc - Constants::RUNNING_EVENTS_HOURS.hour),Time.now.utc+7.days,leagues.map{|t|t.id}).order("start_date").limit(10)
+  end
 end
