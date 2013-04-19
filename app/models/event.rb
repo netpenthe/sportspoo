@@ -54,6 +54,7 @@ class Event < ActiveRecord::Base
     h[:time_in_words] = distance_of_time_in_words_to_now self.start_date
     #h[:running] = self.start_date < Time.now ? true : false
     #h[:quick_datetime] = self.start_date.strftime('%a%l:%M%P')
+    #h[:priority] = league.priority options[:params][:country_id] unless options[:params].blank?
     h
   end
 
@@ -66,7 +67,8 @@ class Event < ActiveRecord::Base
 
   def display_name
     return name unless name.blank?
-    return "#{home_team.name} vs #{away_team.name}"
+    return "#{home_team.name} vs #{away_team.name}" unless home_team.blank? && away_team.blank?
+    return " "
   end
 
   def countdown
@@ -81,7 +83,7 @@ class Event < ActiveRecord::Base
     return league.label_colour || "#666666"
   end
 
-
+  
   def live
     unless end_date.blank?
       return true if Time.now > self.start_date && Time.now < self.end_date
