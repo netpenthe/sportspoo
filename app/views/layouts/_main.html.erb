@@ -11,7 +11,6 @@
   <p style='display:none;font-size:10px;color:#888' id='location_guess'>Locating you..</p>
 </div>
 
-  <br>
   <script src="http://remysharp.com/downloads/jquery.inview.js"></script>
   <script type="text/javascript">// <![CDATA[ 
   <% if request.env["HTTP_USER_AGENT"].match /Safari/ %>
@@ -54,7 +53,7 @@
             var nd = mySportsUI.convertTZ2(+new Date(item.start_date),"10.5");
             
             if (item.teams.length == 2) {
-              $('#results').append("<div class='search_result_div'>"+item.teams[0].name+'<input type="checkbox"> vs '+item.teams[1].name+'<input type="checkbox"> - '+nd+'<span  class="label" style="float:right;background-color:'+ item.league_label_colour+'; font-size:10px;" data-name="activesupport">'+item.league_name+'<input type="checkbox"></span>');
+              $('#results').append("<div class='search_result_div'>"+item.sport+"&nbsp;&nbsp;<label for='CB_T"+item.teams[0].id+"' class='label search_team'>"+item.teams[0].name+'<input onclick="mySportsUI.addMyTeam(\''+item.teams[0].name+'\','+item.teams[0].id+')" type="checkbox" id="CB_T'+item.teams[0].id+'"></label> vs <label for="'+item.teams[1].id+'" class="label search_team2">'+item.teams[1].name+'<input type="checkbox"  onclick="mySportsUI.addMyTeam(\''+item.teams[1].name+'\','+item.teams[1].id+')" id="CB_T'+item.teams[1].id+'"></label>- '+nd+'<span  class="label" style="float:right;background-color:'+ item.league_label_colour+'; font-size:10px;" data-name="activesupport">'+item.league_name+'<input type="checkbox"></span>');
             } else {
               $('#results').append('<div>'+item.display_name+'<span class="label" style="background-color:'+ item.league_label_colour+'; font-size:10px;" data-name="activesupport">'+item.league_name+'</span>');
             }
@@ -62,11 +61,11 @@
           });
 
           $.each(jQuery.parseJSON(data['leagues']), function(i,item){
-            $("#results").append("<div><label for='CB_T"+item.id+"'> ["+ item.sport + "] "+item.name+"<div style='float:right'><input type='checkbox' id='CB_L"+item.id+"' onclick='mySportsUI.add_league("+item.id+",\""+item.sport+"\",\""+item.name+"\");mySportsUI.getEvents(this,"+item.id+")'> </div> ");
+            $("#results").append("<div class='search_result_div'><label for='CB_T"+item.id+" class='label search_league''> ["+ item.sport + "] <span style='float:right;background-color:"+ item.label_colour+"; font-size:10px;' data-name='activesupport' class='label search_league'>"+item.name+"<input type='checkbox' id='CB_L"+item.id+"' onclick='mySportsUI.add_league("+item.id+",\""+item.sport+"\",\""+item.name+"\");mySportsUI.getEvents(this,"+item.id+")'> </span></div> ");
           });
  
           $.each(jQuery.parseJSON(data['teams']), function(i,item){
-            $("#results").append("<div><label for='CB_T"+item.id+"'> ["+ item.sport_name + "] "+item.name+"<div style='float:right'><input type='checkbox' id='CB_T"+item.id+"' onclick='mySportsUI.addMyTeam(\""+item.name+"\","+item.id+")'> </div> ");
+            $("#results").append("<div class='search_result_div'> ["+ item.sport_name + "] <label for='CB_T"+item.id+"' class='label search_team'>"+item.name+"<input type='checkbox' id='CB_T"+item.id+"' onclick='mySportsUI.addMyTeam(\""+item.name+"\","+item.id+")'></label></div> ");
           });
           $('#results_wrapper').show();
           $('#results').css('padding', '10px');
@@ -118,6 +117,10 @@
             }, 1000));
           }
         });
+        // do a basic check to see if this is a tall window, if so load more events
+        if ($('#show_more_events').position().top <= window.innerHeight) {
+          mySportsUI.more_events();
+        }
       });
 
 // ]]></script> 
@@ -163,4 +166,4 @@
   </div>
 </div>
 
-<p class='show_more_events'></p>
+<p class='show_more_events' id='show_more_events'></p>

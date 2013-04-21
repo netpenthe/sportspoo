@@ -37,6 +37,10 @@ class Event < ActiveRecord::Base
   def self.upcoming_events_for_user_by_team(user, team_id, limit)
     where('start_date > ? and start_date < ? and team_id = ?',(Time.now.utc - Constants::RUNNING_EVENTS_HOURS.hour),Time.now.utc+28.days,team_id).joins('left join event_teams on event_teams.event_id = events.id').order("start_date").limit(25)
   end
+
+  def self.upcoming_events_by_team(team_id, limit)
+    where('start_date > ? and start_date < ? and team_id = ?',(Time.now.utc - Constants::RUNNING_EVENTS_HOURS.hour),Time.now.utc+28.days,team_id).joins('left join event_teams on event_teams.event_id = events.id').order("start_date").limit(25)
+  end
   
   def home_team
     home_teams.first
@@ -52,6 +56,7 @@ class Event < ActiveRecord::Base
     h = super(options)
     #h[:league] = league.name
     h[:time_in_words] = distance_of_time_in_words_to_now self.start_date
+    h[:sport] = sport.name
     #h[:running] = self.start_date < Time.now ? true : false
     #h[:quick_datetime] = self.start_date.strftime('%a%l:%M%P')
     #h[:priority] = league.priority options[:params][:country_id] unless options[:params].blank?

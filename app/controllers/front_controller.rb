@@ -136,7 +136,7 @@ class FrontController < ApplicationController
        events = Event.upcoming_events_for_user_by_team(current_user,team_id,num_events)
        UserPreference.find_or_create_by_user_id_and_preference_type_and_preference_id(current_user.id,"Team",team_id)
       else 
-        events = []
+       events = Event.upcoming_events_by_team(team_id,num_events)
       end 
      respond_to do |format|
         #format.json { render json: @country.upcoming_events, :include => [:teams], :methods=>[:display_name,:countdown, :league_name]}
@@ -152,7 +152,7 @@ class FrontController < ApplicationController
     events = Event.find_by_team(teams) + Event.find_by_league(leagues)
     respond_to do |format|
       #format.json { render json: teams, :include => [:sport], :methods=>[:display_name, :countdown, :league_name]}
-      format.json { render :json =>{:events=>events.to_json(:include => [:teams],  :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live], :include => [:teams],  :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live]), :teams => teams.to_json(:include => [:sport], :methods=>[:display_name, :countdown, :league_name]), :leagues => leagues.to_json}}
+      format.json { render :json =>{:events=>events.to_json(:include => [:teams],  :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live], :include => [:teams,:sport],  :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live]), :teams => teams.to_json(:include => [:sport], :methods=>[:display_name, :countdown, :league_name]), :leagues => leagues.to_json}}
     end
   end
 
