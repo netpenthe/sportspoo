@@ -70,3 +70,24 @@ box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05
 
 .search_team {font-size: 13px;display:inline-block;background-color:#666;color:#fff}
 .search_team2 {font-size: 13px;display:inline-block;background-color:#666;color:#fff}
+
+.btn-success:hover, .btn-success:active, .btn-success.active, .btn-success.disabled, .btn-success[disabled] { color: #fff; background-color: #51a351;}
+.btn:hover {
+  color: #fff;
+  border: 1px solid #777;
+  text-decoration: none;
+  background-color: #000;
+  background-position: 0 -35px;
+  -webkit-transition: background-position 0.1s linear;
+  -moz-transition: background-position 0.1s linear;
+  -o-transition: background-position 0.1s linear;
+  transition: background-position 0.1s linear;
+}
+
+.join_modal_h3 {font-size:16px;padding:0;color:#73B2DE;padding-top:0;margin:0}
+.modal {border-radius:0px;-webkit-border-radius:0px;background-color:#666;outline:none}
+.dark_link:visited, .dark_link, .dark_link:hover {color:#000 !important}
+
+#signupmodal {background-color:#f2f2f2}
+#join_modal input {margin-top: 0 !important;}
+#join_modal label {margin-bottom: 0 !important;padding-bottom: 0 !important}

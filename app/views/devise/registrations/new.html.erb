@@ -1,14 +1,44 @@
-<br>
+<div class="border-form-div" style='padding:10px;background-color:#f2f2f2;' id='join_modal'>
+  <div style='float:left'>
+    <h3 class='join_modal_h3'>Sign up in a few seconds..</h3>
 
-<div class="border-form-div">
-  <h2>Sign up</h2>
-  <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-    <%= devise_error_messages! %>
-    <%= f.email_field :email, :autofocus => true, :placeholder => 'Email address' %>
-    <%= f.text_field :username, :autofocus => true, :placeholder => 'Username' %>
-    <%= f.password_field :password, :placeholder => 'Password' %>
-    <%= f.password_field :password_confirmation, :placeholder => 'Password confirmation' %>
-    <%= f.submit "Sign up",:class=>'btn btn-primary' %>
-  <% end %>
-  <%= render "devise/shared/links" %>
+    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+      <%= devise_error_messages! %>
+      <%= f.label :email %>
+      <%= f.email_field :email, :autofocus => true, :placeholder => 'Email address' %>
+      <%= f.label :username %>
+      <%= f.text_field :username, :autofocus => true, :placeholder => 'Username' %>
+
+      <%= f.label :password %>
+      <%= f.password_field :password, :placeholder => 'Password' %>
+
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation, :placeholder => 'Password confirmation' %>
+      <br />
+      <%= f.submit "Sign up",:class=>'btn btn-info' %>
+    <% end %>
+  </div>
+  <div style='float:right;'>
+    <h3 class='join_modal_h3'>Login</h3>
+    <%= form_for("user", :url => user_session_path, :html=>{:style=>'margin: 0; padding:0',:id=>'user_login_header',:class=>'pull-right'}) do |f| %>
+      <%= f.label :email %>
+      <%= f.text_field :email,  :placeholder=>"email",:size => 20 %>
+      <%= f.label :password %>
+      <%= f.password_field :password,:size=>20, :placeholder=>"password" %>
+      <%= f.hidden_field :remember_me,:value=>:true %>
+      <br />
+      <%= f.submit 'Sign in', :class=>'btn btn-info'%>
+      <br />
+      <%# link_to "Forgot your password?", new_password_path('user'), :style=>'float: right' %>
+    <% end %>
+        <br /> 
+        <a href="/users/password/new">Forgot your password?</a>
+        <br /><br />
+        <div style='text-align:right;background-color:#aaa;letter-spacing:2px'>
+          <strong>or sign in using:</strong><br />
+          <a href="/users/auth/facebook" class='save_preferences' border="0">Facebook<%=image_tag "f_logo.png", :size=>"15x15"%></a> | 
+          <a href="/users/auth/twitter" class='save_preferences' border="0">Twitter<%=image_tag "twitter.png", :size=>"20x20"%></a>
+        </div>
+  </div>
 </div>
+
