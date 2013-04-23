@@ -54,12 +54,12 @@
     </li>
 
 
-    <li style='width:25px;padding:0;margin:0'>
-    <a href="/users/auth/facebook" class='save_preferences' border="0"><%=image_tag "f_logo.png", :size=>"20x20"%></a>
+    <li style='width:25px;padding:0;margin:0;background-color:pink'>
+    <a href="/users/auth/facebook" class='save_preferences' border="0"><%=image_tag "f_logo.png", :size=>"20x20", :style=>"width:15px;height:15px"%></a>
     </li>
 
     <li style='width:25px;padding:0;margin:0'>
-    <a href="/users/auth/twitter" class='save_preferences' border="0"><%=image_tag "twitter.png", :size=>"20x20"%></a>
+    <a href="/users/auth/twitter" class='save_preferences' border="0"><%=image_tag "twitter.png", :size=>"20x20", :style=>"width:20px;height:20px"%></a>
     </li>
     <% if @login == "failed" %>
       <div id="login_failed"><span>Uh Oh, your login details were not recognized.....</span></div>
