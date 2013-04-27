@@ -18,7 +18,7 @@
       <%= f.submit "Sign up",:class=>'btn btn-info' %>
     <% end %>
   </div>
-  <div style='float:right;'>
+  <div style='float:right;width:250px;'>
     <h3 class='join_modal_h3'>Login</h3>
     <%= form_for("user", :url => user_session_path, :html=>{:style=>'margin: 0; padding:0',:id=>'user_login_header',:class=>'pull-right'}) do |f| %>
       <%= f.label :email %>
@@ -32,7 +32,7 @@
       <%# link_to "Forgot your password?", new_password_path('user'), :style=>'float: right' %>
     <% end %>
         <br /> 
-        <a href="/users/password/new">Forgot your password?</a>
+        <div style='width:250px;text-align:right'><a href="/users/password/new">Forgot your password?</a></div>
         <br /><br />
         <div style='text-align:right;background-color:#aaa;letter-spacing:2px'>
           <strong>or sign in using:</strong><br />
