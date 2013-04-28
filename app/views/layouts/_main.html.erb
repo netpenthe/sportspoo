@@ -30,6 +30,10 @@
       $("#searchterm").keyup(function(e){
         var q = $("#searchterm").val();
       
+        if (q.length <= 2) {
+          $("#results").empty();
+          return;
+        }
         $.getJSON("/search/results.json",
         {
           beforeSend: function(jqXHR) { // before jQuery send the request we will push it to our array
