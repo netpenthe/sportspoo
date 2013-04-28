@@ -41,7 +41,7 @@ class FrontController < ApplicationController
 
       @country_events = @c_nt.upcoming_events.to_json(
                     :include => [:teams], 
-                    :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live])
+                    :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live,:betfair_link])
 
       @country_leagues  = @c_nt.leagues.to_json(:params=>{:country_id => @c_nt.id})
 
@@ -68,7 +68,7 @@ class FrontController < ApplicationController
       @events = (Country.find_by_name "Australia").upcoming_events_moar.slice(offset,Constants::NUM_EVENTS_TO_SHOW)
     end
     respond_to do |format|
-        format.json { render json: @events, :include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live]}
+        format.json { render json: @events, :include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live, :betfair_link]}
     end
   end
 
@@ -101,7 +101,7 @@ class FrontController < ApplicationController
 
      respond_to do |format|
         format.html { render :layout=>"mobile"} 
-        format.json { render json: @events, :include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live]}
+        format.json { render json: @events, :include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live,:betfair_link]}
      end
     
   end
@@ -125,7 +125,7 @@ class FrontController < ApplicationController
       end 
      respond_to do |format|
         #format.json { render json: @country.upcoming_events, :include => [:teams], :methods=>[:display_name,:countdown, :league_name]}
-        format.json { render json: events, :include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live]}
+        format.json { render json: events, :include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live,:betfair_link]}
      end
   end
 
@@ -140,7 +140,7 @@ class FrontController < ApplicationController
       end 
      respond_to do |format|
         #format.json { render json: @country.upcoming_events, :include => [:teams], :methods=>[:display_name,:countdown, :league_name]}
-        format.json { render json: events, :include => [:teams],  :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live] }
+        format.json { render json: events, :include => [:teams],  :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live,:betfair_link] }
      end
   end
 
@@ -152,7 +152,9 @@ class FrontController < ApplicationController
     events = Event.find_by_team(teams) + Event.find_by_league(leagues)
     respond_to do |format|
       #format.json { render json: teams, :include => [:sport], :methods=>[:display_name, :countdown, :league_name]}
-      format.json { render :json =>{:events=>events.to_json(:include => [:teams],  :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live], :include => [:teams,:sport],  :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live]), :teams => teams.to_json(:include => [:sport], :methods=>[:display_name, :countdown, :league_name]), :leagues => leagues.to_json}}
+      format.json { render :json =>{:events=>events.to_json(:include => [:teams],  :methods=>[:tag_list,:display_name,:countdown, :league_name, 
+           :league_label_colour,:live,:betfair_link], :include => [:teams,:sport],  :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live]),
+            :teams => teams.to_json(:include => [:sport], :methods=>[:display_name, :countdown, :league_name]), :leagues => leagues.to_json}}
     end
   end
 
