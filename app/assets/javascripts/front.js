@@ -105,7 +105,7 @@ sports_ui.prototype.updateInitialEventsJSON = function(events) {
     // show live event label
     live_event_str = "  ";
     if(e.live){
-      live_event_str = " <span class='label' style='background-color:green; font-size:10px;'>LIVE</span> ";
+      live_event_str = " <span class='label' style='float:right;background-color:green; font-size:10px;'>LIVE</span> ";
     }
 
     //show event tags/label
@@ -192,7 +192,7 @@ sports_ui.prototype.displayEventsForLeague =  function(events,custom_class) {
           // show live event label
         live_event_str = "  ";
         if(e.live){
-          live_event_str = " <span class='label' style='background-color:green; font-size:10px;'>LIVE</span> ";
+          live_event_str = " <span class='label' style='background-color:green;float:right;font-size:10px;'>LIVE</span> ";
         }
 
         //show event tags/label
