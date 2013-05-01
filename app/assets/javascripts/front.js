@@ -121,7 +121,7 @@ sports_ui.prototype.updateInitialEventsJSON = function(events) {
     }
 
     betfair_str = "";
-    if (e.betfair_link.length>1){
+    if (typeof e.betfair_link != "undefined" && e.betfair_link.length>1){
       betfair_str = ' <a href="' + e.betfair_link + '"> [bet] </a>';
     }
 
@@ -180,7 +180,10 @@ sports_ui.prototype.displayEventsForLeague =  function(events,custom_class) {
       var display_name = "";
       if (e.teams.length==2) {
         teams_class=' T'+e.teams[0].id+' T'+e.teams[1].id;
-        display_name = e.teams[0].name + ' vs ' + e.teams[1].name ;
+        display_name = '<a class="main_list_teams" href="#" onclick="mySportsUI.addMyTeam(\''+e.teams[0].name+'\','+e.teams[0].id+')" type="checkbox" id="CB_T'+e.teams[0].id+'">'+e.teams[0].name + '</a>';  
+        display_name += ' vs ';
+        display_name += '<a class="main_list_teams" href="#" onclick="mySportsUI.addMyTeam(\''+e.teams[1].name+'\','+e.teams[1].id+')" type="checkbox" id="CB_T'+e.teams[1].id+'">'+e.teams[1].name + '</a>';  
+      //  display_name = "<label for='CB_T"+e.teams[0].id+"' class='label search_team'>"+e.teams[0].name + '<input onclick="mySportsUI.addMyTeam(\''+e.teams[0].name+'\','+e.teams[0].id+')" type="checkbox" id="CB_T'+e.teams[0].id+'"></label> vs <label for="'+e.teams[1].id+'" class="label search_team2">' + e.teams[1].name + '<input type="checkbox"  onclick="mySportsUI.addMyTeam(\''+e.teams[1].name+'\','+e.teams[1].id+')" id="CB_T'+e.teams[1].id+'"></label>';
       } else {
         display_name = e.name;
       }
@@ -213,12 +216,12 @@ sports_ui.prototype.displayEventsForLeague =  function(events,custom_class) {
         }
 
        betfair_str = "";
-       if (e.betfair_link.length>1){
+       if (typeof e.betfair_link != "undefined" && e.betfair_link.length>1){
          betfair_str = ' <a href="' + e.betfair_link + '"> [bet] </a>';
        }
 
-
       new_event = '<li class="ui-li ui-li-static ui-btn-up-c league_id_'+e.league_id+' '+custom_class+teams_class+'" league_id="'+e.league_id+'" event_id='+e.id+' timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+display_name +'  <span class="label" style="background-color:'+ league_label_colour+'; font-size:10px;" data-name="activesupport">'+e.league_name+'</span>'  + tag_str  + live_event_str + betfair_str + ' </li>';
+
 
       if ($('#list1 li').length ==0) {
         $('#list1').append(new_event).hide().effect("highlight", {},1500);
@@ -276,7 +279,6 @@ sports_ui.prototype.updateTreeJSON = function(leagues) {
       $('#main_sports_list').append('<li><a href="#" onclick="$(\'.tree_league_id_'+leagues[i-1].sport_id+'\').fadeIn()">show more...</a></li>');
           theres_more = false;
     }
-
 
     if ($('#main_sports_list h5').filter(function(index) { return $(this).text() === sport; }).length == 0) {
       $('#main_sports_list').append('<h5>'+sport+'</h5>');
