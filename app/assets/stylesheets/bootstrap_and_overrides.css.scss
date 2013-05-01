@@ -14,7 +14,7 @@ ul li {margin: 0 0 0 0}
 #main_sports_list ul {margin: 0 0 0 9px}
 h3 {padding-left:5px}
 
-.ui-li-aside { width: 150px }
+.ui-li-aside { width: auto; margin-left:5px }
 
 .league_hidden {display: none}
 
@@ -90,3 +90,6 @@ box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05
 #signupmodal {background-color:#f2f2f2;width:550px}
 #join_modal input {margin-top: 0 !important;}
 #join_modal label {margin-bottom: 0 !important;padding-bottom: 0 !important}
+.main_list_teams:link {color:#343434}
+.main_list_teams:hover {color:#343434;background-color:transparent}
+.main_list_teams:visited {color:#343434}
