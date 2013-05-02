@@ -103,7 +103,7 @@ class Event < ActiveRecord::Base
   end
 
   def betfair_link
-    return "http://sports.betfair.com/?mi=#{self.betfair_id}&ex=2&origin=MRL" unless betfair_id.blank?
+    return "http://sports.betfair.com/?mi=#{self.betfair_id.key}" unless betfair_id.blank?
     #return "http://sports.betfair.com/Index.do?mi=100669542&ex=2&origin=MRL"
     return ""
   end
