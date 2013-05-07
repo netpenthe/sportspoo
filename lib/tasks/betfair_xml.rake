@@ -82,7 +82,7 @@ namespace :betfair_xml do
              evnt[:teams] << selection.name
           end
 
-          create_or_update_event(evnt) if !evnt[:league_name].include?("NBA") && !evnt[:league_name].include?("NCAA")
+          create_or_update_event(evnt) if !evnt[:league_name].include?("NCAA")
           
         end
 
@@ -185,7 +185,7 @@ namespace :betfair_xml do
   def create_or_update_event event
 
     sport = Sport.find_or_create_by_name(event[:sport_name])
-    league = League.find_or_create_by_name(event[:league_name])
+    league = League.find_or_create_by_name_and_sport_id(event[:league_name],event[:sport_id])
 
     event[:sport_id] = sport.id
     event[:league_id] = league.id
