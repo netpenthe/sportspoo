@@ -1,0 +1,76 @@
+<script>
+  var current_user = false;
+  var myLocator, mySportsUI;
+    // This is where all the page initialisation happens.
+    $(document).ready(function() {
+      current_user = <%=user_signed_in?%>;
+      myLocator = new locator;
+      mySportsUI = new sports_ui;
+      myLocator.sports_ui = mySportsUI; 
+
+      <% @myevents = nil %>
+      <% @myteams = nil %>
+      <% @myleagues = nil %>
+      // first setup all the data
+      <% if current_user %>
+        <%# cache "events.user.#{current_user.id}" do %>
+          <%@myevents = Event.upcoming_events_for_user(current_user,Constants::NUM_EVENTS_TO_SHOW,0).to_json(:include=>[:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour, :live]).html_safe %>
+        <%# end %>
+        mySportsUI.my_events = <%=raw @myevents%>;
+
+        <%# cache "teams.user.#{current_user.id}" do %>
+            <%@myteams = current_user.teams.map{|t| t.preference_id}.join(',') %>
+        <%# end %>
+        mySportsUI.my_teams = [<%=raw @myteams%>];
+          
+        <%# cache "leagues.user.#{current_user.id}" do %>
+            <%@myleagues = current_user.my_leagues.to_json %>
+        <%# end %>
+        mySportsUI.my_leagues = <%=raw @myleagues%>;
+      <% else %>
+        mySportsUI.my_leagues = <%=raw @country_leagues%>;
+        mySportsUI.my_events = <%=raw @country_events%>;
+      <% end %>
+
+        <% if @tz.present? %>
+          myLocator.tz = "<%=raw @tz%>";
+        <% else %>
+           var timezone = jstz.determine();
+            //myLocator.tz = timezone.name().split("/")[1]; 
+
+           myLocator.tz = REV_TZ_MAPPING[timezone.name()];
+        <% end %>
+      
+      // now check if showing a user or default
+      //if (current_user) {
+        mySportsUI.updateTreeJSON(mySportsUI.my_leagues);
+        mySportsUI.updateInitialEventsJSON(mySportsUI.my_events);
+        
+        $('#tz_selector').val(myLocator.tz);
+        mySportsUI.change_time_zone_select($('#tz_selector').get(0));
+      //} else {
+          //myLocator.country = sports_geo_country; // this reads from the IP address, this is a variable set by Rails in _main.html.erb
+          //myLocator.locationFound();
+      //}
+      /*} else if (navigator.geolocation) { 
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+          latitude = position.coords.latitude;
+          longitude = position.coords.longitude;
+          myLocator.codeLatLng(latitude, longitude); // this should not call myLocator, it should be 'this' but the problem is this 'successFunction' is a CallBack and doesn't seem to send the whole object
+          },
+          function(err) {
+          myLocator.country = sports_geo_country; // this reads from the IP address, this is a variable set by Rails in _main.html.erb
+          myLocator.locationFound();
+          },{timeout:1} // 3 seconds
+        );
+      }*/
+
+      /* setup listeners */
+      $('#results_wrapper').mouseleave(function() {
+          $('#results_wrapper').fadeOut();
+          $('#show_results').show(); 
+          });
+      $('.save_preferences').click(mySportsUI.save_current_preferences);
+    });
+</script>

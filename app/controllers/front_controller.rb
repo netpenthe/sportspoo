@@ -57,6 +57,15 @@ class FrontController < ApplicationController
     if params[:login] == "failed"
       @login = "failed"
     end
+
+   
+    respond_to do |format|
+      if is_mobile_device? 
+        format.html { render :layout=>"mobile" and return } 
+      else 
+        format.html { render :layout=>"application" and return } 
+      end 
+    end
   end
   
   def moar_events

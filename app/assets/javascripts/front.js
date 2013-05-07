@@ -453,11 +453,15 @@ sports_ui.prototype.set_tz_selector = function (city,offset_no_dst) {
 }
 
 sports_ui.prototype.add_league = function(league_id, sport, league ) {
-  if ($('#main_sports_list h5').filter(function(index) { return $(this).text() === sport; }).length == 0) {
-    $('#main_sports_list').append('<h5>'+sport+'</h5>');
-    $('#main_sports_list h5').filter(function(index) { return $(this).text() === sport; }).parent().append('<ul>');
+  if ($('#tree_league_id_'+league_id).length != 0 ) {
+    $('#tree_league_id_'+league_id, '.league_id_'+league_id).effect("highlight", {},500); 
+  } else {
+    if ($('#main_sports_list h5').filter(function(index) { return $(this).text() === sport; }).length == 0) {
+      $('#main_sports_list').append('<h5>'+sport+'</h5>');
+      $('#main_sports_list h5').filter(function(index) { return $(this).text() === sport; }).parent().append('<ul>');
+    }
+    $('#main_sports_list h5').filter(function(index) { return $(this).text() === sport; }).next().append('<li>'+league+'<input type=checkbox align=right id="tree_league_id_'+league_id+'" checked style="float:right" class="cb_my_leagues" onclick="mySportsUI.getEvents(this, '+league_id+')"></li>');
   }
-  $('#main_sports_list h5').filter(function(index) { return $(this).text() === sport; }).next().append('<li>'+league+'<input type=checkbox align=right id="tree_league_id_'+league_id+'" checked style="float:right" class="cb_my_leagues" onclick="mySportsUI.getEvents(this, '+league_id+')"></li>');
 }
 
 sports_ui.prototype.more_events = function() {

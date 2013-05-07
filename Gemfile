@@ -38,6 +38,7 @@ gem 'geocoder'
 
 gem 'fastercsv'
 gem 'geokit'
+gem 'mobile-fu'
 
 # Gems used only for assets and not required
 # in production environments by default.

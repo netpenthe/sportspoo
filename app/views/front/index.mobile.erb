@@ -1,32 +1,33 @@
-<%=render 'index_js'%>
+<%=render :partial => 'index_js', :formats => [:html]%>
 <div class="row">
-  <div class="span2" style='background-color: #eee'>
-    <div style='padding:5px;border:1px solid #ccc'>
-      <%=render "layouts/left_menu"%>
-    </div>
-  </div>
-  <div class="span7">
+ <div class="span7">
      <div class="modal hide" tabindex="-1" id="signupmodal">
-         <%= render :template => "devise/registrations/new" %>
+         <%#= render :template => "devise/registrations/new" %>
       </div>
 
 
      <div class="modal hide" tabindex="-1" id="forgotpasswordmodal">
-         <%= render :template => "devise/passwords/new" %>
+         <%#= render :template => "devise/passwords/new" %>
       </div>
 
 
-    <%=render "layouts/main"%>
+    <%=render :partial => "layouts/main", :formats => [:html]%>
   </div>
+  <div class="span2" style='background-color: #eee'>
+    <div style='padding:5px;border:1px solid #ccc'>
+      <%=render :partial => "layouts/left_menu", :formats => [:html]%>
+    </div>
+  </div>
+ 
   <div class="span3" style='background-color: #eee;'>
     <div style='padding:5px;border:1px solid #ccc;border-bottom:0px'>
-      <%=render "layouts/tz"%>
+      <%=render :partial => "layouts/tz", :formats => [:html]%>
     </div>
   </div>
   <br><br>
   <div class="span3" style='background-color:#eee;'>
     <div style='padding:5px;border:1px solid #ccc;border-top:0px'>
-      <%=render "layouts/right_menu"%>
+      <%=render :partial=>"layouts/right_menu", :formats => [:html]%>
     </div>
   </div>
 </div>
