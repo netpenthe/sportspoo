@@ -1,0 +1,114 @@
+namespace :betfair do
+
+
+  task :update => :environment do
+
+    urls = {:afl => "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=61420&SportName=Australian+Rules&Type=B",
+            :mlb => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=7511&SportName=Baseball&Type=B" }
+
+    urls.each do |key,url|
+      puts "#{key} -> #{url}"
+
+      file = open(url)
+      file_contents = file.read
+      file_contents.gsub!("version=\"1.0\""," version=\"1.0\" encoding=\"ISO-8859-1\"")
+
+      betfair = BetFair::Betfair.parse file_contents
+
+      data = BetFair::Event.parse file_contents
+
+      data.each do |event|
+        event.sub_events.each do |sub|
+          evnt = {}
+          found_match, evnt[:sport_name],evnt[:league_name], evnt[:teams], duration, home_team_first = self.send(key.to_s,sub,event)
+          if found_match
+            evnt[:start_date] = "#{event.date} #{sub.time}"
+            evnt[:end_date] = "" ##{event.date} #{sub.time + duration.hours}"
+            evnt[:home_team_first] = home_team_first
+            evnt[:site] = "BetfairXML"
+            evnt[:external_key] = sub.betfair_id
+            create_or_update_event evnt
+          end
+        end
+      end
+
+    end
+
+  end
+
+
+  def afl sub,event
+    #AFL 2013/Round 19 - 03 August/Hawthorn v Richmond
+    if sub.title == "Match Odds"
+      sport_name = "Football - Australian"
+      league_name = "AFL"
+      home_team = event.name.split("/")[2].split(" v ")[0]
+      away_team = event.name.split("/")[2].split(" v ")[1]
+      teams = []
+      teams << home_team
+      teams << away_team
+      return true, sport_name, league_name, teams, 3 , true
+    else 
+      return false
+    end
+  end
+
+
+  def mlb sub,event
+    #MLB 2013/Games 27 July/HOU @ TOR
+    if sub.title == "Moneyline (Listed)"
+      sport_name = "Baseball"
+      league_name = "Major League Baseball"
+      home_team = event.name.split("/")[2].split(" @ ")[1]
+      away_team = event.name.split("/")[2].split(" @ ")[0]
+      teams = []
+      teams << home_team
+      teams << away_team
+      return true, sport_name, league_name, teams, 3 , true
+    else 
+      return false
+    end  
+  end
+
+
+  def create_or_update_event event
+
+    sport = Sport.find_or_create_by_name(event[:sport_name])
+    league = League.find_or_create_by_name_and_sport_id(event[:league_name],sport.id)
+
+    event[:sport_id] = sport.id
+    event[:league_id] = league.id
+
+    external_event = ExternalEvent.where(:site=>event[:site], :external_key=>event[:external_key]).first
+
+    if external_event.blank?
+
+      puts "creating"
+      evnt = Event.create(:sport_id=>event[:sport_id],:league_id=>event[:league_id],:start_date=>event[:start_date])
+      ExternalEvent.create(:site=>event[:site], :external_key=>event[:external_key], :event_id=>evnt.id)
+
+      count = 1
+      event[:teams].each do |team_name|
+        puts team_name
+        location_type = count
+        location_type = 1 if !event[:home_team_first] && count == 2
+        location_type = 2 if !event[:home_team_first] && count == 1
+
+        team = Team.where(:name=>team_name, :sport_id=>sport.id).first
+        team = Team.create(:name=>team_name,:sport_id=>event[:sport_id]) if team.blank?
+        EventTeam.create(:event_id=>evnt.id,:team_id=>team.id, :location_type_id=>location_type)
+        count = count + 1
+      end
+
+    else
+
+      puts "updating"
+      evnt = external_event.event
+      evnt.update_attributes(:start_date=>event[:start_date])
+      
+    end
+    
+  end
+
+
+end
