@@ -3,7 +3,6 @@ require 'open-uri'
 
 namespace :betfair_xml do
 
-  
   task :footballcups => :environment do
     
     puts "getting data from http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=7522&SportName=Basketball&Type=BL"
@@ -182,43 +181,43 @@ namespace :betfair_xml do
 
 
 
-  def create_or_update_event event
+  # def create_or_update_event event
 
-    sport = Sport.find_or_create_by_name(event[:sport_name])
-    league = League.find_or_create_by_name_and_sport_id(event[:league_name],event[:sport_id])
+  #   sport = Sport.find_or_create_by_name(event[:sport_name])
+  #   league = League.find_or_create_by_name_and_sport_id(event[:league_name],sport.id)
 
-    event[:sport_id] = sport.id
-    event[:league_id] = league.id
+  #   event[:sport_id] = sport.id
+  #   event[:league_id] = league.id
 
-    external_event = ExternalEvent.where(:site=>event[:site], :external_key=>event[:external_key]).first
+  #   external_event = ExternalEvent.where(:site=>event[:site], :external_key=>event[:external_key]).first
 
-    if external_event.blank?
+  #   if external_event.blank?
 
-      puts "creating"
-      evnt = Event.create(:sport_id=>event[:sport_id],:league_id=>event[:league_id],:start_date=>event[:start_date])
-      ExternalEvent.create(:site=>event[:site], :external_key=>event[:external_key], :event_id=>evnt.id)
+  #     puts "creating"
+  #     evnt = Event.create(:sport_id=>event[:sport_id],:league_id=>event[:league_id],:start_date=>event[:start_date])
+  #     ExternalEvent.create(:site=>event[:site], :external_key=>event[:external_key], :event_id=>evnt.id)
 
-      count = 1
-      event[:teams].each do |team_name|
-        puts team_name
-        location_type = count
-        location_type = 1 if !event[:home_team_first] && count == 2
-        location_type = 2 if !event[:home_team_first] && count == 1
+  #     count = 1
+  #     event[:teams].each do |team_name|
+  #       puts team_name
+  #       location_type = count
+  #       location_type = 1 if !event[:home_team_first] && count == 2
+  #       location_type = 2 if !event[:home_team_first] && count == 1
 
-        team = Team.where(:name=>team_name, :sport_id=>sport.id).first
-        team = Team.create(:name=>team_name,:sport_id=>event[:sport_id]) if team.blank?
-        EventTeam.create(:event_id=>evnt.id,:team_id=>team.id, :location_type_id=>location_type)
-        count = count + 1
-      end
+  #       team = Team.where(:name=>team_name, :sport_id=>sport.id).first
+  #       team = Team.create(:name=>team_name,:sport_id=>event[:sport_id]) if team.blank?
+  #       EventTeam.create(:event_id=>evnt.id,:team_id=>team.id, :location_type_id=>location_type)
+  #       count = count + 1
+  #     end
 
-    else
+  #   else
 
-      puts "updating"
-      evnt = external_event.event
-      evnt.update_attributes(:start_date=>event[:start_date])
+  #     puts "updating"
+  #     evnt = external_event.event
+  #     evnt.update_attributes(:start_date=>event[:start_date])
       
-    end
+  #   end
     
-  end
+  # end
   
 end
