@@ -1,17 +1,21 @@
-namespace :betfair do
+require 'iconv'
 
+namespace :betfair do
 
   task :update => :environment do
 
-    urls = {:afl => "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=61420&SportName=Australian+Rules&Type=B",
+    urls = { :afl => "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=61420&SportName=Australian+Rules&Type=B",
             :mlb => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=7511&SportName=Baseball&Type=B",
-            :cricket => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=4&SportName=Cricket&Type=B" }
+            :cricket => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=4&SportName=Cricket&Type=B",
+            #:football => "data/betfair-soccer2.xml" }
+            :football => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=1&SportName=Soccer&Type=B" }
 
     urls.each do |key,url|
       puts "#{key} -> #{url}"
 
       file = open(url)
       file_contents = file.read
+      file_contents = Iconv.conv 'UTF-8', 'iso8859-1', file_contents
       file_contents.gsub!("version=\"1.0\""," version=\"1.0\" encoding=\"ISO-8859-1\"")
 
       betfair = BetFair::Betfair.parse file_contents
@@ -33,6 +37,10 @@ namespace :betfair do
             evnt[:home_team_first] = home_team_first
             evnt[:site] = "BetfairXML"
             evnt[:external_key] = sub.betfair_id
+
+            #evnt[:teams][0] = evnt[:teams][0].force_encoding('UTF-8')
+            #evnt[:teams][1] = evnt[:teams][1].force_encoding('UTF-8')
+
             create_or_update_event evnt
           end
         end
@@ -116,6 +124,59 @@ namespace :betfair do
     end  
   end
 
+
+  def football sub,event
+
+    # Spanish Soccer/Spanish Cup/To Qualify/Atl Madrid v Sevilla
+    # English Soccer/Barclays Premier League/Fixtures 02 March    /Everton v Reading
+    # German Soccer/Bundesliga 1/Fixtures 02 March    /Nurnberg v Freiburg
+    # Friendlies/Fixtures 23 February /Ilves v Nokian Palloseura
+    # Womens Soccer/BeNe League A/Fixtures 23 February/Standard Liege (W) v Anderlecht (W)
+    # Mexican Soccer/Mexican Liga de Ascenso/Fixtures 23 February /Correcaminos UAT v Merida
+    # Hong Kong Soccer/Hong Kong Division 1/Fixtures 23 February /Sun Hei v Southern District RSA
+    # Turkish Soccer/Turkish A2 Ligi/Fixtures 25 February /Istanbul BBSK (Res) v Boluspor (Res)
+    # Saudi Arabian Soccer/League Cup Prince Faisal bin Fahad/Fixtures 25 February /Al Ahli v Al-Hilal
+    # Bahrain Soccer/Kings Cup/Fixtures 25 February /Al Ahli v Al Ittihad Bahrain
+    # Italian Soccer/Serie A/Fixtures 03 March    /Bologna v Cagliari
+    # English Soccer/FA Trophy/Fixtures 23 February /Gainsborough v Wrexham
+    # Czech Soccer/Czech U21 League/Fixtures 25 February /FK Teplice U21 v AC Sparta Praha U21
+    # Chilean Soccer/Chilean Primera B/Fixtures 25 February /Univ de Concepcion v Naval (Chile)
+    # Turkish Soccer/Turkish A2 Ligi/Fixtures 25 February /Karabukspor (Res) v Genclerbirligi (Res)
+
+    # Italian Soccer/Serie C1/A/Fixtures 24 February /San Marino Calcio v Albinoleffe
+
+    if sub.title == "Match Odds"
+      sport_name = "Football"
+      #if event.name.split("/")[1].include?("Fixtures")
+      #  league_name = event.name.split("/")[0].split(" 2")[0]
+      #else
+      league_name = event.name.split("/")[1]
+      #end
+
+      puts event.name
+
+      if event.name.split("/")[1].include?("Fixtures")
+        league_name = event.name.split("/")[0]
+        home_team = event.name.split("/")[2].split(" v ")[0].split(" (")[0]
+        away_team = event.name.split("/")[2].split(" v ")[1].split(" (")[0]
+      elsif  event.name.split("/")[3].include?("Fixtures")
+        home_team = event.name.split("/")[4].split(" v ")[0].split(" (")[0]
+        away_team = event.name.split("/")[4].split(" v ")[1].split(" (")[0]   
+      else
+        home_team = event.name.split("/")[3].split(" v ")[0].split(" (")[0]
+        away_team = event.name.split("/")[3].split(" v ")[1].split(" (")[0]
+      end
+
+      teams = []
+      teams << home_team
+      teams << away_team
+      
+      return true, sport_name, league_name, teams, 2 , true
+    else 
+      return false
+    end  
+
+  end
 
 
   def create_or_update_event event
