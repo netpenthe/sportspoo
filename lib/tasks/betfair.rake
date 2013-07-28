@@ -4,7 +4,8 @@ namespace :betfair do
   task :update => :environment do
 
     urls = {:afl => "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=61420&SportName=Australian+Rules&Type=B",
-            :mlb => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=7511&SportName=Baseball&Type=B" }
+            :mlb => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=7511&SportName=Baseball&Type=B",
+            :cricket => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=4&SportName=Cricket&Type=B" }
 
     urls.each do |key,url|
       puts "#{key} -> #{url}"
@@ -69,6 +70,47 @@ namespace :betfair do
       return false
     end  
   end
+
+
+  def cricket sub,event
+    # England v Australia 2013/Test Series/England v Australia (3rd Test)
+    # Sri Lanka v South Africa 2013/ODI Series/Sri Lanka v South Africa (4th ODI)
+    # Zimbabwe v India 2013/ODI Series/Zimbabwe v India (3rd ODI)
+    # Caribbean Premier League 2013/Fixtures 31 July/Guyana v Trinidad and Tobago
+    # West Indies v Pakistan 2013/T20 Series
+    # English Domestic/Friends Life T20 2013/Fixtures 28 July/Durham v Derbyshire" date="28/07/2013
+
+    if sub.title == "Match Odds"
+      sport_name = "Cricket"
+
+      if event.name.split("/")[1].include?("Fixtures")
+        league_name = event.name.split("/")[0].split(" 2")[0]
+      else
+        league_name = event.name.split("/")[1]
+      end
+
+      #if league_name != "ODI Series" && league_name != "Test Series" && league_name != "T20 Series"
+      #  league_name = event.name.split("/")[0].split(" 2")[0]
+      #end
+
+      unless event.name.split("/")[2].include?("Fixtures")
+        home_team = event.name.split("/")[2].split(" v ")[0].split(" (")[0]
+        away_team = event.name.split("/")[2].split(" v ")[1].split(" (")[0]
+      else
+        home_team = event.name.split("/")[3].split(" v ")[0].split(" (")[0]
+        away_team = event.name.split("/")[3].split(" v ")[1].split(" (")[0]
+      end
+
+      teams = []
+      teams << home_team
+      teams << away_team
+      
+      return true, sport_name, league_name, teams, 3 , true
+    else 
+      return false
+    end  
+  end
+
 
 
   def create_or_update_event event
