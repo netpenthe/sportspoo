@@ -24,7 +24,12 @@ namespace :betfair do
           found_match, evnt[:sport_name],evnt[:league_name], evnt[:teams], duration, home_team_first = self.send(key.to_s,sub,event)
           if found_match
             evnt[:start_date] = "#{event.date} #{sub.time}"
-            evnt[:end_date] = "" ##{event.date} #{sub.time + duration.hours}"
+
+            dt = DateTime.parse "#{event.date} #{sub.time}"
+            evnt[:end_date] = (dt + duration.hours).to_s
+
+            puts "end date #{evnt[:end_date]}"
+
             evnt[:home_team_first] = home_team_first
             evnt[:site] = "BetfairXML"
             evnt[:external_key] = sub.betfair_id
@@ -105,7 +110,7 @@ namespace :betfair do
       teams << home_team
       teams << away_team
       
-      return true, sport_name, league_name, teams, 3 , true
+      return true, sport_name, league_name, teams, 6 , true
     else 
       return false
     end  
@@ -134,7 +139,7 @@ namespace :betfair do
     if external_event.blank?
 
       puts "creating"
-      evnt = Event.create(:sport_id=>event[:sport_id],:league_id=>event[:league_id],:start_date=>event[:start_date])
+      evnt = Event.create(:sport_id=>event[:sport_id],:league_id=>event[:league_id],:start_date=>event[:start_date], :end_date=>event[:end_date])
       ExternalEvent.create(:site=>event[:site], :external_key=>event[:external_key], :event_id=>evnt.id)
 
       count = 1
