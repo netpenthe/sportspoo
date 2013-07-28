@@ -118,6 +118,14 @@ namespace :betfair do
     sport = Sport.find_or_create_by_name(event[:sport_name])
     league = League.find_or_create_by_name_and_sport_id(event[:league_name],sport.id)
 
+    if league.label_colour.blank?
+      randy = "%06x" % (rand * 0xffffff)
+      league.label_colour = "##{randy}"
+      league.save
+    end
+
+    puts "For this event ... using #{league.name} #{league.sport_id}"
+
     event[:sport_id] = sport.id
     event[:league_id] = league.id
 
