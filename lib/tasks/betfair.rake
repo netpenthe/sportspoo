@@ -155,8 +155,10 @@ namespace :betfair do
 
       puts event.name
 
-      # if event.name.split("/")[1].include?("Fixtures")
-      #   league_name = event.name.split("/")[0]
+      if event.name.split("/")[1].include?("Fixtures")
+        league_name = event.name.split("/")[0]
+      end
+      
       #   home_team = event.name.split("/")[2].split(" v ")[0].split(" (")[0]
       #   away_team = event.name.split("/")[2].split(" v ")[1].split(" (")[0]
       # elsif  event.name.split("/")[3].include?("Fixtures")
