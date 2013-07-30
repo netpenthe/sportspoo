@@ -56,8 +56,8 @@ namespace :betfair do
     if sub.title == "Match Odds"
       sport_name = "Football - Australian"
       league_name = "AFL"
-      home_team = event.name.split("/")[2].split(" v ")[0]
-      away_team = event.name.split("/")[2].split(" v ")[1]
+      home_team = event.name.split("/")[2].split(" v ")[0].split(" (")[0]
+      away_team = event.name.split("/")[2].split(" v ")[1].split(" (")[0]
       teams = []
       teams << home_team
       teams << away_team
@@ -73,8 +73,8 @@ namespace :betfair do
     if sub.title == "Moneyline (Listed)"
       sport_name = "Baseball"
       league_name = "Major League Baseball"
-      home_team = event.name.split("/")[2].split(" @ ")[1]
-      away_team = event.name.split("/")[2].split(" @ ")[0]
+      home_team = event.name.split("/")[2].split(" @ ")[1].split(" (")[0]
+      away_team = event.name.split("/")[2].split(" @ ")[0].split(" (")[0]
       teams = []
       teams << home_team
       teams << away_team
