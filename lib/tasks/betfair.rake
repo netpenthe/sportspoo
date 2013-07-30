@@ -155,17 +155,20 @@ namespace :betfair do
 
       puts event.name
 
-      if event.name.split("/")[1].include?("Fixtures")
-        league_name = event.name.split("/")[0]
-        home_team = event.name.split("/")[2].split(" v ")[0].split(" (")[0]
-        away_team = event.name.split("/")[2].split(" v ")[1].split(" (")[0]
-      elsif  event.name.split("/")[3].include?("Fixtures")
-        home_team = event.name.split("/")[4].split(" v ")[0].split(" (")[0]
-        away_team = event.name.split("/")[4].split(" v ")[1].split(" (")[0]   
-      else
-        home_team = event.name.split("/")[3].split(" v ")[0].split(" (")[0]
-        away_team = event.name.split("/")[3].split(" v ")[1].split(" (")[0]
-      end
+      # if event.name.split("/")[1].include?("Fixtures")
+      #   league_name = event.name.split("/")[0]
+      #   home_team = event.name.split("/")[2].split(" v ")[0].split(" (")[0]
+      #   away_team = event.name.split("/")[2].split(" v ")[1].split(" (")[0]
+      # elsif  event.name.split("/")[3].include?("Fixtures")
+      #   home_team = event.name.split("/")[4].split(" v ")[0].split(" (")[0]
+      #   away_team = event.name.split("/")[4].split(" v ")[1].split(" (")[0]   
+      # else
+      #   home_team = event.name.split("/")[3].split(" v ")[0].split(" (")[0]
+      #   away_team = event.name.split("/")[3].split(" v ")[1].split(" (")[0]
+      # end
+
+      home_team = event.name.split("/").last.split(" v ")[0].split(" (")[0]
+      away_team = event.name.split("/").last.split(" v ")[1].split(" (")[0]
 
       teams = []
       teams << home_team
