@@ -7,8 +7,8 @@ namespace :betfair do
     urls = { :afl => "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=61420&SportName=Australian+Rules&Type=B",
             :mlb => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=7511&SportName=Baseball&Type=B",
             :cricket => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=4&SportName=Cricket&Type=B",
-            #:football => "data/betfair-soccer2.xml" }
-            :football => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=1&SportName=Soccer&Type=B" }
+            :football => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=1&SportName=Soccer&Type=B",
+            :gridiron => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=6423&SportName=American+Football&Type=B" }
 
     urls.each do |key,url|
       puts "#{key} -> #{url}"
@@ -177,6 +177,26 @@ namespace :betfair do
     end  
 
   end
+
+
+  def gridiron sub, event
+     #CFL 2013/Week 5/Games 30 July/BC @ Toronto
+     #NFL Season 2013/14/Preseason Week 1/Games 08 August/Seattle @ San Diego
+     if sub.title == "Moneyline"
+      sport_name = "Football - American"
+      league_name = league_name = event.name.split("/").first.split(" ")[0]
+      home_team = event.name.split("/").last.split(" @ ")[1].split(" (")[0]
+      away_team = event.name.split("/").last.split(" @ ")[0].split(" (")[0]
+      teams = []
+      teams << home_team
+      teams << away_team
+      return true, sport_name, league_name, teams, 3 , true
+    else 
+      return false
+    end  
+
+  end
+
 
 
   def create_or_update_event event
