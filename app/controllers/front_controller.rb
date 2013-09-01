@@ -1,8 +1,11 @@
 class FrontController < ApplicationController
 
   def index
-    @country = request.location.country == 'Reserved' ? 'Australia' : request.location.country
-
+    if request.location.blank?
+      @country = 'Australia'
+    else
+      @country = request.location.country == 'Reserved' ? 'Australia' : request.location.country
+    end
 
     if (session[:leagues].nil?)
       session[:leagues] = []
@@ -45,7 +48,13 @@ class FrontController < ApplicationController
 
       @country_leagues  = @c_nt.leagues.to_json(:params=>{:country_id => @c_nt.id})
 
-      city = request.location.city.blank? ? "" : request.location.city
+      if request.location.blank?
+        city = 'Sydney'
+      else
+        city = request.location.city.blank? ? "" : request.location.city
+      end
+
+      @city = city
 
       if (!city.blank?) 
         x = Citytimezones.find(:first, :conditions=>["city like ?",city+'%'])
