@@ -4,6 +4,8 @@ log/*.log
 tmp/
 .sass-cache/
 config/database.yml
+config/database.yml.nai
+config/database.yml.jon
 config/facebook.yml
 config/twitter.yml
 config/betfair.yml
