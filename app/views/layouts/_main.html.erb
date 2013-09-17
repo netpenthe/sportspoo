@@ -14,8 +14,8 @@
   <script src="http://remysharp.com/downloads/jquery.inview.js"></script>
   <script type="text/javascript">// <![CDATA[ 
   <% if request.env["HTTP_USER_AGENT"].match /Safari/ %>
-      var sports_geo_city =  "<%=request.location.city || '' %>";
-      var sports_geo_country = "<%=request.location.country == 'Reserved' ? 'Australia' : "#{request.location.country}" || ""%>";
+      var sports_geo_city =  "<%=@city%>";
+      var sports_geo_country = "<%=@country%>";
   <% end %> 
 
       // track the search requests so we can abort old ones if more things typed
