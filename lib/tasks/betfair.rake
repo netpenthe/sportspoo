@@ -11,10 +11,10 @@ namespace :betfair do
             :gridiron => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=6423&SportName=American+Football&Type=B" 
           }
 
-    #urls.each do |key,url|
-      #puts "#{key} -> #{url}"
+    urls.each do |key,url|
+      puts "#{key} -> #{url}"
 
-      url = "#{Rails.root}/data/soccer.xml" 
+      #url = "#{Rails.root}/data/soccer.xml" 
       file = open(url)
       file_contents = file.read
       file_contents = Iconv.conv 'UTF-8', 'iso8859-1', file_contents
