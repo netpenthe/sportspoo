@@ -11,9 +11,10 @@ namespace :betfair do
             :gridiron => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=6423&SportName=American+Football&Type=B" 
           }
 
-    urls.each do |key,url|
-      puts "#{key} -> #{url}"
+    #urls.each do |key,url|
+      #puts "#{key} -> #{url}"
 
+      url = "#{Rails.root}/data/soccer.xml" 
       file = open(url)
       file_contents = file.read
       file_contents = Iconv.conv 'UTF-8', 'iso8859-1', file_contents
@@ -26,7 +27,7 @@ namespace :betfair do
       data.each do |event|
         event.sub_events.each do |sub|
           evnt = {}
-          found_match, evnt[:sport_name],evnt[:league_name], evnt[:teams], duration, home_team_first = self.send(key.to_s,sub,event)
+          found_match, evnt[:sport_name],evnt[:league_name], evnt[:teams], duration, home_team_first = self.send("football",sub,event)
           if found_match
             evnt[:start_date] = "#{event.date} #{sub.time}"
 
@@ -47,7 +48,7 @@ namespace :betfair do
         end
       end
 
-    end
+    #end
 
   end
 
@@ -189,6 +190,9 @@ namespace :betfair do
       #home_team = event.name.split("/").last.split(" v ")[0].split(" (")[0]
       #away_team = event.name.split("/").last.split(" v ")[1].split(" (")[0]
 
+      return false if sub.selections[0].blank?
+      return false if sub.selections[1].blank?
+      
       home_team = sub.selections[0].name.split(" (")[0]
       away_team = sub.selections[1].name.split(" (")[0]
 
