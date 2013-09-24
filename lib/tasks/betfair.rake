@@ -7,8 +7,8 @@ namespace :betfair do
     urls = { :afl => "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=61420&SportName=Australian+Rules&Type=B",
             :mlb => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=7511&SportName=Baseball&Type=B",
             :cricket => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=4&SportName=Cricket&Type=B",
-            :football => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=1&SportName=Soccer&Type=B",
-            :gridiron => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=6423&SportName=American+Football&Type=B" 
+            :gridiron => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=6423&SportName=American+Football&Type=B",
+            :football => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=1&SportName=Soccer&Type=B" 
           }
 
     urls.each do |key,url|
@@ -16,11 +16,15 @@ namespace :betfair do
 
       #url = "#{Rails.root}/data/soccer.xml" 
       file = open(url)
+
       file_contents = file.read
+
+      file.close
+
       file_contents = Iconv.conv 'UTF-8', 'iso8859-1', file_contents
       file_contents.gsub!("version=\"1.0\""," version=\"1.0\" encoding=\"ISO-8859-1\"")
 
-      betfair = BetFair::Betfair.parse file_contents
+      #betfair = BetFair::Betfair.parse file_contents
 
       data = BetFair::Event.parse file_contents
 
@@ -48,7 +52,7 @@ namespace :betfair do
         end
       end
 
-    #end
+    end
 
   end
 
