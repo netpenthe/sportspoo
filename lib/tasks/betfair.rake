@@ -11,10 +11,14 @@ namespace :betfair do
             :football => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=1&SportName=Soccer&Type=B" 
           }
 
+    if Rails.env == "development" 
+      urls = {}     
+      urls[:football] =  "#{Rails.root}/data/soccer.xml"  
+    end
+
     urls.each do |key,url|
       puts "#{key} -> #{url}"
 
-      #url = "#{Rails.root}/data/soccer.xml" 
       file = open(url)
 
       file_contents = file.read
@@ -210,6 +214,9 @@ namespace :betfair do
       odds = []
       odds << home_match_odds
       odds << away_match_odds
+
+      #puts home_match_odds
+      #puts away_match_odds
       
       return true, sport_name, league_name, teams, 2 , true, odds
     else 
@@ -277,10 +284,13 @@ namespace :betfair do
         team = Team.where(:name=>team_name, :sport_id=>sport.id).first
         team = Team.create(:name=>team_name,:sport_id=>event[:sport_id]) if team.blank?
 
-        odds = event[:odds][count-1].to_f unless event[:odds].blank?
+        odds = event[:odds][count-1].to_f unless event[:odds].size < 2
+        puts event[:odds].size
+
+        puts odds
 
         EventTeam.create(:event_id=>evnt.id,:team_id=>team.id, :location_type_id=>location_type, :match_odds=>odds)
-        
+
         count = count + 1
       end
 
@@ -289,7 +299,17 @@ namespace :betfair do
       puts "updating"
       evnt = external_event.event
       evnt.update_attributes(:start_date=>event[:start_date])
-      
+
+      if !event[:odds].blank? && event[:odds].size == evnt.event_teams.size
+        count = 0
+        evnt.event_teams.each do |et|
+          et.match_odds = event[:odds][count].to_f 
+          puts et.match_odds
+          et.save
+          count +=1
+        end
+      end
+    
     end
     
   end

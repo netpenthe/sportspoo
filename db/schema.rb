@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130924105558) do
+ActiveRecord::Schema.define(:version => 20130924141250) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(:version => 20130924105558) do
     t.integer  "location_type_id"
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
-    t.decimal  "match_odds",       :precision => 10, :scale => 0
+    t.decimal  "match_odds",       :precision => 12, :scale => 2
   end
 
   add_index "event_teams", ["event_id"], :name => "event_teams_idx"
