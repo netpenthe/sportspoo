@@ -31,7 +31,7 @@ namespace :betfair do
       data.each do |event|
         event.sub_events.each do |sub|
           evnt = {}
-          found_match, evnt[:sport_name],evnt[:league_name], evnt[:teams], duration, home_team_first = self.send("football",sub,event)
+          found_match, evnt[:sport_name],evnt[:league_name], evnt[:teams], duration, home_team_first = self.send(key,sub,event)
           if found_match
             evnt[:start_date] = "#{event.date} #{sub.time}"
 
@@ -199,6 +199,12 @@ namespace :betfair do
       
       home_team = sub.selections[0].name.split(" (")[0]
       away_team = sub.selections[1].name.split(" (")[0]
+
+      home_match_odds = sub.selections[0].backp1
+      away_match_odds = sub.selections[1].backp1
+
+      puts home_match_odds
+      puts away_match_odds
 
       teams = []
       teams << home_team
