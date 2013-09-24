@@ -18,7 +18,8 @@ set :keep_releases, 5
 
 
 set :application, "sportspoo"
-set :repository,  "git@bitbucket.org:desmondy/sportspoo.git"
+#set :repository,  "git@bitbucket.org:desmondy/sportspoo.git"
+set :repository,  "git@github.com:netpenthe/sportspoo.git"
 
 set :user, "deployguy"
 default_run_options[:pty] = true
