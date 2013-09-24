@@ -31,7 +31,7 @@ namespace :betfair do
       data.each do |event|
         event.sub_events.each do |sub|
           evnt = {}
-          found_match, evnt[:sport_name],evnt[:league_name], evnt[:teams], duration, home_team_first = self.send(key,sub,event)
+          found_match, evnt[:sport_name],evnt[:league_name], evnt[:teams], duration, home_team_first, evnt[:odds] = self.send(key,sub,event)
           if found_match
             evnt[:start_date] = "#{event.date} #{sub.time}"
 
@@ -203,14 +203,15 @@ namespace :betfair do
       home_match_odds = sub.selections[0].backp1
       away_match_odds = sub.selections[1].backp1
 
-      puts home_match_odds
-      puts away_match_odds
-
       teams = []
       teams << home_team
       teams << away_team
+
+      odds = []
+      odds << home_match_odds
+      odds << away_match_odds
       
-      return true, sport_name, league_name, teams, 2 , true
+      return true, sport_name, league_name, teams, 2 , true, odds
     else 
       return false
     end  
@@ -275,7 +276,11 @@ namespace :betfair do
 
         team = Team.where(:name=>team_name, :sport_id=>sport.id).first
         team = Team.create(:name=>team_name,:sport_id=>event[:sport_id]) if team.blank?
-        EventTeam.create(:event_id=>evnt.id,:team_id=>team.id, :location_type_id=>location_type)
+
+        odds = event[:odds][count-1].to_f unless event[:odds].blank?
+
+        EventTeam.create(:event_id=>evnt.id,:team_id=>team.id, :location_type_id=>location_type, :match_odds=>odds)
+        
         count = count + 1
       end
 
