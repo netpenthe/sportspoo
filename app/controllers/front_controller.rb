@@ -43,7 +43,7 @@ class FrontController < ApplicationController
       @c_nt = Country.find_by_name @country
 
       @country_events = @c_nt.upcoming_events.to_json(
-                    :include => [:teams], 
+                    :include => [:event_teams,:teams], 
                     :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live,:betfair_link])
 
       @country_leagues  = @c_nt.leagues.to_json(:params=>{:country_id => @c_nt.id})

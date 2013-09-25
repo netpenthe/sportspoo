@@ -13,7 +13,7 @@ namespace :betfair do
 
     if Rails.env == "development" 
       urls = {}     
-      urls[:football] =  "#{Rails.root}/data/soccer.xml"  
+      urls[:football] =  "#{Rails.root}/data/soccer.xml"
     end
 
     urls.each do |key,url|
@@ -284,10 +284,13 @@ namespace :betfair do
         team = Team.where(:name=>team_name, :sport_id=>sport.id).first
         team = Team.create(:name=>team_name,:sport_id=>event[:sport_id]) if team.blank?
 
-        odds = event[:odds][count-1].to_f unless event[:odds].size < 2
-        puts event[:odds].size
-
-        puts odds
+        unless event[:odds].blank?
+          if event[:odds].size  == event[:teams].size
+            odds = event[:odds][count-1].to_f 
+            puts event[:odds].size
+            puts odds
+          end
+        end
 
         EventTeam.create(:event_id=>evnt.id,:team_id=>team.id, :location_type_id=>location_type, :match_odds=>odds)
 
