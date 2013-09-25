@@ -13,7 +13,8 @@ namespace :betfair do
 
     if Rails.env == "development" 
       urls = {}     
-      urls[:football] =  "#{Rails.root}/data/soccer.xml"
+      #urls[:football] =  "#{Rails.root}/data/soccer.xml"
+      urls[:afl] = "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=61420&SportName=Australian+Rules&Type=B"
     end
 
     urls.each do |key,url|
@@ -75,7 +76,17 @@ namespace :betfair do
       teams = []
       teams << home_team
       teams << away_team
-      return true, sport_name, league_name, teams, 3 , true
+
+      home_match_odds = sub.selections[0].backp1
+      away_match_odds = sub.selections[1].backp1
+      odds = []
+      odds << home_match_odds
+      odds << away_match_odds
+
+      puts home_match_odds
+      puts away_match_odds
+
+      return true, sport_name, league_name, teams, 3 , true, odds
     else 
       return false
     end
@@ -206,14 +217,13 @@ namespace :betfair do
 
       home_match_odds = sub.selections[0].backp1
       away_match_odds = sub.selections[1].backp1
+      odds = []
+      odds << home_match_odds
+      odds << away_match_odds
 
       teams = []
       teams << home_team
       teams << away_team
-
-      odds = []
-      odds << home_match_odds
-      odds << away_match_odds
 
       #puts home_match_odds
       #puts away_match_odds
