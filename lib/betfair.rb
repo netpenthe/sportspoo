@@ -13,6 +13,7 @@ module BetFair
     tag "selection"
     attribute "name", String
     attribute 'backp1', String
+    attribute "id", String
   end
 
   class SubEvent

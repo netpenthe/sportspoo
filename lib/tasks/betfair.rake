@@ -12,9 +12,9 @@ namespace :betfair do
           }
 
     if Rails.env == "development" 
-      urls = {}     
-      #urls[:football] =  "#{Rails.root}/data/soccer.xml"
-      urls[:afl] = "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=61420&SportName=Australian+Rules&Type=B"
+      #urls = {}     
+      urls[:football] =  "#{Rails.root}/data/soccer.xml"
+      #urls[:afl] = "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=61420&SportName=Australian+Rules&Type=B"
     end
 
     urls.each do |key,url|
@@ -74,8 +74,10 @@ namespace :betfair do
       away_team = sub.selections[1].name.split(" (")[0]
 
       teams = []
-      teams << home_team
-      teams << away_team
+      home_team_id = sub.selections[0].id
+      away_team_id = sub.selections[1].id
+      teams << {:name=>home_team,:id=>home_team_id}
+      teams << {:name=>away_team,:id=>away_team_id}
 
       home_match_odds = sub.selections[0].backp1
       away_match_odds = sub.selections[1].backp1
@@ -105,8 +107,11 @@ namespace :betfair do
       away_team = sub.selections[1].name.split(" (")[0]
 
       teams = []
-      teams << home_team
-      teams << away_team
+      home_team_id = sub.selections[0].id
+      away_team_id = sub.selections[1].id
+      teams << {:name=>home_team,:id=>home_team_id}
+      teams << {:name=>away_team,:id=>away_team_id}
+
       return true, sport_name, league_name, teams, 3 , true
     else 
       return false
@@ -152,9 +157,11 @@ namespace :betfair do
       away_team = sub.selections[1].name.split(" (")[0]
 
       teams = []
-      teams << home_team
-      teams << away_team
-      
+      home_team_id = sub.selections[0].id
+      away_team_id = sub.selections[1].id
+      teams << {:name=>home_team,:id=>home_team_id}
+      teams << {:name=>away_team,:id=>away_team_id}
+
       return true, sport_name, league_name, teams, 6 , true
     else 
       return false
@@ -214,17 +221,24 @@ namespace :betfair do
       
       home_team = sub.selections[0].name.split(" (")[0]
       away_team = sub.selections[1].name.split(" (")[0]
-
+      
       home_match_odds = sub.selections[0].backp1
       away_match_odds = sub.selections[1].backp1
       odds = []
       odds << home_match_odds
       odds << away_match_odds
 
-      teams = []
-      teams << home_team
-      teams << away_team
+      #teams = []
+      #teams << home_team
+      #teams << away_team
 
+      teams = []
+      home_team_id = sub.selections[0].id
+      away_team_id = sub.selections[1].id
+      teams << {:name=>home_team,:id=>home_team_id}
+      teams << {:name=>away_team,:id=>away_team_id}
+
+      #puts teamz  
       #puts home_match_odds
       #puts away_match_odds
       
@@ -249,8 +263,11 @@ namespace :betfair do
       away_team = sub.selections[0].name.split(" (")[0]
 
       teams = []
-      teams << home_team
-      teams << away_team
+      home_team_id = sub.selections[0].id
+      away_team_id = sub.selections[1].id
+      teams << {:name=>home_team,:id=>home_team_id}
+      teams << {:name=>away_team,:id=>away_team_id}
+
       return true, sport_name, league_name, teams, 3 , true
     else 
       return false
@@ -285,20 +302,27 @@ namespace :betfair do
       ExternalEvent.create(:site=>event[:site], :external_key=>event[:external_key], :event_id=>evnt.id)
 
       count = 1
-      event[:teams].each do |team_name|
-        puts team_name
+      event[:teams].each do |teamm|
+        puts teamm[:name]
+
         location_type = count
         location_type = 1 if !event[:home_team_first] && count == 2
         location_type = 2 if !event[:home_team_first] && count == 1
 
-        team = Team.where(:name=>team_name, :sport_id=>sport.id).first
-        team = Team.create(:name=>team_name,:sport_id=>event[:sport_id]) if team.blank?
+        et = ExternalTeam.where(:site=>"BetfairXML", :external_key=>teamm[:id]).first
+
+        unless et.blank?
+          team = et.team
+        else
+          team = Team.create(:name=>teamm[:name],:sport_id=>event[:sport_id])
+          ExternalTeam.create(:site=>"BetfairXML", :external_key=>teamm[:id], :team_id=>team.id)
+        end
 
         unless event[:odds].blank?
           if event[:odds].size  == event[:teams].size
             odds = event[:odds][count-1].to_f 
             puts event[:odds].size
-            puts odds
+            #puts odds
           end
         end
 
