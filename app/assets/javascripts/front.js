@@ -160,9 +160,9 @@ sports_ui.prototype.removeEvents =  function(events) {
 
 sports_ui.prototype.displayEventsForLeague =  function(events,custom_class) {
   if (events === null || events.length == 0) {
-    $("#flashy").html("<div class='alert alert-success'><a class='close' data-dismiss='alert'>&#215;</a><div id='flash_notice'> Sorry no events at the moment. </div></div>");
-    $("#flashy").show();
-    $("#flashy").fadeOut(3000);
+    //$("#flashy").html("<div class='alert alert-success'><a class='close' data-dismiss='alert'>&#215;</a><div id='flash_notice'> Sorry no events at the moment. </div></div>");
+    //$("#flashy").show();
+    //$("#flashy").fadeOut(3000);
     return;
   }
   this.removeEvents(events);
