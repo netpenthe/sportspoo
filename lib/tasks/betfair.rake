@@ -6,7 +6,8 @@ namespace :betfair do
 
     urls = { :afl => "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=61420&SportName=Australian+Rules&Type=B",
             :mlb => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=7511&SportName=Baseball&Type=B",
-            :cricket => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=4&SportName=Cricket&Type=B",
+            :cricket_uk => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=4&SportName=Cricket&Type=B",
+            :cricket_au => "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=4&SportName=Cricket&Type=B",
             :gridiron => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=6423&SportName=American+Football&Type=B",
             :football => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=1&SportName=Soccer&Type=B" 
           }
@@ -36,7 +37,7 @@ namespace :betfair do
       data.each do |event|
         event.sub_events.each do |sub|
           evnt = {}
-          found_match, evnt[:sport_name],evnt[:league_name], evnt[:teams], duration, home_team_first, evnt[:odds] = self.send(key,sub,event)
+          found_match, evnt[:sport_name],evnt[:league_name], evnt[:teams], duration, home_team_first, evnt[:odds] = self.send(key.to_s.split("_")[0].to_sym,sub,event)
           if found_match
             evnt[:start_date] = "#{event.date} #{sub.time}"
 
