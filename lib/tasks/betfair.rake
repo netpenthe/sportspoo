@@ -10,12 +10,14 @@ namespace :betfair do
             :cricket_au => "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=4&SportName=Cricket&Type=B",
             :gridiron => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=6423&SportName=American+Football&Type=B",
             :football_au => "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=1&SportName=Soccer&Type=B",
+            :basketball => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=7522&SportName=Basketball&Type=B",
             :football => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=1&SportName=Soccer&Type=B"
           }
 
     if Rails.env == "development" 
-      #urls = {}     
-      urls[:football] =  "#{Rails.root}/data/soccer.xml"
+      urls = {}     
+      #urls[:football] =  "#{Rails.root}/data/soccer.xml"
+      urls[:basketball] = "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=7522&SportName=Basketball&Type=B"
       #urls[:afl] = "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=61420&SportName=Australian+Rules&Type=B"
     end
 
@@ -94,6 +96,30 @@ namespace :betfair do
     else 
       return false
     end
+  end
+
+
+  def basketball sub,event
+     if sub.title == "Moneyline"
+      sport_name = "Basketball"
+      
+      league_name = event.name.split(" 20")[0]
+
+      home_team_first = !event.name.include?("@")
+
+      home_team = sub.selections[0].name.split(" (")[0]
+      away_team = sub.selections[1].name.split(" (")[0]
+
+      teams = []
+      home_team_id = sub.selections[0].id
+      away_team_id = sub.selections[1].id
+      teams << {:name=>home_team,:id=>home_team_id}
+      teams << {:name=>away_team,:id=>away_team_id}
+
+      return true, sport_name, league_name, teams, 3 , home_team_first
+    else 
+      return false
+    end  
   end
 
 
