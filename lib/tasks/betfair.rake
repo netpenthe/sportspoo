@@ -12,13 +12,14 @@ namespace :betfair do
             :football_au => "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=1&SportName=Soccer&Type=B",
             :basketball => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=7522&SportName=Basketball&Type=B",
             :basketball_au => "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=7522&SportName=Basketball&Type=B",
-            :football => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=1&SportName=Soccer&Type=B"
+            :football => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=1&SportName=Soccer&Type=B",
+            :motor=> "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=8&SportName=Motor+Sport&Type=B"
           }
 
     if Rails.env == "development" 
       urls = {}     
-      #urls[:football] =  "#{Rails.root}/data/soccer.xml"
-      urls[:basketball] = "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=7522&SportName=Basketball&Type=B"
+      urls[:football] =  "#{Rails.root}/data/soccer.xml"
+      urls[:motor] = "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=8&SportName=Motor+Sport&Type=B"
       #urls[:afl] = "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=61420&SportName=Australian+Rules&Type=B"
 
       #urls[:gridiron] = "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=6423&SportName=American+Football&Type=B"
@@ -43,7 +44,7 @@ namespace :betfair do
       data.each do |event|
         event.sub_events.each do |sub|
           evnt = {}
-          found_match, evnt[:sport_name],evnt[:league_name], evnt[:teams], duration, home_team_first, evnt[:odds] = self.send(key.to_s.split("_")[0].to_sym,sub,event)
+          found_match, evnt[:sport_name],evnt[:league_name], evnt[:teams], duration, home_team_first, evnt[:odds], evnt[:name] = self.send(key.to_s.split("_")[0].to_sym,sub,event)
           if found_match
             evnt[:start_date] = "#{event.date} #{sub.time}"
 
@@ -66,6 +67,21 @@ namespace :betfair do
 
     end
 
+  end
+
+
+  def motor sub,event
+    #<event name="Formula 1 2013/Abu Dhabi GP" date="03/11/2013">
+    if sub.title == "Points Finish"  && event.name.include?("Formula 1")
+      sport_name = "Motorsport"
+      league_name = "Formula One"
+      name = event.name.split("/")[1]
+      teams = []
+      odds = [] 
+      return true, sport_name, league_name, teams, 3 , true, odds, name
+    else 
+      return false
+    end
   end
 
 
@@ -329,7 +345,7 @@ namespace :betfair do
     if external_event.blank?
 
       puts "creating"
-      evnt = Event.create(:sport_id=>event[:sport_id],:league_id=>event[:league_id],:start_date=>event[:start_date], :end_date=>event[:end_date])
+      evnt = Event.create(:sport_id=>event[:sport_id],:league_id=>event[:league_id],:start_date=>event[:start_date], :end_date=>event[:end_date], :name=>event[:name])
       ExternalEvent.create(:site=>event[:site], :external_key=>event[:external_key], :event_id=>evnt.id)
 
       count = 1
