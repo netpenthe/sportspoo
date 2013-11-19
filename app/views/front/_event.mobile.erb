@@ -9,7 +9,7 @@
   </span>
 
   <br>
-  <small><%=distance_of_time_in_words_to_now event.start_date%></small>
+  <small><%=event.start_date.strftime("%a %l:%M %P")%> / <%=distance_of_time_in_words_to_now event.start_date%></small>
 
 </li>
 
