@@ -125,7 +125,7 @@ sports_ui.prototype.updateInitialEventsJSON = function(events) {
     //  betfair_str = ' <a href="' + e.betfair_link + '"> [bet] </a>';
     //}
 
-    $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+teams_class+'" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+time_in_words+'</strong> <sup >'+start_date_local+'</sup></p>'+display_name+ '  <span class="label" style="background-color:'+ league_label_colour+'; font-size:10px;" data-name="activesupport">'+e.league_name+'</span> '  + tag_str  + live_event_str + betfair_str + ' </li>')
+    $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+teams_class+'" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+time_in_words+'</strong> <sup >'+start_date_local+'</sup></p>'+display_name+ '  <span class="label" style="background-color:'+ league_label_colour+'; font-size:10px;">'+e.league_name+'</span> '  + tag_str  + live_event_str + betfair_str + ' </li>')
   }
   
   //me.removeEvents(me.my_events);
@@ -236,7 +236,7 @@ sports_ui.prototype.displayEventsForLeague =  function(events,custom_class) {
        //  betfair_str = ' <a href="' + e.betfair_link + '"> [bet] </a>';
        //}
 
-      new_event = '<li class="ui-li ui-li-static ui-btn-up-c league_id_'+e.league_id+' '+custom_class+teams_class+'" league_id="'+e.league_id+'" event_id='+e.id+' timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+display_name +'  <span class="label" style="background-color:'+ league_label_colour+'; font-size:10px;" data-name="activesupport">'+e.league_name+'</span>'  + tag_str  + live_event_str + betfair_str + ' </li>';
+      new_event = '<li class="ui-li ui-li-static ui-btn-up-c league_id_'+e.league_id+' '+custom_class+teams_class+'" league_id="'+e.league_id+'" event_id='+e.id+' timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+display_name +'  <span class="label" style="background-color:'+ league_label_colour+'; font-size:10px;">'+e.league_name+'</span>'  + tag_str  + live_event_str + betfair_str + ' </li>';
 
 
       if ($('#list1 li').length ==0) {
