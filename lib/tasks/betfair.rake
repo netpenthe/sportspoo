@@ -20,10 +20,10 @@ namespace :betfair do
     if Rails.env == "development" 
       urls = {}     
       #urls[:football] =  "#{Rails.root}/data/soccer.xml"
-      #urls[:motor] = "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=8&SportName=Motor+Sport&Type=B"
+      urls[:motor] = "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=8&SportName=Motor+Sport&Type=B"
       #urls[:afl] = "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=61420&SportName=Australian+Rules&Type=B"
 
-      urls[:gridiron] = "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=6423&SportName=American+Football&Type=B"
+      #urls[:gridiron] = "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=6423&SportName=American+Football&Type=B"
       # urls[:hockey] = "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=7524&SportName=Ice+Hockey&Type=B"
     end
 
@@ -49,6 +49,12 @@ namespace :betfair do
           found_match, evnt[:sport_name],evnt[:league_name], evnt[:teams], duration, home_team_first, evnt[:odds], evnt[:name] = self.send(key.to_s.split("_")[0].to_sym,sub,event)
           if found_match
             evnt[:start_date] = "#{event.date} #{sub.time}"
+
+            if evnt[:league_name] == "Formula One"
+               #betting finishes before qualifying
+               evnt[:start_date] = (DateTime.parse("#{event.date} #{sub.time}") + 24.hours).to_s
+               puts evnt[:start_date]
+            end
 
             dt = DateTime.parse "#{event.date} #{sub.time}"
             evnt[:end_date] = (dt + duration.hours).to_s
