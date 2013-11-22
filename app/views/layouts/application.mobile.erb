@@ -6,12 +6,12 @@
     <title><%= content_for?(:title) ? yield(:title) : "Sport-o-mate" %></title>
     <meta name="description" content="When does my team play? Sporting event times in your local timezone">
     <meta name="author" content="">
-    
+
     <%= stylesheet_link_tag "application", :media => "all" %>
 
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <!--<script src="https://cdn.firebase.com/v0/firebase.js"></script> -->
-    <%= javascript_include_tag "application" %>
+    <%# javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <%= yield(:head) %>
   </head>
