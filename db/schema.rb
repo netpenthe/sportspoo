@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130502115204) do
+ActiveRecord::Schema.define(:version => 20130927100220) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -19,8 +19,8 @@ ActiveRecord::Schema.define(:version => 20130502115204) do
     t.integer  "author_id"
     t.string   "author_type"
     t.text     "body"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "namespace"
   end
 
@@ -39,8 +39,8 @@ ActiveRecord::Schema.define(:version => 20130502115204) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "admin_users", ["email"], :name => "index_admin_users_on_email", :unique => true
@@ -82,16 +82,20 @@ ActiveRecord::Schema.define(:version => 20130502115204) do
     t.integer  "event_id"
     t.integer  "team_id"
     t.integer  "location_type_id"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
+    t.decimal  "match_odds",       :precision => 12, :scale => 2
   end
+
+  add_index "event_teams", ["event_id"], :name => "event_teams_idx"
+  add_index "event_teams", ["team_id"], :name => "event_teams_teams_id"
 
   create_table "events", :force => true do |t|
     t.integer  "sport_id"
     t.integer  "league_id"
     t.datetime "start_date"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "name"
     t.text     "description"
     t.datetime "end_date"
@@ -100,9 +104,20 @@ ActiveRecord::Schema.define(:version => 20130502115204) do
     t.integer  "location_id"
   end
 
+  add_index "events", ["sport_id"], :name => "sport_id_idx"
+  add_index "events", ["start_date"], :name => "start_date_idx"
+
   create_table "external_events", :force => true do |t|
     t.string   "site"
     t.integer  "event_id"
+    t.string   "external_key"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "external_teams", :force => true do |t|
+    t.string   "site"
+    t.integer  "team_id"
     t.string   "external_key"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
@@ -135,8 +150,8 @@ ActiveRecord::Schema.define(:version => 20130502115204) do
 
   create_table "leagues", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "import_id"
     t.integer  "sport_id"
     t.string   "label_colour"
@@ -156,8 +171,8 @@ ActiveRecord::Schema.define(:version => 20130502115204) do
 
   create_table "sports", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "import_id"
   end
 
@@ -188,8 +203,8 @@ ActiveRecord::Schema.define(:version => 20130502115204) do
 
   create_table "teams", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "import_id"
     t.integer  "sport_id"
   end
@@ -198,9 +213,13 @@ ActiveRecord::Schema.define(:version => 20130502115204) do
     t.integer  "user_id"
     t.string   "preference_type"
     t.integer  "preference_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
+
+  add_index "user_preferences", ["preference_id"], :name => "preference_preference_id"
+  add_index "user_preferences", ["preference_type"], :name => "preference_type_id"
+  add_index "user_preferences", ["user_id"], :name => "user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -213,8 +232,8 @@ ActiveRecord::Schema.define(:version => 20130502115204) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "username"
     t.string   "provider"
     t.string   "uid"

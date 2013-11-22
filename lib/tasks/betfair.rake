@@ -4,31 +4,57 @@ namespace :betfair do
 
   task :update => :environment do
 
-    urls = { :afl => "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=61420&SportName=Australian+Rules&Type=B",
+    urls = {:afl => "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=61420&SportName=Australian+Rules&Type=B",
             :mlb => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=7511&SportName=Baseball&Type=B",
-            :cricket => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=4&SportName=Cricket&Type=B",
+            :cricket_uk => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=4&SportName=Cricket&Type=B",
+            :cricket_au => "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=4&SportName=Cricket&Type=B",
+            :gridiron => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=6423&SportName=American+Football&Type=B",
+            :football_au => "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=1&SportName=Soccer&Type=B",
+            :basketball => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=7522&SportName=Basketball&Type=B",
+            :basketball_au => "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=7522&SportName=Basketball&Type=B",
             :football => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=1&SportName=Soccer&Type=B",
-            :gridiron => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=6423&SportName=American+Football&Type=B" 
+            :motor=> "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=8&SportName=Motor+Sport&Type=B",
+            :hockey=> "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=7524&SportName=Ice+Hockey&Type=B"
           }
+
+    if Rails.env == "development" 
+      urls = {}     
+      #urls[:football] =  "#{Rails.root}/data/soccer.xml"
+      urls[:motor] = "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=8&SportName=Motor+Sport&Type=B"
+      #urls[:afl] = "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=61420&SportName=Australian+Rules&Type=B"
+
+      #urls[:gridiron] = "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=6423&SportName=American+Football&Type=B"
+      # urls[:hockey] = "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=7524&SportName=Ice+Hockey&Type=B"
+    end
 
     urls.each do |key,url|
       puts "#{key} -> #{url}"
 
       file = open(url)
+
       file_contents = file.read
+
+      file.close
+
       file_contents = Iconv.conv 'UTF-8', 'iso8859-1', file_contents
       file_contents.gsub!("version=\"1.0\""," version=\"1.0\" encoding=\"ISO-8859-1\"")
 
-      betfair = BetFair::Betfair.parse file_contents
+      #betfair = BetFair::Betfair.parse file_contents
 
       data = BetFair::Event.parse file_contents
 
       data.each do |event|
         event.sub_events.each do |sub|
           evnt = {}
-          found_match, evnt[:sport_name],evnt[:league_name], evnt[:teams], duration, home_team_first = self.send(key.to_s,sub,event)
+          found_match, evnt[:sport_name],evnt[:league_name], evnt[:teams], duration, home_team_first, evnt[:odds], evnt[:name] = self.send(key.to_s.split("_")[0].to_sym,sub,event)
           if found_match
             evnt[:start_date] = "#{event.date} #{sub.time}"
+
+            if evnt[:league_name] == "Formula One"
+               #betting finishes before qualifying
+               evnt[:start_date] = (DateTime.parse("#{event.date} #{sub.time}") + 24.hours).to_s
+               puts evnt[:start_date]
+            end
 
             dt = DateTime.parse "#{event.date} #{sub.time}"
             evnt[:end_date] = (dt + duration.hours).to_s
@@ -52,6 +78,49 @@ namespace :betfair do
   end
 
 
+  def motor sub,event
+    #<event name="Formula 1 2013/Abu Dhabi GP" date="03/11/2013">
+    if sub.title == "Points Finish"  && event.name.include?("Formula 1")
+      sport_name = "Motorsport"
+      league_name = "Formula One"
+      name = event.name.split("/")[1]
+      teams = []
+      odds = [] 
+      return true, sport_name, league_name, teams, 3 , true, odds, name
+    else 
+      return false
+    end
+  end
+
+  def hockey sub,event
+    #<event name="NHL 2013/14/Games 14 November/Los Angeles @ NY Islanders" date="15/11/2013">
+    if sub.title == "Moneyline"
+      sport_name = "Hockey"
+      league_name = "NHL" if event.name.include?("NHL") 
+      league_name = event.name.split(" ")[0] + event.name.split(" ")[1] if league_name.blank?
+
+      home_team = sub.selections[0].name.split(" (")[0]
+      away_team = sub.selections[1].name.split(" (")[0]
+
+      teams = []
+      home_team_id = sub.selections[0].id
+      away_team_id = sub.selections[1].id
+      teams << {:name=>home_team,:id=>home_team_id}
+      teams << {:name=>away_team,:id=>away_team_id}
+
+      home_match_odds = sub.selections[0].backp1
+      away_match_odds = sub.selections[1].backp1
+      odds = []
+      odds << home_match_odds
+      odds << away_match_odds
+
+      return true, sport_name, league_name, teams, 3 , true, odds
+    else
+      return false
+    end
+  end
+
+
   def afl sub,event
     #AFL 2013/Round 19 - 03 August/Hawthorn v Richmond
     if sub.title == "Match Odds"
@@ -64,12 +133,48 @@ namespace :betfair do
       away_team = sub.selections[1].name.split(" (")[0]
 
       teams = []
-      teams << home_team
-      teams << away_team
-      return true, sport_name, league_name, teams, 3 , true
+      home_team_id = sub.selections[0].id
+      away_team_id = sub.selections[1].id
+      teams << {:name=>home_team,:id=>home_team_id}
+      teams << {:name=>away_team,:id=>away_team_id}
+
+      home_match_odds = sub.selections[0].backp1
+      away_match_odds = sub.selections[1].backp1
+      odds = []
+      odds << home_match_odds
+      odds << away_match_odds
+
+      puts home_match_odds
+      puts away_match_odds
+
+      return true, sport_name, league_name, teams, 3 , true, odds
     else 
       return false
     end
+  end
+
+
+  def basketball sub,event
+     if sub.title == "Moneyline"
+      sport_name = "Basketball"
+      
+      league_name = event.name.split(" 20")[0]
+
+      home_team_first = !event.name.include?("@")
+
+      home_team = sub.selections[0].name.split(" (")[0]
+      away_team = sub.selections[1].name.split(" (")[0]
+
+      teams = []
+      home_team_id = sub.selections[0].id
+      away_team_id = sub.selections[1].id
+      teams << {:name=>home_team,:id=>home_team_id}
+      teams << {:name=>away_team,:id=>away_team_id}
+
+      return true, sport_name, league_name, teams, 3 , home_team_first
+    else 
+      return false
+    end  
   end
 
 
@@ -85,8 +190,11 @@ namespace :betfair do
       away_team = sub.selections[1].name.split(" (")[0]
 
       teams = []
-      teams << home_team
-      teams << away_team
+      home_team_id = sub.selections[0].id
+      away_team_id = sub.selections[1].id
+      teams << {:name=>home_team,:id=>home_team_id}
+      teams << {:name=>away_team,:id=>away_team_id}
+
       return true, sport_name, league_name, teams, 3 , true
     else 
       return false
@@ -132,9 +240,11 @@ namespace :betfair do
       away_team = sub.selections[1].name.split(" (")[0]
 
       teams = []
-      teams << home_team
-      teams << away_team
-      
+      home_team_id = sub.selections[0].id
+      away_team_id = sub.selections[1].id
+      teams << {:name=>home_team,:id=>home_team_id}
+      teams << {:name=>away_team,:id=>away_team_id}
+
       return true, sport_name, league_name, teams, 6 , true
     else 
       return false
@@ -189,14 +299,33 @@ namespace :betfair do
       #home_team = event.name.split("/").last.split(" v ")[0].split(" (")[0]
       #away_team = event.name.split("/").last.split(" v ")[1].split(" (")[0]
 
+      return false if sub.selections[0].blank?
+      return false if sub.selections[1].blank?
+      
       home_team = sub.selections[0].name.split(" (")[0]
       away_team = sub.selections[1].name.split(" (")[0]
+      
+      home_match_odds = sub.selections[0].backp1
+      away_match_odds = sub.selections[1].backp1
+      odds = []
+      odds << home_match_odds
+      odds << away_match_odds
+
+      #teams = []
+      #teams << home_team
+      #teams << away_team
 
       teams = []
-      teams << home_team
-      teams << away_team
+      home_team_id = sub.selections[0].id
+      away_team_id = sub.selections[1].id
+      teams << {:name=>home_team,:id=>home_team_id}
+      teams << {:name=>away_team,:id=>away_team_id}
+
+      #puts teamz  
+      #puts home_match_odds
+      #puts away_match_odds
       
-      return true, sport_name, league_name, teams, 2 , true
+      return true, sport_name, league_name, teams, 2 , true, odds
     else 
       return false
     end  
@@ -217,8 +346,11 @@ namespace :betfair do
       away_team = sub.selections[0].name.split(" (")[0]
 
       teams = []
-      teams << home_team
-      teams << away_team
+      home_team_id = sub.selections[0].id
+      away_team_id = sub.selections[1].id
+      teams << {:name=>home_team,:id=>nil}
+      teams << {:name=>away_team,:id=>nil}
+
       return true, sport_name, league_name, teams, 3 , true
     else 
       return false
@@ -249,19 +381,43 @@ namespace :betfair do
     if external_event.blank?
 
       puts "creating"
-      evnt = Event.create(:sport_id=>event[:sport_id],:league_id=>event[:league_id],:start_date=>event[:start_date], :end_date=>event[:end_date])
+      evnt = Event.create(:sport_id=>event[:sport_id],:league_id=>event[:league_id],:start_date=>event[:start_date], :end_date=>event[:end_date], :name=>event[:name])
       ExternalEvent.create(:site=>event[:site], :external_key=>event[:external_key], :event_id=>evnt.id)
 
       count = 1
-      event[:teams].each do |team_name|
-        puts team_name
+      event[:teams].each do |teamm|
+        puts teamm[:name]
+
         location_type = count
         location_type = 1 if !event[:home_team_first] && count == 2
         location_type = 2 if !event[:home_team_first] && count == 1
 
-        team = Team.where(:name=>team_name, :sport_id=>sport.id).first
-        team = Team.create(:name=>team_name,:sport_id=>event[:sport_id]) if team.blank?
-        EventTeam.create(:event_id=>evnt.id,:team_id=>team.id, :location_type_id=>location_type)
+
+        if teamm[:id].blank?
+          team = Team.find_by_name(teamm[:name], :order=>'id desc')
+          if team.blank?
+            team = Team.create(:name=>teamm[:name],:sport_id=>event[:sport_id])
+          end
+        else
+          et = ExternalTeam.where(:site=>"BetfairXML", :external_key=>teamm[:id]).first
+          unless et.blank?
+            team = et.team
+          else
+            team = Team.create(:name=>teamm[:name],:sport_id=>event[:sport_id])
+            ExternalTeam.create(:site=>"BetfairXML", :external_key=>teamm[:id], :team_id=>team.id)
+          end
+        end
+
+        unless event[:odds].blank?
+          if event[:odds].size  == event[:teams].size
+            odds = event[:odds][count-1].to_f 
+            puts event[:odds].size
+            #puts odds
+          end
+        end
+
+        EventTeam.create(:event_id=>evnt.id,:team_id=>team.id, :location_type_id=>location_type, :match_odds=>odds)
+
         count = count + 1
       end
 
@@ -270,7 +426,17 @@ namespace :betfair do
       puts "updating"
       evnt = external_event.event
       evnt.update_attributes(:start_date=>event[:start_date])
-      
+
+      if !event[:odds].blank? && event[:odds].size == evnt.event_teams.size
+        count = 0
+        evnt.event_teams.each do |et|
+          et.match_odds = event[:odds][count].to_f 
+          puts et.match_odds
+          et.save
+          count +=1
+        end
+      end
+    
     end
     
   end

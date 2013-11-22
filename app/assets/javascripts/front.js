@@ -85,7 +85,7 @@ sports_ui.prototype.updateInitialEventsJSON = function(events) {
     }*/
     if (e.teams.length==2) {
       teams_class=' T'+e.teams[0].id+' T'+e.teams[1].id;
-      display_name = e.teams[0].name + ' vs ' + e.teams[1].name ;
+      display_name = e.teams[0].name + ' ' + e.teams[1].name ;
     } else {
       display_name = e.name;
     }
@@ -121,11 +121,11 @@ sports_ui.prototype.updateInitialEventsJSON = function(events) {
     }
 
     betfair_str = "";
-    if (typeof e.betfair_link != "undefined" && e.betfair_link.length>1){
-      betfair_str = ' <a href="' + e.betfair_link + '"> [bet] </a>';
-    }
+    //if (typeof e.betfair_link != "undefined" && e.betfair_link.length>1){
+    //  betfair_str = ' <a href="' + e.betfair_link + '"> [bet] </a>';
+    //}
 
-    $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+teams_class+'" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+time_in_words+'</strong> <sup >'+start_date_local+'</sup></p>'+display_name+ '  <span class="label" style="background-color:'+ league_label_colour+'; font-size:10px;" data-name="activesupport">'+e.league_name+'</span> '  + tag_str  + live_event_str + betfair_str + ' </li>')
+    $("#list1 ").append('<li class="ui-li ui-li-static ui-btn-up-c league_event league_id_'+e.league_id+teams_class+'" league_id="'+e.league_id+'" event_id="'+e.id+'" timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+time_in_words+'</strong> <sup >'+start_date_local+'</sup></p>'+display_name+ '  <span class="label" style="background-color:'+ league_label_colour+'; font-size:10px;">'+e.league_name+'</span> '  + tag_str  + live_event_str + betfair_str + ' </li>')
   }
   
   //me.removeEvents(me.my_events);
@@ -160,9 +160,9 @@ sports_ui.prototype.removeEvents =  function(events) {
 
 sports_ui.prototype.displayEventsForLeague =  function(events,custom_class) {
   if (events === null || events.length == 0) {
-    $("#flashy").html("<div class='alert alert-success'><a class='close' data-dismiss='alert'>&#215;</a><div id='flash_notice'> Sorry no events at the moment. </div></div>");
-    $("#flashy").show();
-    $("#flashy").fadeOut(3000);
+    //$("#flashy").html("<div class='alert alert-success'><a class='close' data-dismiss='alert'>&#215;</a><div id='flash_notice'> Sorry no events at the moment. </div></div>");
+    //$("#flashy").show();
+    //$("#flashy").fadeOut(3000);
     return;
   }
   this.removeEvents(events);
@@ -180,9 +180,25 @@ sports_ui.prototype.displayEventsForLeague =  function(events,custom_class) {
       var display_name = "";
       if (e.teams.length==2) {
         teams_class=' T'+e.teams[0].id+' T'+e.teams[1].id;
+
+        team1= "";
+        team2= "";
+
+        if (typeof e.event_teams!='undefined' ){
+          team1_odds = 1/e.event_teams[0].match_odds*100
+          team2_odds = 1/e.event_teams[1].match_odds*100
+        
+          if (team1_odds > team2_odds){
+            team1 = "*"
+          }else{
+            team2 = "*"
+          }
+        }
+
         display_name = '<a class="main_list_teams" href="#" onclick="mySportsUI.addMyTeam(\''+e.teams[0].name+'\','+e.teams[0].id+')" type="checkbox" id="CB_T'+e.teams[0].id+'">'+e.teams[0].name + '</a>';  
-        display_name += ' vs ';
+        display_name += '<small>' + team1 + '</small> vs ';
         display_name += '<a class="main_list_teams" href="#" onclick="mySportsUI.addMyTeam(\''+e.teams[1].name+'\','+e.teams[1].id+')" type="checkbox" id="CB_T'+e.teams[1].id+'">'+e.teams[1].name + '</a>';  
+        display_name += '<small>' + team2 + '</small> ';
       //  display_name = "<label for='CB_T"+e.teams[0].id+"' class='label search_team'>"+e.teams[0].name + '<input onclick="mySportsUI.addMyTeam(\''+e.teams[0].name+'\','+e.teams[0].id+')" type="checkbox" id="CB_T'+e.teams[0].id+'"></label> vs <label for="'+e.teams[1].id+'" class="label search_team2">' + e.teams[1].name + '<input type="checkbox"  onclick="mySportsUI.addMyTeam(\''+e.teams[1].name+'\','+e.teams[1].id+')" id="CB_T'+e.teams[1].id+'"></label>';
       } else {
         display_name = e.name;
@@ -216,11 +232,11 @@ sports_ui.prototype.displayEventsForLeague =  function(events,custom_class) {
         }
 
        betfair_str = "";
-       if (typeof e.betfair_link != "undefined" && e.betfair_link.length>1){
-         betfair_str = ' <a href="' + e.betfair_link + '"> [bet] </a>';
-       }
+       //if (typeof e.betfair_link != "undefined" && e.betfair_link.length>1){
+       //  betfair_str = ' <a href="' + e.betfair_link + '"> [bet] </a>';
+       //}
 
-      new_event = '<li class="ui-li ui-li-static ui-btn-up-c league_id_'+e.league_id+' '+custom_class+teams_class+'" league_id="'+e.league_id+'" event_id='+e.id+' timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+display_name +'  <span class="label" style="background-color:'+ league_label_colour+'; font-size:10px;" data-name="activesupport">'+e.league_name+'</span>'  + tag_str  + live_event_str + betfair_str + ' </li>';
+      new_event = '<li class="ui-li ui-li-static ui-btn-up-c league_id_'+e.league_id+' '+custom_class+teams_class+'" league_id="'+e.league_id+'" event_id='+e.id+' timestamp="'+start_date_utc.getTime()+'"><p class="ui-li-aside ui-li-desc"><strong>'+e.time_in_words+'</strong> <sup>'+start_date_local+'</sup></p>'+display_name +'  <span class="label" style="background-color:'+ league_label_colour+'; font-size:10px;">'+e.league_name+'</span>'  + tag_str  + live_event_str + betfair_str + ' </li>';
 
 
       if ($('#list1 li').length ==0) {

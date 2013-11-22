@@ -43,7 +43,7 @@ class FrontController < ApplicationController
       @c_nt = Country.find_by_name @country
 
       @country_events = @c_nt.upcoming_events.to_json(
-                    :include => [:teams], 
+                    :include => [:event_teams,:teams], 
                     :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live,:betfair_link])
 
       @country_leagues  = @c_nt.leagues.to_json(:params=>{:country_id => @c_nt.id})
@@ -90,6 +90,7 @@ class FrontController < ApplicationController
     end
   end
 
+
   def list
     #query for leagues
     # select events.id,start_date from events join leagues on leagues.id = events.league_id
@@ -117,12 +118,17 @@ class FrontController < ApplicationController
 
     @events.sort!{|x,y| x.start_date <=> y.start_date}
 
+    @events.uniq!{|e| e.id}
+
+    puts @events.count
+    
      respond_to do |format|
         format.html { render :layout=>"mobile"} 
-        format.json { render json: @events, :include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live,:betfair_link]}
+        #format.json { render json: @events, :include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live,:betfair_link]}
      end
     
   end
+
   
   def list_username    
     @user = User.find_by_username params[:username]

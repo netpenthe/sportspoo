@@ -1,0 +1,15 @@
+<li class="ui-li ui-li-static ui-btn-up-c league_id_219 my_leagues T1968 T1969" league_id="219" event_id="14768" timestamp="1364652600000">
+
+  <font class="goog-text-highlight"> <%=event.display_name%></font>
+
+  <span class="label" style="background-color:<%=event.league_label_colour%>; font-size:10px;float:right;">
+    <font class="goog-text-highlight">
+      <%=event.league.name%>
+    </font>
+  </span>
+
+  <br>
+  <small><%=event.start_date.strftime("%a %l:%M %P")%> / <%=distance_of_time_in_words_to_now event.start_date%></small>
+
+</li>
+

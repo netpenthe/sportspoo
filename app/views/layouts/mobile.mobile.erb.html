@@ -6,23 +6,27 @@
     <title><%= content_for?(:title) ? yield(:title) : "Sport-o-mate" %></title>
     <meta name="description" content="When does my team play? Sporting event times in your local timezone">
     <meta name="author" content="">
-
     <%= stylesheet_link_tag "application", :media => "all" %>
 
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <!--<script src="https://cdn.firebase.com/v0/firebase.js"></script> -->
-    <%# javascript_include_tag "application" %>
+    <script src="https://cdn.firebase.com/v0/firebase.js"></script> 
+    <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <%= yield(:head) %>
   </head>
-  <body style='padding:0'>
+  <body>
+    <header class="navbar navbar-inverse navbar-fixed-top">
+      <nav class="navbar-inner">
+        <div class="container">
+        </div>
+      </nav>
+    </header>
     <div id="main" role="main">
       <div class="container">
-        <div id='main_title'><%=link_to image_tag('logo.gif',:width=>'360',:style=>'width:360px'), "/"%></div><br>
         <div class="content">
            <div class="row">
             <div class="span12">
-              <%#= render 'layouts/messages' %>
+              <%= render 'layouts/messages' %>
               <%= yield %>
             </div>
           </div>
