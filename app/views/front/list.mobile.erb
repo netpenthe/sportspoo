@@ -1,3 +1,7 @@
 <ul id="list1" data-role="listview" class="ui-listview" style="display: block;">
   <%=render :partial=>"event", :collection=>@events%>
 </ul>
+
+<br>
+
+<small><%=@current_user.username %>'s timezone is: <%=@current_user.tz%></small>
