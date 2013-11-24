@@ -99,6 +99,8 @@ class FrontController < ApplicationController
     user = current_user unless current_user.blank?
     user = User.find_by_username params[:username] if user.blank?
 
+    @user = user
+
     Time.zone = user.tz unless user.tz.blank?
   
     @team_events = Array.new
@@ -126,8 +128,6 @@ class FrontController < ApplicationController
         format.html { render :layout=>"mobile"} 
         #format.json { render json: @events, :include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live,:betfair_link]}
      end
-   
-   @user = user
     
   end
 
