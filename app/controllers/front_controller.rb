@@ -131,6 +131,12 @@ class FrontController < ApplicationController
     
   end
 
+
+  def chat
+    @user = User.find_by_username params[:username]
+  end
+
+
   
   def list_username    
     @user = User.find_by_username params[:username]

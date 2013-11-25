@@ -10,15 +10,16 @@
     <%= stylesheet_link_tag "application", :media => "all" %>
 
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <!--<script src="https://cdn.firebase.com/v0/firebase.js"></script> -->
-    <%# javascript_include_tag "application" %>
+    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+    <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <%= yield(:head) %>
   </head>
   <body style='padding:0'>
     <div id="main" role="main">
-      <div class="container">
-        <div id='main_title'><%=link_to image_tag('logo.gif',:width=>'360',:style=>'width:360px'), "/"%></div><br>
+      <div class="container" style='width:700px;'>
+        <div id='main_title'><%=link_to image_tag('logo.gif',:width=>'360',:style=>'width:360px'), "/"%></div>
+        <div style='clear:both;'><%=link_to "list", "/u/#{@user.username}.mobile",:format=>:mobile%> | <%=link_to "chat", "/u/#{@user.username}/chat.mobile"%></div>
         <div class="content">
            <div class="row">
             <div class="span12">
