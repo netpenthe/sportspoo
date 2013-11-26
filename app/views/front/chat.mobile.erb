@@ -1,12 +1,12 @@
 <h3>Chat</h3>
 
-<div id='messagesDiv' style='padding:0 5px;border:1px solid #ccc;overflow-y:scroll;background-color:#fff;width:310px;height:100px'></div>
+<div id='messagesDiv' style='padding:0 5px;border:1px solid #ccc;overflow-y:scroll;background-color:#fff;'></div>
 <% if current_user.present? %>
-  <input style='text-align:right;margin-top:10px;width:95%' type='text' id='nameInput' placeholder='Name' value='' >
+  <input style='text-align:right;margin-top:10px;width:80%' type='text' id='nameInput' placeholder='Name' value='' >
 <% else %>
-  <input style='text-align:right;width:95%' type='text' id='nameInput' placeholder='Name'>
+  <input style='text-align:right;width:80%' type='text' id='nameInput' placeholder='Name'>
 <% end %>
-<input style='text-align:right;width:95%' type='text' id='messageInput' placeholder='Message...'>
+<input style='text-align:right;width:80%' type='text' id='messageInput' placeholder='Message...'>
 <script>
   var timer;
   var name;
@@ -45,7 +45,7 @@
 
 function resize_chat() {
   var height = $(window).height() - 370;
-  height = height < 350 ? 350 : height;
+  height = height < 300 ? 300 : height;
   $('#messagesDiv').height(height+"px");
   console.log("height is: "+height);
 }
