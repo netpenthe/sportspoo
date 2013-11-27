@@ -25,10 +25,16 @@
  
     <div id="main" role="main">
       <div class="" style='height:100px;'>
+
         <div id='main_title'><%=image_tag('logo.gif',:width=>'360',:style=>'width:360px')%></div>
-        <div style='left-padding:5px;clear:both;'><p>
-          <%=link_to "list", "/u/#{@user.username}.mobile",:format=>:mobile%> | <%=link_to "chat", "/u/#{@user.username}/chat.mobile"%></p>
+
+        <div style='padding-left:10px; padding-top:6px; clear:both;'>
+          <p>
+            <%=link_to "list", "/u/#{@user.username}.mobile",:format=>:mobile%> | <%=link_to "chat", "/u/#{@user.username}/chat.mobile"%> 
+            | current time: <%=Time.now.strftime("%a %l:%M %P").downcase%>
+          </p>
         </div>
+
         <div class=''>
            <div class="">
             <div class="" style="left-padding:5px;">
