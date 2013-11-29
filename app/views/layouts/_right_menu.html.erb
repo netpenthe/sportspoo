@@ -61,7 +61,7 @@ function toggleTitle() {
 
 $(window).resize(function() { setTimeout(resize_chat,20); });
 $(function() { setTimeout(resize_chat,20); });
-$('#messagesDiv').click(function() {
+$('#messagesDiv, #messageInput, #nameInput').click(function() {
   if (timer) {
     document.title = "Sport-o-mate";
     clearTimeout(timer);
