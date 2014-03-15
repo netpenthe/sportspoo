@@ -49,7 +49,7 @@ ActiveAdmin.register Import do
        puts components.count
        components.each do |component|
          component.events.each do |evnt|
-            ImportEvent.create(:summary => evnt.summary, :dtstart=> evnt.dtstart, :dtend=> evnt.dtend, :location=>evnt.location, :import_id => import.id, :uid=>evnt.uid)
+            ImportEvent.create(:summary => evnt.summary, :dtstart=> evnt.dtstart, :dtend=> evnt.dtend, :location=>evnt.location, :import_id => import.id, :uid=>evnt.uid) unless evnt.blank?
          end
        end     
      end
