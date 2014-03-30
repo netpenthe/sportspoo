@@ -13,7 +13,7 @@ namespace :betfair do
             :basketball => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=7522&SportName=Basketball&Type=B",
             :basketball_au => "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=7522&SportName=Basketball&Type=B",
             :football => "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=1&SportName=Soccer&Type=B",
-            :motor=> "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=8&SportName=Motor+Sport&Type=B",
+            #:motor=> "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=8&SportName=Motor+Sport&Type=B",
             :hockey=> "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=7524&SportName=Ice+Hockey&Type=B"
           }
 
