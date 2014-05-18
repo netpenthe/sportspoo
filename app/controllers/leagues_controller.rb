@@ -39,7 +39,7 @@ class LeaguesController < ApplicationController
 
   def name
     @league = League.find_by_name(params[:name].gsub("-"," "))
-    @events = @league.events.order("start_data ASC") unless @league.blank? 
+    @events = @league.events.order("start_date ASC") unless @league.blank? 
   end
 
 
