@@ -1,5 +1,6 @@
 class LeaguesController < ApplicationController
 
+
   def all
 
      respond_to do |format|
@@ -9,6 +10,7 @@ class LeaguesController < ApplicationController
      end
   end
 
+
   def country
      country = Country.find_by_name(params[:country])
      respond_to do |format|
@@ -17,6 +19,8 @@ class LeaguesController < ApplicationController
       format.json { render json: country.leagues} 
      end
   end
+
+
   def events
     #@events = Event.find_all_by_league_id(params[:league_id])
     #@events = Event.find(:all, :conditions=>"league_id = #{params[:league_id]} and )
@@ -31,5 +35,12 @@ class LeaguesController < ApplicationController
       format.json { render json: @events, :include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live]}
     end
   end
+
+
+  def name
+    @league = League.find_by_name(params[:name].gsub("-"," "))
+    @events = @league.events unless @league.blank? 
+  end
+
 
 end
