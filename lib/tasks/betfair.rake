@@ -20,9 +20,9 @@ namespace :betfair do
     if Rails.env == "development" 
       urls = {}     
       #urls[:football] =  "#{Rails.root}/data/soccer.xml"
-      urls[:afl] = "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=8&SportName=Motor+Sport&Type=B"
+      urls[:afl] = "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=61420&SportName=Australian+Rules&Type=B"
       #urls[:afl] = "http://auscontent.betfair.com/partner/marketData_loader.asp?fa=ss&id=61420&SportName=Australian+Rules&Type=B"
-
+      urls[:mlb] = "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=7511&SportName=Baseball&Type=B"
       #urls[:gridiron] = "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=6423&SportName=American+Football&Type=B"
       # urls[:hockey] = "http://www.betfair.com/partner/marketData_loader.asp?fa=ss&id=7524&SportName=Ice+Hockey&Type=B"
     end

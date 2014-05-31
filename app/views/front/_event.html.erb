@@ -3,12 +3,15 @@
   <font class="goog-text-highlight"> <%=event.display_name%></font>
 
   <span class="label" style="background-color:<%=event.league_label_colour%>; font-size:10px;">
-    <font class="goog-text-highlight">
+    <font class="goog-text-highlight league">
       <%=event.league.name%>
     </font>
   </span>
 
   <strong> <%=distance_of_time_in_words_to_now event.start_date%></strong>
 
+  <sup><%=event.start_date.strftime("%a %I:%M%p")%></sup>
 </li>
+
+
 
