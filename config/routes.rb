@@ -29,6 +29,7 @@ Sportspoo::Application.routes.draw do
   match '/leagues/:username' => 'leagues#username' 
 
   match 'l/:name' => 'leagues#name'
+  match 'l/:name/:country/:tz' => 'leagues#name'
 
   match '/search/results' => 'front#search'
 

@@ -109,12 +109,12 @@ class FrontController < ApplicationController
    
     @league_events = Event.find_by_sql ["select events.* from events join leagues on leagues.id = events.league_id
       join user_preferences on (user_preferences.preference_id = league_id and preference_type='League')
-      where user_id=? and start_date > ? and start_date < ?", user.id,Time.now,Time.now+14.days]
+      where user_id=? and start_date > ? and start_date < ?", user.id,Time.now,Time.now+21.days]
     
     @team_events = Event.find_by_sql ["select events.* from events 
       join event_teams on events.id = event_teams.event_id
       inner join user_preferences on (user_preferences.preference_id=team_id and preference_type='Team')
-      where user_id=? and start_date > ? and start_date < ?", user.id,Time.now,Time.now+14.days]
+      where user_id=? and start_date > ? and start_date < ?", user.id,Time.now,Time.now+21.days]
     
     @events = @league_events + @sport_events + @team_events
 

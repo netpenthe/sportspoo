@@ -39,6 +39,9 @@ class LeaguesController < ApplicationController
 
   def name
     @league = League.find_by_name(params[:name].gsub("-"," "))
+    unless params[:tz].blank?
+      Time.zone = "#{params[:country]}/#{params[:tz]}"
+    end 
     @events = @league.events.where(["start_date > ?",Time.now]).order("start_date ASC") unless @league.blank? 
   end
 

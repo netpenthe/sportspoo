@@ -1,3 +1,12 @@
+<p>tz is <%=Time.zone.name%></p>
+
 <ul id="list1" data-role="listview" class="ui-listview" style="display: block;">
   <%=render :partial=>"front/event", :collection=>@events%>
 </ul>
+
+<script>
+  $('.label').click(function(){
+  	league = $('.league').html();
+  	window.location = "/l/"+league.trim().replace(/\s+/g, '-').toLowerCase();;
+  });
+</script>
