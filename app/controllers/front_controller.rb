@@ -125,7 +125,7 @@ class FrontController < ApplicationController
     puts @events.count
     
      respond_to do |format|
-        format.html { render :layout=>"mobile"} 
+        format.html #{ render :layout=>"mobile"} 
         #format.json { render json: @events, :include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live,:betfair_link]}
      end
     
