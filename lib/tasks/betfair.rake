@@ -213,11 +213,16 @@ namespace :betfair do
     if sub.title == "Match Odds"
       sport_name = "Cricket"
 
-      if event.name.split("/")[1].include?("Fixtures")
+       puts event.name
+
+      if !event.name.include?("/")
+        league_name = event.name
+      elsif event.name.split("/")[1].include?("Fixtures")
         league_name = event.name.split("/")[0].split(" 2")[0]
       else
         league_name = event.name.split("/")[1]
       end
+
 
       #if league_name != "ODI Series" && league_name != "Test Series" && league_name != "T20 Series"
       #  league_name = event.name.split("/")[0].split(" 2")[0]
