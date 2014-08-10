@@ -6,9 +6,6 @@ namespace :betfair do
 
   task :update_ng => :environment do
 
-  	#login get sessions token
-  	#eg. curl -q -k --cert client-2048.crt --key client-2048.key https://identitysso.betfair.com/api/certlogin -d "username=&password=" -H "X-Application: curlCommandLineTest"
-  	
     cert = File.read("#{Rails.root}#{BETFAIR_CONFIG['cert_file']}")
     key = File.read("#{Rails.root}#{BETFAIR_CONFIG['key_file']}")
 
