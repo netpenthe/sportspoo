@@ -16,6 +16,10 @@ namespace :betfair do
     usa = call_betfair_api({:endpoint=>uk_endpoint, :marketCountries=>"[\"US\"]"})
     process_response usa
     
+    puts "doing UK football"
+    uk_football = call_betfair_api({:endpoint=>uk_endpoint, :marketCountries=>"[\"GB\"]", :eventTypeIds=>"[1]"})
+    process_response uk_football
+    
     puts "complete"
   end
 
@@ -91,7 +95,6 @@ namespace :betfair do
     else
       raise "LOGIN FAILED"
     end
-
   end
 
 
@@ -101,6 +104,7 @@ namespace :betfair do
     endpoint = options[:endpoint]
     action = options[:action] || "listMarketCatalogue"
     market_countries = options[:marketCountries] || "[\"\"]"
+    event_type_ids = options[:eventTypeIds] || "[]"
 
     # login
     json_response = login
@@ -117,7 +121,7 @@ namespace :betfair do
     request["Content-Type"] = "application/json"
     request["X-Application"] = "#{app_key}"
     request["X-Authentication"] = "#{session_token}"
-    request.body = "{\"filter\":{\"marketTypeCodes\":[\"MATCH_ODDS\"], \"marketCountries\":#{market_countries}}, \"maxResults\":1000, \"marketProjection\":[\"EVENT\", \"COMPETITION\",\"EVENT_TYPE\"]}"
+    request.body = "{\"filter\":{\"marketTypeCodes\":[\"MATCH_ODDS\"], \"marketCountries\":#{market_countries},\"eventTypeIds\":#{event_type_ids}}, \"maxResults\":1000, \"marketProjection\":[\"EVENT\", \"COMPETITION\",\"EVENT_TYPE\"]}"
 
     #do the request
     response = http.request(request)
