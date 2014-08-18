@@ -54,6 +54,7 @@ namespace :deploy do
       invoke_command "ln -sf #{deploy_to}/shared/config/facebook.yml #{release_path}/config/facebook.yml"
       invoke_command "ln -sf #{deploy_to}/shared/config/twitter.yml #{release_path}/config/twitter.yml"
       invoke_command "ln -sf #{deploy_to}/shared/config/betfair.yml #{release_path}/config/betfair.yml"
+      invoke_command "ln -sf #{deploy_to}/shared/config/keys #{release_path}/config/keys"
   end
 end
 namespace :deploy do
