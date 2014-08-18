@@ -72,7 +72,7 @@ class Event < ActiveRecord::Base
 
   def display_name
     return name unless name.blank?
-    return "#{home_team.name} vs #{away_team.name}" unless home_team.blank? && away_team.blank?
+    return "#{home_team.name} vs #{away_team.name}" unless home_team.blank? || away_team.blank?
     return " "
   end
 

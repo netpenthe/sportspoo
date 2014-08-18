@@ -11,15 +11,22 @@ namespace :betfair do
     puts "doing australia"
     australia = call_betfair_api({:endpoint => aus_endpoint})
     process_response australia
+    sleep 120 
 
     puts "doing USA"
     usa = call_betfair_api({:endpoint=>uk_endpoint, :marketCountries=>"[\"US\"]"})
     process_response usa
+    sleep 120 
     
     puts "doing UK football"
     uk_football = call_betfair_api({:endpoint=>uk_endpoint, :marketCountries=>"[\"GB\"]", :eventTypeIds=>"[1]"})
     process_response uk_football
-    
+    sleep 120 
+
+    puts "doing cricket"
+    cricket = call_betfair_api({:endpoint=>uk_endpoint, :eventTypeIds=>"[4]"})
+    process_response cricket
+      
     puts "complete"
   end
 

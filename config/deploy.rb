@@ -3,19 +3,14 @@
 #$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
 require "rvm/capistrano"
 set :rvm_ruby_string, "ruby-1.9.3-p362@sportspoo"
-#set :rvm_type, :user
 set :use_sudo, false
 
-#set :stages, %w(testing staging production)
-#set :stages, %w(testing staging production)
 set :stages, %w(production)
 set :default_stage, 'production'
 require 'capistrano/ext/multistage'
 default_run_options[:pty]   = true # must be set for the password prompt from git to work
-#ssh_options[:forward_agent] = true # use local keys instead of the ones on the server
 
-set :keep_releases, 5
-
+set :keep_releases, 2
 
 set :application, "sportspoo"
 #set :repository,  "git@bitbucket.org:desmondy/sportspoo.git"
@@ -30,15 +25,13 @@ set :deploy_via, :remote_cache
 set :deploy_to, "/var/www/sportspoo"
 set :ruby_path, "/home/deployguy/.rvm/rubies/ruby-1.9.3-p362/bin/"
 set :rvm_gemset_path, 'sportspoo'
+
 require "rvm/capistrano"
 require "bundler/capistrano"
-
-# Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
 role :web, "107.21.110.17"                          # Your HTTP server, Apache/etc
 role :app, "107.21.110.17"                          # This may be the same as your `Web` server
 role :db,  "107.21.110.17", :primary => true # This is where Rails migrations will run
-#role :db,  "your slave db-server here"
 
 after "deploy:update_code", "deploy:update_shared_symlinks"
 require "bundler/capistrano"
@@ -59,7 +52,8 @@ namespace :deploy do
   task :make_symlinks do
       invoke_command "ln -sf #{deploy_to}/shared/config/database.yml #{release_path}/config/database.yml"
       invoke_command "ln -sf #{deploy_to}/shared/config/facebook.yml #{release_path}/config/facebook.yml"
-       invoke_command "ln -sf #{deploy_to}/shared/config/twitter.yml #{release_path}/config/twitter.yml"
+      invoke_command "ln -sf #{deploy_to}/shared/config/twitter.yml #{release_path}/config/twitter.yml"
+      invoke_command "ln -sf #{deploy_to}/shared/config/betfair.yml #{release_path}/config/betfair.yml"
   end
 end
 namespace :deploy do
