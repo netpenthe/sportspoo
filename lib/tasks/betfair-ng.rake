@@ -4,6 +4,7 @@ require 'json'
 
 namespace :betfair do
 
+
   task :update_ng => :environment do
     aus_endpoint = "https://api-au.betfair.com/exchange/betting/rest/v1.0/"
     uk_endpoint =  "https://api.betfair.com/exchange/betting/rest/v1.0/"
@@ -29,6 +30,7 @@ namespace :betfair do
       
     puts "complete"
   end
+
 
 
   def process_response json_response
@@ -76,6 +78,7 @@ namespace :betfair do
   end
 
 
+
   def login
     cert = File.read("#{Rails.root}#{BETFAIR_CONFIG['cert_file']}")
     key = File.read("#{Rails.root}#{BETFAIR_CONFIG['key_file']}")
@@ -100,6 +103,7 @@ namespace :betfair do
       puts "login success" 
       return json_response
     else
+      puts login_response.body
       raise "LOGIN FAILED"
     end
   end
@@ -120,9 +124,12 @@ namespace :betfair do
 
     #setup the request
     uri = URI.parse("#{endpoint}#{action}/")
+
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+    http.ssl_version = :TLSv1
+
     request = Net::HTTP::Post.new(uri.request_uri)
     request["Accept"] = "application/json"
     request["Content-Type"] = "application/json"
@@ -194,8 +201,6 @@ namespace :betfair do
     end
     
   end
-
-
 
 
 
