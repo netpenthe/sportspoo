@@ -44,7 +44,7 @@ Sportspoo::Application.routes.draw do
   match '/cache/clear/country/events' => 'cache#clear_country_events'
   match '/cache/clear/country/leagues' => 'cache#clear_country_leagues'
 
-  
+  match '/import/betfair' => 'import#betfair' 
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'

@@ -2,7 +2,37 @@ require "net/https"
 require "uri"
 require 'json'
 
+
 namespace :betfair do
+
+
+  task :update_ng_via_api => :environment do
+    puts "updating via API" 
+
+    aus_endpoint = "https://api-au.betfair.com/exchange/betting/rest/v1.0/"
+    uk_endpoint =  "https://api.betfair.com/exchange/betting/rest/v1.0/"
+
+    puts "doing australia"
+    australia = call_betfair_api({:endpoint => aus_endpoint})
+    post_data australia
+    sleep 20
+
+    puts "doing USA"
+    usa = call_betfair_api({:endpoint=>uk_endpoint, :marketCountries=>"[\"US\"]"})
+    post_data usa
+    sleep 20
+    
+    puts "doing UK football"
+    uk_football = call_betfair_api({:endpoint=>uk_endpoint, :marketCountries=>"[\"GB\"]", :eventTypeIds=>"[1]"})
+    post_data uk_football
+    sleep 20 
+
+    puts "doing cricket"
+    cricket = call_betfair_api({:endpoint=>uk_endpoint, :eventTypeIds=>"[4]"})
+    post_data cricket
+      
+    puts "complete via API"
+  end
 
 
   task :update_ng => :environment do
@@ -11,72 +41,25 @@ namespace :betfair do
 
     puts "doing australia"
     australia = call_betfair_api({:endpoint => aus_endpoint})
-    process_response australia
-    sleep 120 
+    BetfairImport.process_response australia
+    sleep 30
 
     puts "doing USA"
     usa = call_betfair_api({:endpoint=>uk_endpoint, :marketCountries=>"[\"US\"]"})
-    process_response usa
-    sleep 120 
+    BetfairImport.process_response usa
+    sleep 30
     
     puts "doing UK football"
     uk_football = call_betfair_api({:endpoint=>uk_endpoint, :marketCountries=>"[\"GB\"]", :eventTypeIds=>"[1]"})
-    process_response uk_football
-    sleep 120 
+    BetfairImport.process_response uk_football
+    sleep 30
 
     puts "doing cricket"
     cricket = call_betfair_api({:endpoint=>uk_endpoint, :eventTypeIds=>"[4]"})
-    process_response cricket
+    BetfairImport.process_response cricket
       
     puts "complete"
   end
-
-
-
-  def process_response json_response
-     count = 0
-
-     json_response.each do |event|
-
-      sport = event["eventType"]["name"]
-      sport.gsub!("Soccer","Football")
-      sport.gsub!("Australian Rules","Football - Australian")
-
-      if event["competition"].blank?
-        league = "Other"
-      else
-        league = event["competition"]["name"].gsub(" 2014","")
-      end
-
-      league.gsub!("NFL Season/15","NFL")
-      league.gsub!("NCAAF/15","NCAA Football")
-
-      event_name = event["event"]["name"].split(" (Game")[0]
-      start_time = event["event"]["openDate"]
-
-      evnt = {}
-
-      if event_name.include?(" v ")
-        evnt[:teams] = event_name.split(" v ").map{|t| {:name=>t.strip, :id=>nil} } 
-        evnt[:home_team_first] = true
-      else
-        evnt[:teams] = event_name.split(" @ ").map{|t| {:name=>t.strip, :id=>nil} } 
-        evnt[:home_team_first] = false
-      end
-
-      evnt[:sport_name]  = sport
-      evnt[:league_name] = league
-      evnt[:site] = "BetfairNG"
-      evnt[:external_key] = event["event"]["id"]
-      evnt[:start_date] = DateTime.parse start_time
-      evnt[:end_date] = evnt[:start_date] + 2.hours
-
-      create_or_update_evnt evnt
-      count += 1
-    end
-    puts "processed #{count} events"
-  end
-
 
 
   def login
@@ -107,7 +90,6 @@ namespace :betfair do
       raise "LOGIN FAILED"
     end
   end
-
 
 
   def call_betfair_api options
@@ -145,64 +127,14 @@ namespace :betfair do
   end
 
 
-
-  def create_or_update_evnt event
-
-    sport = Sport.find_or_create_by_name(event[:sport_name])
-    league = League.find_or_create_by_name_and_sport_id(event[:league_name],sport.id)
-
-    if league.label_colour.blank?
-      randy = "%06x" % (rand * 0xffffff)
-      league.label_colour = "##{randy}"
-      league.save
-    end
-
-    event[:sport_id] = sport.id
-    event[:league_id] = league.id
-
-    external_event = ExternalEvent.where(:site=>event[:site], :external_key=>event[:external_key]).first
-
-    if external_event.blank?
-      puts "creating event with -> sport: '#{sport.name}' league: '#{league.name}' teams: '#{event[:teams].to_s}'"
-
-      evnt = Event.create(:sport_id=>event[:sport_id],:league_id=>event[:league_id],:start_date=>event[:start_date], :end_date=>event[:end_date], :name=>event[:name])
-      ExternalEvent.create(:site=>event[:site], :external_key=>event[:external_key], :event_id=>evnt.id)
-
-      count = 1
-      event[:teams].each do |teamm|
-        location_type = count
-        location_type = 1 if !event[:home_team_first] && count == 2
-        location_type = 2 if !event[:home_team_first] && count == 1
-
-        if teamm[:id].blank?
-          team = Team.find_by_name(teamm[:name], :order=>'id desc')
-          if team.blank?
-            team = Team.create(:name=>teamm[:name],:sport_id=>event[:sport_id])
-          end
-        else
-          et = ExternalTeam.where(:site=>"BetfairXML", :external_key=>teamm[:id]).first
-          unless et.blank?
-            team = et.team
-          else
-            team = Team.create(:name=>teamm[:name],:sport_id=>event[:sport_id])
-            ExternalTeam.create(:site=>"BetfairXML", :external_key=>teamm[:id], :team_id=>team.id)
-          end
-        end
-
-        EventTeam.create(:event_id=>evnt.id,:team_id=>team.id, :location_type_id=>location_type)
-
-        count = count + 1
-      end
-
-    else
-      evnt = external_event.event
-      evnt.update_attributes(:start_date=>event[:start_date])
-      puts "updating event #{evnt.id} with -> sport: '#{sport.name}' league: '#{league.name}' teams: '#{event[:teams].to_s}'"    
-    end
-    
+  def post_data json_response
+    uri = URI.parse(BETFAIR_CONFIG['import_api_host'])
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.post('/import/betfair', URI.encode_www_form({
+            :data => json_response.to_json, 
+            :username=>BETFAIR_CONFIG['import_username'], 
+            :password=>BETFAIR_CONFIG['import_password']}))
   end
-
-
 
 
 end
