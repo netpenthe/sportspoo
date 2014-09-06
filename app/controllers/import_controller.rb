@@ -5,9 +5,6 @@ class ImportController < ApplicationController
   	if params[:username] == BETFAIR_CONFIG['import_username'] && params[:password] == BETFAIR_CONFIG['import_password']
   	  json_response = JSON.parse params[:data]
 
-  	  puts params[:data]
-  	  puts json_response
-
   	  BetfairImport.process_response json_response
   	  render json: "OK"
   	else
