@@ -12,26 +12,30 @@ namespace :betfair do
     aus_endpoint = "https://api-au.betfair.com/exchange/betting/rest/v1.0/"
     uk_endpoint =  "https://api.betfair.com/exchange/betting/rest/v1.0/"
 
-    puts "doing australia"
+    puts "\ndoing australia"
     australia = call_betfair_api({:endpoint => aus_endpoint})
+    puts "found #{australia.count} aus events"
     post_data australia
-    sleep 20
+    sleep 10 
 
-    puts "doing USA"
+    puts "\ndoing USA"
     usa = call_betfair_api({:endpoint=>uk_endpoint, :marketCountries=>"[\"US\"]"})
+    puts "found #{usa.count} usa events"
     post_data usa
-    sleep 20
+    sleep 10
     
-    puts "doing UK football"
+    puts "\ndoing UK football"
     uk_football = call_betfair_api({:endpoint=>uk_endpoint, :marketCountries=>"[\"GB\"]", :eventTypeIds=>"[1]"})
+    puts "found #{uk_football.count} uk football events"
     post_data uk_football
-    sleep 20 
+    sleep 10
 
-    puts "doing cricket"
+    puts "\ndoing cricket"
     cricket = call_betfair_api({:endpoint=>uk_endpoint, :eventTypeIds=>"[4]"})
+    puts "found #{cricket.count} cricket events"
     post_data cricket
       
-    puts "complete via API"
+    puts "\ncompleted betfair import via API"
   end
 
 
@@ -130,10 +134,11 @@ namespace :betfair do
   def post_data json_response
     uri = URI.parse(BETFAIR_CONFIG['import_api_host'])
     http = Net::HTTP.new(uri.host, uri.port)
-    http.post('/import/betfair', URI.encode_www_form({
+    response = http.post('/import/betfair', URI.encode_www_form({
             :data => json_response.to_json, 
             :username=>BETFAIR_CONFIG['import_username'], 
             :password=>BETFAIR_CONFIG['import_password']}))
+    #puts response.body
   end
 
 

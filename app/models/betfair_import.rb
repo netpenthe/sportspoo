@@ -2,10 +2,10 @@ class BetfairImport
 
 
 	def self.process_response json_response
-     count = 0
+    count = 0
+    results = []
 
-     json_response.each do |event|
-
+    json_response.each do |event|
       sport = event["eventType"]["name"]
       sport.gsub!("Soccer","Football")
       sport.gsub!("Australian Rules","Football - Australian")
@@ -39,17 +39,17 @@ class BetfairImport
       evnt[:start_date] = DateTime.parse start_time
       evnt[:end_date] = evnt[:start_date] + 2.hours
 
-      BetfairImport.create_or_update_evnt evnt
+      results << BetfairImport.create_or_update_evnt(evnt)
       count += 1
     end
     
-    return count
+    return results
   end
 
 
 
   def self.create_or_update_evnt event
-
+    results = ""
     sport = Sport.find_or_create_by_name(event[:sport_name])
     league = League.find_or_create_by_name_and_sport_id(event[:league_name],sport.id)
 
@@ -65,8 +65,8 @@ class BetfairImport
     external_event = ExternalEvent.where(:site=>event[:site], :external_key=>event[:external_key]).first
 
     if external_event.blank?
-      puts "creating event with -> sport: '#{sport.name}' league: '#{league.name}' teams: '#{event[:teams].to_s}'"
-
+      #puts "creating event with -> sport: '#{sport.name}' league: '#{league.name}' teams: '#{event[:teams].to_s}'"
+      results = {:action=>"create", :sport=>"#{sport.name}", :league=>"#{league.name}", :teams=>event[:teams]}      
       evnt = Event.create(:sport_id=>event[:sport_id],:league_id=>event[:league_id],:start_date=>event[:start_date], :end_date=>event[:end_date], :name=>event[:name])
       ExternalEvent.create(:site=>event[:site], :external_key=>event[:external_key], :event_id=>evnt.id)
 
@@ -99,8 +99,11 @@ class BetfairImport
     else
       evnt = external_event.event
       evnt.update_attributes(:start_date=>event[:start_date])
-      puts "updating event #{evnt.id} with -> sport: '#{sport.name}' league: '#{league.name}' teams: '#{event[:teams].to_s}'"    
+      #puts "updating event #{evnt.id} with -> sport: '#{sport.name}' league: '#{league.name}' teams: '#{event[:teams].to_s}'"
+      results = {:action=>"update", :event=>"#{evnt.id}", :sport=>"#{sport.name}", :league=>"#{league.name}", :teams=>event[:teams]} 
     end
+
+    return results
     
   end
 
