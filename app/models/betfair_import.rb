@@ -77,7 +77,7 @@ class BetfairImport
         location_type = 2 if !event[:home_team_first] && count == 1
 
         if teamm[:id].blank?
-          team = Team.find_by_name(teamm[:name], :order=>'id desc')
+          team = Team.find_by_name_and_sport_id(teamm[:name], sport.id, :order=>'id desc')
           if team.blank?
             team = Team.create(:name=>teamm[:name],:sport_id=>event[:sport_id])
           end
