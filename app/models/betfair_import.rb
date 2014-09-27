@@ -18,6 +18,7 @@ class BetfairImport
 
       league.gsub!("NFL Season/15","NFL")
       league.gsub!("NCAAF/15","NCAA Football")
+      league.gsub!("A League/15","A-League")
 
       event_name = event["event"]["name"].split(" (Game")[0]
       start_time = event["event"]["openDate"]
