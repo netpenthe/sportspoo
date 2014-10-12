@@ -138,7 +138,7 @@ namespace :betfair do
             :data => json_response.to_json, 
             :username=>BETFAIR_CONFIG['import_username'], 
             :password=>BETFAIR_CONFIG['import_password']}))
-    #puts response.body
+    puts response.body
   end
 
 

@@ -1,47 +1,29 @@
 source 'http://rubygems.org'
 
 gem 'acts-as-taggable-on', '~> 2.3.1'
-
 gem 'rails', '3.2.9'
-
 gem 'jquery_mobile_rails'
-
 gem 'devise'
-
 gem 'ri_cal'
-
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter' 
-
 gem 'activeadmin'
 gem 'paperclip'
 gem "meta_search",    '>= 1.1.0.pre'
-
 gem "bootstrap-sass"
-
-gem 'betfair', :git=>'git://github.com/lukebyrne/betfair.git'
-
 gem 'thin'
-
-# Bundle edge Rails instead:
-# gem 'rails',     :git => 'git://github.com/rails/rails.git'
-
 gem 'sqlite3'
 gem 'mysql2'
-
-gem 'happymapper'
-
 gem 'therubyracer'
-
 gem 'geocoder'
-
 gem 'fastercsv'
 gem 'geokit'
 gem 'mobile-fu'
+gem 'jquery-rails'
+gem 'capistrano'
+gem 'rvm-capistrano'
 
-# Gems used only for assets and not required
-# in production environments by default.
 group :assets do
   gem 'sass-rails', "  ~> 3.2.3"
   gem 'coffee-rails', "~> 3.2.1"
@@ -49,7 +31,10 @@ group :assets do
   gem 'turbo-sprockets-rails3'
 end
 
-gem 'jquery-rails'
+group :test do
+  # Pretty printed test output
+  gem 'turn', :require => false
+end
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -62,12 +47,10 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
-gem 'capistrano'
-gem 'rvm-capistrano'
 
+# no longer used with switch to betfair ng
+#gem 'happymapper'
 
-group :test do
-  # Pretty printed test output
-  gem 'turn', :require => false
-end
-
+# Bundle edge Rails instead:
+# gem 'rails',     :git => 'git://github.com/rails/rails.git'
+#gem 'betfair', :git=>'git://github.com/lukebyrne/betfair.git'
