@@ -17,11 +17,13 @@ class BetfairImport
       end
 
       league.gsub!("NFL Season/15","NFL")
-      league.gsub!("NCAAF/15","NCAA Football")
-      league.gsub!("A League/15","A-League")
-      league.gsub!("Australian NBL/15","Australian NBL")
-      league.gsub!("NBA/15","NBA")
-      league.gsub!("NHL/15","NHL")
+      #league.gsub!("NCAAF/15","NCAA Football")
+      #league.gsub!("A League/15","A-League")
+      #league.gsub!("Australian NBL/15","Australian NBL")
+      #league.gsub!("NBA/15","NBA")
+      #league.gsub!("NHL/15","NHL")
+      #league.gsub!("Australia v India/15","Australia v India")
+      league = league.split("/")[0]
 
       event_name = event["event"]["name"].split(" (Game")[0]
       start_time = event["event"]["openDate"]
