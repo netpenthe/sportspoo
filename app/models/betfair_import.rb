@@ -31,10 +31,10 @@ class BetfairImport
       evnt = {}
 
       if event_name.include?(" v ")
-        evnt[:teams] = event_name.split(" v ").map{|t| {:name=>t.strip, :id=>nil} } 
+        evnt[:teams] = event_name.split(" v ").map{|t| {:name=>clean_team_name(t), :id=>nil} } 
         evnt[:home_team_first] = true
       else
-        evnt[:teams] = event_name.split(" @ ").map{|t| {:name=>t.strip, :id=>nil} } 
+        evnt[:teams] = event_name.split(" @ ").map{|t| {:name=>clean_team_name(t), :id=>nil} } 
         evnt[:home_team_first] = false
       end
 
@@ -52,6 +52,15 @@ class BetfairImport
     return results
   end
 
+
+  def self.clean_team_name name
+    clean_name = ""
+    name.split("(").each do |part|
+      clean_name += part if !part.include?(")")
+      clean_name += "#{"("}#{part}" if part.upcase.include?("W)")
+    end
+    return clean_name.strip
+  end
 
 
   def self.create_or_update_evnt event
