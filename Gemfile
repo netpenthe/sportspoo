@@ -11,7 +11,7 @@ gem 'omniauth-twitter'
 gem 'activeadmin'
 gem 'paperclip'
 gem "meta_search",    '>= 1.1.0.pre'
-gem "bootstrap-sass"
+gem "bootstrap-sass", '2.3.2.0'
 gem 'thin'
 gem 'sqlite3'
 gem 'mysql2'
