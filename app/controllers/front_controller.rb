@@ -1,7 +1,13 @@
 class FrontController < ApplicationController
 
   def index
-    if request.location.blank?
+
+    if is_mobile_device?
+      redirect_to "/u/naisayer"
+      return
+    end
+     
+    if request.location.country.blank?
       @country = 'Australia'
     else
       @country = request.location.country == 'Reserved' ? 'Australia' : request.location.country
@@ -76,6 +82,7 @@ class FrontController < ApplicationController
       end 
     end
   end
+
   
   def moar_events
     page = params[:page]
@@ -144,9 +151,11 @@ class FrontController < ApplicationController
                              and start_date > ? and start_date < ?", Time.now,Time.now+3.days]).order("start_date ASC")
   end
 
+
   def events
     @events = Event.where(["start_date > ? and start_date < ?", Time.now,Time.now+3.days]).order("start_date ASC").limit(50)
   end
+
 
   def user_events
      num_events = params[:num_events] || Constants::NUM_EVENTS_TO_SHOW
