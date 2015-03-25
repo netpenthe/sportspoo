@@ -30,6 +30,18 @@ namespace :betfair do
     post_data uk_football
     sleep 10
 
+    puts "\ndoing DE football"
+    uk_football = call_betfair_api({:endpoint=>uk_endpoint, :marketCountries=>"[\"DE\"]", :eventTypeIds=>"[1]"})
+    puts "found #{uk_football.count} de football events"
+    post_data uk_football
+    sleep 10
+
+    puts "\ndoing ES football"
+    uk_football = call_betfair_api({:endpoint=>uk_endpoint, :marketCountries=>"[\"ES\"]", :eventTypeIds=>"[1]"})
+    puts "found #{uk_football.count} es football events"
+    post_data uk_football
+    sleep 10
+
     puts "\ndoing cricket"
     cricket = call_betfair_api({:endpoint=>uk_endpoint, :eventTypeIds=>"[4]"})
     puts "found #{cricket.count} cricket events"
