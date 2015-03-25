@@ -1,5 +1,7 @@
 class FrontController < ApplicationController
 
+   respond_to :json, :html, :atom
+
   def index
 
     if is_mobile_device?
@@ -124,16 +126,15 @@ class FrontController < ApplicationController
       where user_id=? and start_date > ? and start_date < ?", user.id,Time.now,Time.now+21.days]
     
     @events = @league_events + @sport_events + @team_events
-
     @events.sort!{|x,y| x.start_date <=> y.start_date}
-
     @events.uniq!{|e| e.id}
-
-    puts @events.count
     
      respond_to do |format|
         format.html #{ render :layout=>"mobile"} 
-        #format.json { render json: @events, :include => [:teams], :methods=>[:tag_list,:display_name,:countdown, :league_name, :league_label_colour,:live,:betfair_link]}
+        format.atom do
+          @events.delete_if{|e| e.start_date - Time.now > 1.hour} 
+          render :layout => false
+        end
      end
     
   end

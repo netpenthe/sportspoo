@@ -15,6 +15,8 @@ Sportspoo::Application.routes.draw do
   match '/list' => 'front#list', :as=>:list
   match '/u/:username' => 'front#list'
   match '/u/:username/chat' => 'front#chat'
+  match '/u/:username.atom' => 'front#feed', :defaults => { :format => 'atom' }
+
 
   match '/country/leagues/:country' => 'countries#leagues' 
   match '/country/events/:country' => 'countries#events' 
@@ -46,6 +48,8 @@ Sportspoo::Application.routes.draw do
 
   match '/import/betfair' => 'import#betfair' 
 
+  match '/event/:id' => 'events#show'
+  
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
