@@ -6,7 +6,7 @@ atom_feed :language => 'en-US' do |feed|
 
     feed.entry( item, :url => "") do |entry|
       entry.url "http://sportomate.com"
-      entry.title "#{item.league} - #{item.display_name} starts in about 1 hour"
+      entry.title "#{item.league.name} - #{item.display_name} starts in about 1 hour"
 
       # the strftime is needed to work with Google Reader.
       entry.updated(item.updated_at.strftime("%Y-%m-%dT%H:%M:%SZ")) 
