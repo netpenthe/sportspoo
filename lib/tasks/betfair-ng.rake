@@ -12,6 +12,11 @@ namespace :betfair do
     aus_endpoint = "https://api-au.betfair.com/exchange/betting/rest/v1.0/"
     uk_endpoint =  "https://api.betfair.com/exchange/betting/rest/v1.0/"
 
+    puts "doing UK mugby"
+    uk_football = call_betfair_api({:endpoint=>uk_endpoint, :marketCountries=>"[\"GB\"]", :eventTypeIds=>"[5]"})
+    post_data uk_football
+    sleep 30
+
     puts "\ndoing australia"
     australia = call_betfair_api({:endpoint => aus_endpoint})
     puts "found #{australia.count} aus events"
@@ -30,6 +35,12 @@ namespace :betfair do
     post_data uk_football
     sleep 10
 
+    puts "\ndoing DE football"
+    uk_football = call_betfair_api({:endpoint=>uk_endpoint, :marketCountries=>"[\"DE\"]", :eventTypeIds=>"[1]"})
+    puts "found #{uk_football.count} DE football events"
+    post_data uk_football
+    sleep 10
+
     puts "\ndoing cricket"
     cricket = call_betfair_api({:endpoint=>uk_endpoint, :eventTypeIds=>"[4]"})
     puts "found #{cricket.count} cricket events"
@@ -42,6 +53,7 @@ namespace :betfair do
   task :update_ng => :environment do
     aus_endpoint = "https://api-au.betfair.com/exchange/betting/rest/v1.0/"
     uk_endpoint =  "https://api.betfair.com/exchange/betting/rest/v1.0/"
+
 
     puts "doing australia"
     australia = call_betfair_api({:endpoint => aus_endpoint})
