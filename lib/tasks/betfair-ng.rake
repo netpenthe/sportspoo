@@ -152,6 +152,7 @@ namespace :betfair do
   def post_data json_response
     uri = URI.parse(BETFAIR_CONFIG['import_api_host'])
     http = Net::HTTP.new(uri.host, uri.port)
+    http.read_timeout = 500
     response = http.post('/import/betfair', URI.encode_www_form({
             :data => json_response.to_json, 
             :username=>BETFAIR_CONFIG['import_username'], 
